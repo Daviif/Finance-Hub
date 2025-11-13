@@ -13,11 +13,11 @@
        6. Orçamento Pessoal: Funcionalidade para criar e acompanhar orçamentos definidos por categoria, ajudando o usuário a manter-se dentro dos limites financeiros estabelecidos.<br>
 
 2. Membros da Equipe<br>
-     Arthur - Frontend Developer<br>
+     Arthur Fernando Fernandes Vasconcelos - Frontend Developer<br>
      Davi Emílio de Paula Fonseca - Fullstack Developer<br>
-     Eduardo - Backend Developer<br>
-     Joao - Frontend Developer<br>
-     Tharsos - Backend Developer<br>
+     Eduardo Christianini Fonseca Junior - Backend Developer<br>
+     Joao Vitor Cota Silva- Frontend Developer<br>
+     Tharsos Gabriel Couto Fernandes- Backend Developer<br>
 
 3. Tecnologias<br>
      Frontend: React Native<br>
