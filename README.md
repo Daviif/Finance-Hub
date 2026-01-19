@@ -21,7 +21,7 @@
 
 3. Tecnologias<br>
      Frontend: React<br>
-     Backend: Python com Django<br>
+     Backend: JavaScript<br>
      Controle de versão: GitHub<br>
      Gerenciamento de Ambientes (Containerização): Docker<br>
      Prototipagem: Figma e Base44<br>
