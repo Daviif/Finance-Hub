@@ -278,3 +278,24 @@
 .btn-save:hover { background: #00a052; }
 .modal-header { display: flex; justify-content: space-between; margin-bottom: 1.5rem; }
 .btn-close { background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #999;}
+/* Adicione no final do arquivo */
+
+.alert-banner {
+    background-color: #ffeaea;
+    border: 1px solid #ffcccc;
+    color: #cc0000;
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 2rem;
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+    animation: slideIn 0.3s ease;
+}
+
+.alert-banner p { margin: 5px 0 0 0; font-size: 0.95rem; }
+
+.danger-border {
+    border: 2px solid #ff4d4d !important;
+    background-color: #fff5f5 !important;
+}

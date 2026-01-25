@@ -1,6 +1,6 @@
 // frontend/src/services/api/ApiService.ts
 
-// --- 1. Definições de Tipos (Interfaces) ---
+// --- 1. Interfaces ---
 
 export interface LoginResponse {
   token: string;
@@ -30,18 +30,51 @@ export interface SummaryResponse {
   total_gastos: number;
 }
 
-// --- 2. Dados Falsos e Simuladores ---
+// ATUALIZADO: Agora com dados financeiros pessoais
+export interface UserProfile {
+  nome: string;
+  email: string;
+  telefone: string;
+  salario: number;         // NOVO
+  custos_basicos: number;  // NOVO (Aluguel, Luz, etc)
+  limite_alerta: number;   // NOVO (Teto de gastos)
+}
+
+export interface FinancialGoal {
+  titulo: string;
+  valor_objetivo: number;
+  valor_atual: number;
+  data_limite: string;
+}
+
+// --- 2. Dados Falsos (Mock) ---
 
 const delay = (ms: number): Promise<void> => new Promise(resolve => setTimeout(resolve, ms));
 const generateToken = (email: string) => `fake-jwt-${btoa(email)}-${Date.now()}`;
 
-// Banco de dados em memória (reseta ao atualizar a página)
 const mockTransactions: Transaction[] = [
   { id: 1, titulo: 'Salário', valor: 5000, tipo: 'receita', categoria: 'Trabalho', data: new Date().toISOString() },
   { id: 2, titulo: 'Almoço', valor: 25.50, tipo: 'gasto', categoria: 'Alimentação', data: new Date().toISOString() },
 ];
 
-// --- 3. Funções Exportadas ---
+// ATUALIZADO: Dados iniciais
+let mockProfile: UserProfile = {
+  nome: 'Dev Teste',
+  email: 'dev@email.com',
+  telefone: '(31) 99999-9999',
+  salario: 5000.00,
+  custos_basicos: 2000.00,
+  limite_alerta: 3000.00 // Se passar disso, avisa!
+};
+
+let mockGoal: FinancialGoal = {
+  titulo: 'Reserva de Emergência',
+  valor_objetivo: 10000,
+  valor_atual: 2500,
+  data_limite: '2026-12-25'
+};
+
+// --- 3. Funções da API ---
 
 export const apiLogin = async (email: string, senha: string): Promise<LoginResponse> => {
   await delay(800);
@@ -89,4 +122,26 @@ export const apiGetSummary = async (): Promise<SummaryResponse> => {
     total_gastos: gastos,
     saldo_total: receitas - gastos
   };
+};
+
+export const apiGetProfile = async (): Promise<UserProfile> => {
+  await delay(600);
+  return { ...mockProfile };
+};
+
+export const apiUpdateProfile = async (dados: UserProfile): Promise<UserProfile> => {
+  await delay(1000);
+  mockProfile = { ...dados };
+  return mockProfile;
+};
+
+export const apiGetGoal = async (): Promise<FinancialGoal> => {
+  await delay(600);
+  return { ...mockGoal };
+};
+
+export const apiUpdateGoal = async (meta: FinancialGoal): Promise<FinancialGoal> => {
+  await delay(1000);
+  mockGoal = { ...meta };
+  return mockGoal;
 };
