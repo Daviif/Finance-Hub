@@ -105,7 +105,7 @@ export const apiLogin = async (email: string, senha: string): Promise<LoginRespo
   throw new Error('Login inválido');
 };
 
-export const apiRegister = async (nome: string, email: string, senha: string): Promise<RegisterResponse> => {
+export const apiRegister = async (nome: string, email: string, _senha: string): Promise<RegisterResponse> => {
   await delay(1000);
   return { id: Math.random(), nome, email };
 };

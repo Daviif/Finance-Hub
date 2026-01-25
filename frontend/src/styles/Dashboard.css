@@ -1,3 +1,5 @@
+/* src/styles/Dashboard.css */
+
 :root {
   --primary-green: #10B981;
   --primary-green-bg: #D1FAE5;
@@ -13,7 +15,7 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  font-family: 'Inter', sans-serif; /* Assumindo fonte Inter ou similar */
+  font-family: 'Inter', sans-serif;
 }
 
 .dashboard-container {
@@ -81,6 +83,12 @@
 
 .sidebar-nav ul {
   list-style: none;
+}
+
+/* NOVA CLASSE: Substitui o estilo inline nos Links */
+.nav-link {
+  text-decoration: none;
+  display: block; /* Garante que o link ocupe o espaço */
 }
 
 .sidebar-nav li {
@@ -305,6 +313,17 @@
 
 .dot.green { background-color: var(--primary-green); }
 .dot.red { background-color: var(--primary-red); }
+
+/* --- CLASSE DO EMPTY STATE --- */
+.empty-state {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: #999;
+  font-size: 0.95rem;
+  min-height: 200px; 
+}
 
 /* Responsividade Básica */
 @media (max-width: 1024px) {

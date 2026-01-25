@@ -1,4 +1,4 @@
-import { useState, useEffect, type FormEvent, type ChangeEvent } from 'react';
+import { useState, useEffect, useRef, type FormEvent, type ChangeEvent } from 'react';
 import { MdSave, MdPerson, MdFlag, MdCalculate, MdWarning, MdAttachMoney } from 'react-icons/md';
 import { 
   apiGetProfile, apiUpdateProfile, 
@@ -11,6 +11,9 @@ import '../styles/Profile.css';
 
 export default function Profile() {
   const [loading, setLoading] = useState(true);
+  
+  // Ref para manipular a barra de progresso sem usar style inline no JSX
+  const progressBarRef = useRef<HTMLDivElement>(null);
   
   const [perfil, setPerfil] = useState<UserProfile>({ 
     nome: '', email: '', telefone: '', 
@@ -36,6 +39,14 @@ export default function Profile() {
     const custos = perfil.custos_basicos || 0;
     setDinheiroLivre(sal - custos);
   }, [meta, perfil]);
+
+  // Efeito específico para atualizar a largura da barra via DOM direto
+  // Isso evita o erro "CSS inline styles should not be used"
+  useEffect(() => {
+    if (progressBarRef.current) {
+      progressBarRef.current.style.width = `${progresso}%`;
+    }
+  }, [progresso]);
 
   const carregarTudo = async () => {
     try {
@@ -115,13 +126,11 @@ export default function Profile() {
   return (
     <div className="dashboard-container">
       <Sidebar />
-      {/* 1. REMOVI 'profile-layout' DAQUI. Agora é só 'main-content' */}
       <main className="main-content">
         <header className="content-header">
            <h2>Planejamento Pessoal</h2>
         </header>
         
-        {/* 2. NOVA DIV PARA O GRID. Ela envolve apenas os cards. */}
         <div className="profile-grid">
             
             {/* COLUNA 1: DADOS E FINANÇAS PESSOAIS */}
@@ -168,21 +177,22 @@ export default function Profile() {
                     <MdCalculate size={20} /> 
                     <span>Resumo Mensal:</span>
                   </div>
-                  <p style={{margin:0, fontSize:'0.95rem', color:'#4B5563'}}>
+                  <p className="summary-text">
                     Sobram <strong>R$ {dinheiroLivre.toFixed(2)}</strong> livres após pagar contas básicas.
                   </p>
                 </div>
 
                 <div className="form-group">
-                  <label htmlFor="input-alerta" style={{color: '#ff4d4d', display:'flex', alignItems:'center', gap:'5px'}}>
+                  <label htmlFor="input-alerta" className="label-alert">
                     <MdWarning/> Definir Alerta de Gastos (Teto)
                   </label>
+                  
                   <input 
                     id="input-alerta"
+                    className="input-alert"
                     type="number" 
                     value={perfil.limite_alerta || 0} 
                     onChange={(e: ChangeEvent<HTMLInputElement>) => setPerfil({...perfil, limite_alerta: Number(e.target.value)})} 
-                    style={{borderColor: '#ffcccb'}}
                     placeholder="Avise-me se eu gastar mais que..."
                   />
                 </div>
@@ -202,7 +212,11 @@ export default function Profile() {
               
               <div className="goal-summary">
                 <div className="progress-container">
-                  <div className="progress-bar" style={{width: `${progresso}%`}}></div>
+                  {/* CORREÇÃO: Usando ref em vez de style inline */}
+                  <div 
+                    className="progress-bar" 
+                    ref={progressBarRef}
+                  ></div>
                 </div>
                 <p className="progress-text">{progresso.toFixed(1)}% Concluído</p>
                 

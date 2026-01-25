@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom'; // Importante para navegação
+import { Link } from 'react-router-dom';
 import { 
   LayoutDashboard, 
   ArrowRightLeft, 
@@ -21,13 +21,19 @@ import {
 } from 'recharts';
 import '../styles/Dashboard.css';
 
-// Importando seus serviços para buscar dados reais
+// Importando serviços
 import { apiGetTransactions, apiGetProfile, type Transaction } from '../services/api/ApiService';
 
+interface ChartData {
+  name: string;
+  receitas: number;
+  despesas: number;
+  originalDate: Date;
+}
+
 const Dashboard: React.FC = () => {
-  // Estados para armazenar dados reais
-  const [transacoes, setTransacoes] = useState<Transaction[]>([]);
   const [userName, setUserName] = useState('Usuário');
+  const [dataChart, setDataChart] = useState<ChartData[]>([]);
   const [resumo, setResumo] = useState({
     saldo: 0,
     receitas: 0,
@@ -36,7 +42,6 @@ const Dashboard: React.FC = () => {
     countDespesas: 0
   });
 
-  // Carregar dados ao montar o componente
   useEffect(() => {
     carregarDados();
   }, []);
@@ -48,9 +53,10 @@ const Dashboard: React.FC = () => {
         apiGetProfile()
       ]);
 
-      setTransacoes(listaTransacoes);
       if (perfil.nome) setUserName(perfil.nome);
       calcularResumo(listaTransacoes);
+      processarDadosGrafico(listaTransacoes);
+      
     } catch (error) {
       console.error("Erro ao carregar dashboard", error);
     }
@@ -62,7 +68,6 @@ const Dashboard: React.FC = () => {
     let cRec = 0;
     let cDesp = 0;
 
-    // Filtra transações do mês atual (Opcional: aqui estou pegando total geral para simplificar)
     lista.forEach(t => {
       const valor = Number(t.valor);
       if (t.tipo === 'receita') {
@@ -83,21 +88,43 @@ const Dashboard: React.FC = () => {
     });
   };
 
-  // Prepara dados para o gráfico (agrupando por mês - lógica simplificada)
-  // Num cenário real, você agruparia 'transacoes' por data.
-  // Mantive o mock data para o gráfico por enquanto para não quebrar o visual sem ter muitas transações.
-  const dataChart = [
-    { name: 'ago', receitas: 0, despesas: 0 },
-    { name: 'set', receitas: 0, despesas: 0 },
-    { name: 'out', receitas: 200, despesas: 0 },
-    { name: 'nov', receitas: 1400, despesas: 100 },
-    { name: 'dez', receitas: 1000, despesas: 450 },
-    { name: 'jan', receitas: 0, despesas: 0 }, // Futuro: preencher com dados reais
-  ];
+  const processarDadosGrafico = (lista: Transaction[]) => {
+    const hoje = new Date();
+    const ultimosMeses: ChartData[] = [];
+
+    for (let i = 5; i >= 0; i--) {
+      const d = new Date(hoje.getFullYear(), hoje.getMonth() - i, 1);
+      const nomeMes = d.toLocaleDateString('pt-BR', { month: 'short' }).replace('.', '');
+      
+      ultimosMeses.push({
+        name: nomeMes,
+        receitas: 0,
+        despesas: 0,
+        originalDate: d
+      });
+    }
+
+    lista.forEach(t => {
+      const dataTransacao = new Date(t.data);
+      const mesCorrespondente = ultimosMeses.find(m => 
+        m.originalDate.getMonth() === dataTransacao.getMonth() &&
+        m.originalDate.getFullYear() === dataTransacao.getFullYear()
+      );
+
+      if (mesCorrespondente) {
+        if (t.tipo === 'receita') {
+          mesCorrespondente.receitas += Number(t.valor);
+        } else {
+          mesCorrespondente.despesas += Number(t.valor);
+        }
+      }
+    });
+
+    setDataChart(ultimosMeses);
+  };
 
   return (
     <div className="dashboard-container">
-      {/* Sidebar */}
       <aside className="sidebar">
         <div className="sidebar-header">
           <div className="logo-icon">B</div>
@@ -111,24 +138,19 @@ const Dashboard: React.FC = () => {
           <div className="nav-section">
             <p className="nav-title">MENU PRINCIPAL</p>
             <ul>
-              {/* Link para o Dashboard (Página atual) */}
-              <Link to="/dashboard" style={{ textDecoration: 'none' }}>
+              <Link to="/dashboard" className="nav-link">
                 <li className="active">
                   <LayoutDashboard size={20} />
                   <span>Dashboard</span>
                 </li>
               </Link>
-              
-              {/* Link para Transações */}
-              <Link to="/transactions" style={{ textDecoration: 'none' }}>
+              <Link to="/transactions" className="nav-link">
                 <li>
                   <ArrowRightLeft size={20} />
                   <span>Transações</span>
                 </li>
               </Link>
-              
-              {/* Link para Perfil */}
-              <Link to="/profile" style={{ textDecoration: 'none' }}>
+              <Link to="/profile" className="nav-link">
                 <li>
                   <User size={20} />
                   <span>Perfil</span>
@@ -136,7 +158,6 @@ const Dashboard: React.FC = () => {
               </Link>
             </ul>
           </div>
-
           <div className="nav-section">
             <p className="nav-title">WHATSAPP</p>
             <button className="whatsapp-btn">
@@ -161,7 +182,6 @@ const Dashboard: React.FC = () => {
         </div>
       </aside>
 
-      {/* Main Content */}
       <main className="main-content">
         <header className="content-header">
           <h2>Dashboard Financeiro</h2>
@@ -170,7 +190,6 @@ const Dashboard: React.FC = () => {
           </div>
         </header>
 
-        {/* Cards Row com DADOS REAIS */}
         <div className="cards-grid">
           <div className="card">
             <div className="card-header">
@@ -218,10 +237,9 @@ const Dashboard: React.FC = () => {
           </div>
         </div>
 
-        {/* Charts Row */}
         <div className="charts-grid">
           <div className="chart-card">
-            <h3>Evolução (Simulação)</h3>
+            <h3>Fluxo de Caixa (Últimos 6 meses)</h3>
             <div className="chart-wrapper">
               <ResponsiveContainer width="100%" height={300}>
                 <AreaChart data={dataChart} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
@@ -238,10 +256,20 @@ const Dashboard: React.FC = () => {
                   <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#eee" />
                   <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{fill: '#6B7280'}} />
                   <YAxis axisLine={false} tickLine={false} tick={{fill: '#6B7280'}} />
-                  <Tooltip />
+                  
+                  {/* FIX: Tipagem correta para o formatter */}
+                  <Tooltip 
+                    formatter={(value: number | undefined) => [
+                      `R$ ${Number(value || 0).toFixed(2)}`, 
+                      ''
+                    ]}
+                    contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px rgba(0,0,0,0.1)' }}
+                  />
+                  
                   <Area 
                     type="monotone" 
                     dataKey="receitas" 
+                    name="Receitas"
                     stroke="#10B981" 
                     fillOpacity={1} 
                     fill="url(#colorReceitas)" 
@@ -250,6 +278,7 @@ const Dashboard: React.FC = () => {
                   <Area 
                     type="monotone" 
                     dataKey="despesas" 
+                    name="Despesas"
                     stroke="#EF4444" 
                     fillOpacity={1} 
                     fill="url(#colorDespesas)" 
@@ -266,7 +295,7 @@ const Dashboard: React.FC = () => {
 
           <div className="chart-card">
             <h3>Gastos por Categoria</h3>
-            <div className="empty-state" style={{display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', color: '#999'}}>
+            <div className="empty-state">
               Em breve
             </div>
           </div>
