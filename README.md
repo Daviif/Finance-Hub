@@ -39,10 +39,10 @@ O **Finance Hub** é uma plataforma centralizada para controle e gestão das fin
 ## 📋 Backlog do Produto (Product Backlog)
 
 ### 🔐 [ÉPICO] Autenticação e Segurança do Usuário
-- [x] **[História 1]** Como um novo usuário, eu quero poder me cadastrar na plataforma usando meu e-mail e uma senha.
-- [x] **[História 2]** Como um usuário cadastrado, eu quero poder fazer login no sistema para acessar meu painel.
+- [ ] **[História 1]** Como um novo usuário, eu quero poder me cadastrar na plataforma usando meu e-mail e uma senha.
+- [ ] **[História 2]** Como um usuário cadastrado, eu quero poder fazer login no sistema para acessar meu painel.
 - [ ] **[História 3]** Como um usuário logado, eu quero poder fazer logout da minha conta.
-- [x] **[História 4]** Como um usuário que esqueceu a senha, eu quero poder solicitar uma redefinição via e-mail.
+- [ ] **[História 4]** Como um usuário que esqueceu a senha, eu quero poder solicitar uma redefinição via e-mail.
 
 ### 💸 [ÉPICO] Gestão de Transações (Receitas e Despesas)
 - [x] **[História 5]** Como usuário, eu quero poder registrar uma nova despesa informando valor, data e categoria.
