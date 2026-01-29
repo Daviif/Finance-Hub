@@ -58,8 +58,8 @@ O **Finance Hub** é uma plataforma centralizada para controle e gestão das fin
 - [ ] **[História 13]** Como usuário, eu quero ver um alerta visual quando atingir 80% do meu limite de orçamento.
 
 ### 🔍 [ÉPICO] Filtros e Exportação (Melhorias de UX)
-- [ ] **[História 14]** Como usuário, quero filtrar minha lista de transações por mês e ano para análise histórica.
-- [ ] **[História 15]** Como usuário, quero poder baixar um arquivo CSV das minhas transações para uso externo.
+- [x] **[História 14]** Como usuário, quero filtrar minha lista de transações por mês e ano para análise histórica.
+- [x] **[História 15]** Como usuário, quero poder baixar um arquivo CSV das minhas transações para uso externo.
 
 5. ## 📅 Backlog da Sprint 1
 
