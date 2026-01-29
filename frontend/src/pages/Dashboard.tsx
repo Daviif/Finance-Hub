@@ -17,7 +17,11 @@ import {
   YAxis, 
   CartesianGrid, 
   Tooltip, 
-  ResponsiveContainer 
+  ResponsiveContainer,
+  PieChart,
+  Pie,
+  Cell,
+  Legend
 } from 'recharts';
 import '../styles/Dashboard.css';
 
@@ -31,9 +35,17 @@ interface ChartData {
   originalDate: Date;
 }
 
+interface CategoryData {
+  name: string;
+  value: number;
+}
+
+const COLORS = ['#10B981', '#3B82F6', '#F59E0B', '#EF4444', '#8B5CF6', '#EC4899'];
+
 const Dashboard: React.FC = () => {
   const [userName, setUserName] = useState('Usuário');
   const [dataChart, setDataChart] = useState<ChartData[]>([]);
+  const [categoryData, setCategoryData] = useState<CategoryData[]>([]);
   const [resumo, setResumo] = useState({
     saldo: 0,
     receitas: 0,
@@ -56,6 +68,7 @@ const Dashboard: React.FC = () => {
       if (perfil.nome) setUserName(perfil.nome);
       calcularResumo(listaTransacoes);
       processarDadosGrafico(listaTransacoes);
+      processarDadosCategorias(listaTransacoes);
       
     } catch (error) {
       console.error("Erro ao carregar dashboard", error);
@@ -121,6 +134,23 @@ const Dashboard: React.FC = () => {
     });
 
     setDataChart(ultimosMeses);
+  };
+
+  const processarDadosCategorias = (lista: Transaction[]) => {
+    const gastos = lista.filter(t => t.tipo === 'gasto');
+    
+    const agrupado = gastos.reduce((acc: Record<string, number>, curr) => {
+      const cat = curr.categoria || 'Outros';
+      acc[cat] = (acc[cat] || 0) + Number(curr.valor);
+      return acc;
+    }, {});
+
+    const formatado = Object.keys(agrupado).map(key => ({
+      name: key,
+      value: agrupado[key]
+    })).sort((a, b) => b.value - a.value);
+
+    setCategoryData(formatado);
   };
 
   return (
@@ -257,13 +287,8 @@ const Dashboard: React.FC = () => {
                   <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{fill: '#6B7280'}} />
                   <YAxis axisLine={false} tickLine={false} tick={{fill: '#6B7280'}} />
                   
-                  {/* FIX: Tipagem correta para o formatter */}
                   <Tooltip 
-                    formatter={(value: number | undefined) => [
-                      `R$ ${Number(value || 0).toFixed(2)}`, 
-                      ''
-                    ]}
-                    contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px rgba(0,0,0,0.1)' }}
+                    formatter={(value: any) => [`R$ ${Number(value || 0).toFixed(2)}`, '']}
                   />
                   
                   <Area 
@@ -295,8 +320,32 @@ const Dashboard: React.FC = () => {
 
           <div className="chart-card">
             <h3>Gastos por Categoria</h3>
-            <div className="empty-state">
-              Em breve
+            <div className="chart-wrapper">
+              {categoryData.length > 0 ? (
+                <ResponsiveContainer width="100%" height={300}>
+                  <PieChart>
+                    <Pie
+                      data={categoryData}
+                      cx="50%"
+                      cy="50%"
+                      innerRadius={60}
+                      outerRadius={80}
+                      paddingAngle={5}
+                      dataKey="value"
+                    >
+                      {categoryData.map((_entry, index) => (
+                        <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                      ))}
+                    </Pie>
+                    <Tooltip 
+                      formatter={(value: any) => `R$ ${Number(value || 0).toFixed(2)}`}
+                    />
+                    <Legend layout="horizontal" verticalAlign="bottom" align="center" />
+                  </PieChart>
+                </ResponsiveContainer>
+              ) : (
+                <div className="empty-state">Sem dados de gastos</div>
+              )}
             </div>
           </div>
         </div>
