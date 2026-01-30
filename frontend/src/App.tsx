@@ -7,7 +7,6 @@ import Reports from './pages/Reports'
 import Transactions from './pages/Transactions'
 import Profile from './pages/Profile' 
 
-/*       */
 
 function App() {
   return (
@@ -20,11 +19,10 @@ function App() {
         
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/reports" element={<Reports />} />
-
-        
-        <Route path="*" element={<Navigate to="/login" replace />} />
         <Route path="/transactions" element={<Transactions />} />
         <Route path="/profile" element={<Profile />} />
+        
+        <Route path="*" element={<Navigate to="/login" replace />} />
       </Routes>
     </BrowserRouter>
   )
