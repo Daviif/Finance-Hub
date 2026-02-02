@@ -2,7 +2,7 @@ import express from 'express'
 import healthRoutes from './routes/health.routes.js'
 import healthDbRoutes from './routes/health.db.routes.js'
 import usersRoutes from './routes/users.routes.js'
-
+import authRoutes from './routes/auth.routes.js'
 
 
 const app = express()
@@ -12,8 +12,8 @@ app.use(express.json())
 // registra as rotas
 app.use(healthRoutes)
 app.use(healthDbRoutes)
+app.use(authRoutes)
 app.use('/users', usersRoutes)
-
 
 
 const PORT = process.env.PORT || 3000
