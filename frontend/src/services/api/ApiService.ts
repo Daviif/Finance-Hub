@@ -1,4 +1,7 @@
 // frontend/src/services/api/ApiService.ts
+import axios from 'axios';
+
+const API_URL = 'http://localhost:3000';
 
 // --- 1. Interfaces ---
 
@@ -46,12 +49,11 @@ export interface FinancialGoal {
   data_limite: string;
 }
 
-// --- 2. Dados Falsos (Mock) ---
+// --- 2. Dados Falsos (Mock para o Dashboard) ---
 
 const delay = (ms: number): Promise<void> => new Promise(resolve => setTimeout(resolve, ms));
 const generateToken = (email: string) => `fake-jwt-${btoa(email)}-${Date.now()}`;
 
-// ALTERAÇÃO: Mudamos para 'let' para permitir manipulação livre da lista
 let mockTransactions: Transaction[] = [
   { 
     id: 1, 
@@ -97,18 +99,60 @@ let mockGoal: FinancialGoal = {
 
 // --- 3. Funções da API ---
 
+// LOGIN REAL
 export const apiLogin = async (email: string, senha: string): Promise<LoginResponse> => {
-  await delay(800);
-  if (email === 'dev@email.com' && senha === '123456') {
-    return { token: generateToken(email), user: { id: 1, nome: 'Dev', email } };
+  try {
+    const response = await axios.post(`${API_URL}/users/login`, {
+      email: email,
+      password: senha 
+    });
+
+    return {
+      token: response.data.token,
+      user: {
+        id: 1, 
+        nome: response.data.user.username, 
+        email: response.data.user.email
+      }
+    };
+  } catch (error: any) {
+    console.error("Erro no login:", error);
+    if (error.response && error.response.data.message) {
+      throw new Error(error.response.data.message);
+    }
+    throw new Error('Falha ao conectar com o servidor');
   }
-  throw new Error('Login inválido');
 };
 
-export const apiRegister = async (nome: string, email: string, _senha: string): Promise<RegisterResponse> => {
-  await delay(1000);
-  return { id: Math.random(), nome, email };
+// CADASTRO REAL (COM O ESPIÃO 👀)
+export const apiRegister = async (nome: string, email: string, senha: string): Promise<RegisterResponse> => {
+  
+  // --- AQUI ESTÁ O ESPIÃO PARA O NOSSO TESTE ---
+  console.log("👀 O BOTÃO FUNCIONOU! Tentando cadastrar:", nome, email);
+  // --------------------------------------------
+
+  try {
+    const response = await axios.post(`${API_URL}/users/register`, {
+      username: nome, 
+      email: email,
+      password: senha
+    });
+
+    return {
+      id: 1, 
+      nome: response.data.username,
+      email: response.data.email
+    };
+  } catch (error: any) {
+    console.error("Erro no cadastro:", error); // Log extra para ver o erro detalhado
+    if (error.response && error.response.data.message) {
+      throw new Error(error.response.data.message);
+    }
+    throw new Error('Erro ao criar conta');
+  }
 };
+
+// --- MANTENDO O RESTO COMO MOCK ---
 
 export const apiForgot = async (email: string): Promise<ForgotResponse> => {
   await delay(800);
@@ -117,7 +161,6 @@ export const apiForgot = async (email: string): Promise<ForgotResponse> => {
 
 export const apiGetTransactions = async (): Promise<Transaction[]> => {
   await delay(500);
-  // Retorna uma cópia para evitar referência direta
   return [...mockTransactions];
 };
 
@@ -131,7 +174,6 @@ export const apiCreateTransaction = async (nova: Omit<Transaction, 'id'>): Promi
 export const apiDeleteTransaction = async (id: number): Promise<void> => {
   await delay(500);
   const index = mockTransactions.findIndex(t => t.id === id);
-  // Usa splice para remover do array original
   if (index !== -1) mockTransactions.splice(index, 1);
 };
 

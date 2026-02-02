@@ -1,15 +1,11 @@
-// src/pages/Transactions.tsx
-import React, { useState, useEffect, type FormEvent } from 'react';
-import Sidebar from '../components/SideBar';
-import { 
-  apiGetTransactions, apiCreateTransaction, apiDeleteTransaction, type Transaction 
-} from '../services/api/ApiService';
-import { 
-  Plus, Trash2, X, ArrowUpCircle, ArrowDownCircle, Calendar 
-} from 'lucide-react';
+import { useState, useEffect, type FormEvent } from 'react';
+// CORREÇÃO: Usando apenas "../" pois o arquivo está em src/pages/
+import { apiGetTransactions, apiCreateTransaction, apiDeleteTransaction, type Transaction } from '../services/api/ApiService';
+import { MdAdd, MdDelete, MdAttachMoney, MdClose, MdArrowBack } from 'react-icons/md';
+import { Link } from 'react-router-dom';
 
-// IMPORTANDO O CSS ESPECÍFICO DESTA PÁGINA
-import '../styles/Transactions.css';
+// CORREÇÃO: Importando o CSS exclusivo da página
+import '../styles/Transactions.css'; 
 
 export default function Transactions() {
   const [transacoes, setTransacoes] = useState<Transaction[]>([]);
@@ -30,7 +26,7 @@ export default function Transactions() {
   const carregarDados = async () => {
     try {
       const dados = await apiGetTransactions();
-      setTransacoes(dados.reverse());
+      setTransacoes(dados);
     } catch (error) {
       console.error("Erro ao carregar", error);
     } finally {
@@ -72,98 +68,82 @@ export default function Transactions() {
   }
 
   return (
-    <div className="dashboard-container">
-      <Sidebar />
-
-      <main className="main-content">
-        <header className="content-header">
-          <div>
+    // Usa o container isolado do CSS novo
+    <div className="transactions-container">
+      
+      <div className="transactions-content">
+        <header className="transactions-header">
+            <Link to="/dashboard" className="btn-back">
+              <MdArrowBack size={24}/>
+            </Link>
             <h2>Transações</h2>
-            <div className="date-display">
-                <Calendar size={16}/>
-                <span>Gerencie suas entradas e saídas</span>
-            </div>
-          </div>
-          <button className="btn-primary" onClick={() => setIsModalOpen(true)}>
-            <Plus size={20} /> Nova Transação
-          </button>
         </header>
 
+        <div className="actions-bar">
+          <h3>Histórico Completo</h3>
+          <button className="btn-new" onClick={() => setIsModalOpen(true)}>
+            <MdAdd size={20} /> Nova
+          </button>
+        </div>
+
         {loading ? <p>Carregando...</p> : (
-          <div className="transaction-list-container">
-            {transacoes.length === 0 ? (
-                <div className="empty-state">Nenhuma transação registrada.</div>
-            ) : (
-                transacoes.map((t) => (
-                <div key={t.id} className="t-item">
-                    <div className="t-info">
-                        <div className="t-icon">
-                            {t.tipo === 'receita' ? <ArrowUpCircle color="#10B981"/> : <ArrowDownCircle color="#EF4444"/>}
-                        </div>
-                        <div className="t-details">
-                            <h4>{t.titulo}</h4>
-                            <span>{t.categoria} • {new Date(t.data).toLocaleDateString('pt-BR')}</span>
-                        </div>
-                    </div>
-                    
-                    <div style={{display:'flex', alignItems:'center', gap:'20px'}}>
-                        <span className={`t-value ${t.tipo === 'receita' ? 'text-green' : 'text-red'}`}>
-                            {t.tipo === 'gasto' ? '- ' : '+ '}
-                            R$ {Number(t.valor).toFixed(2)}
-                        </span>
-                        <button className="btn-danger" onClick={() => handleDelete(t.id)}>
-                            <Trash2 size={18} />
-                        </button>
-                    </div>
+          <ul className="transaction-list">
+            {transacoes.map((t) => (
+              <li key={t.id} className={`transaction-item ${t.tipo}`}>
+                <div className="icon-area"><MdAttachMoney /></div>
+                <div className="info-area">
+                    <strong>{t.titulo}</strong>
+                    <span>{t.categoria} • {new Date(t.data).toLocaleDateString()}</span>
                 </div>
-                ))
-            )}
-          </div>
+                <div className="value-area">
+                    <span className="value">
+                        {t.tipo === 'gasto' ? '- ' : '+ '}
+                        R$ {Number(t.valor).toFixed(2)}
+                    </span>
+                    <button className="btn-delete" onClick={() => handleDelete(t.id)}>
+                        <MdDelete size={20} />
+                    </button>
+                </div>
+              </li>
+            ))}
+          </ul>
         )}
-      </main>
+      </div>
 
       {isModalOpen && (
         <div className="modal-overlay">
           <div className="modal-content">
             <div className="modal-header">
                 <h3>Nova Transação</h3>
-                <button onClick={() => setIsModalOpen(false)} style={{background:'none', border:'none', cursor:'pointer'}}>
-                    <X size={24} color="#6B7280"/>
-                </button>
+                <button onClick={() => setIsModalOpen(false)} className="btn-close"><MdClose size={24}/></button>
             </div>
             <form onSubmit={handleSalvar}>
                 <div className="form-group">
                     <label>Descrição</label>
-                    <input className="form-input" type="text" value={titulo} onChange={e => setTitulo(e.target.value)} required placeholder="Ex: Salário..." />
+                    <input type="text" value={titulo} onChange={e => setTitulo(e.target.value)} required placeholder="Ex: Almoço" />
                 </div>
-                
                 <div className="form-row">
-                    <div className="form-group" style={{flex:1}}>
+                    <div className="form-group">
                         <label>Valor (R$)</label>
-                        <input className="form-input" type="number" value={valor} onChange={e => setValor(e.target.value)} required placeholder="0.00" />
+                        <input type="number" value={valor} onChange={e => setValor(e.target.value)} required placeholder="0.00" />
                     </div>
-                    <div className="form-group" style={{flex:1}}>
+                    <div className="form-group">
                         <label>Tipo</label>
-                        <select className="form-select" value={tipo} onChange={e => setTipo(e.target.value as 'receita' | 'gasto')}>
+                        <select value={tipo} onChange={e => setTipo(e.target.value as 'receita' | 'gasto')}>
                             <option value="gasto">Despesa</option>
                             <option value="receita">Receita</option>
                         </select>
                     </div>
                 </div>
-
                 <div className="form-group">
                     <label>Categoria</label>
-                    <input className="form-input" type="text" value={categoria} onChange={e => setCategoria(e.target.value)} required placeholder="Ex: Alimentação" />
+                    <input type="text" value={categoria} onChange={e => setCategoria(e.target.value)} required placeholder="Ex: Alimentação" />
                 </div>
-                
                 <div className="form-group">
                     <label>Data</label>
-                    <input className="form-input" type="date" value={data} onChange={e => setData(e.target.value)} />
+                    <input type="date" value={data} onChange={e => setData(e.target.value)} />
                 </div>
-
-                <button type="submit" className="btn-primary" style={{width:'100%', justifyContent:'center', marginTop:'1rem'}}>
-                    Salvar
-                </button>
+                <button type="submit" className="btn-save">Salvar</button>
             </form>
           </div>
         </div>
