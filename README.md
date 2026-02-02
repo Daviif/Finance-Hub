@@ -39,15 +39,15 @@ O **Finance Hub** é uma plataforma centralizada para controle e gestão das fin
 ## 📋 Backlog do Produto (Product Backlog)
 
 ### 🔐 [ÉPICO] Autenticação e Segurança do Usuário
-- [ ] **[História 1]** Como um novo usuário, eu quero poder me cadastrar na plataforma usando meu e-mail e uma senha.
+- [x] **[História 1]** Como um novo usuário, eu quero poder me cadastrar na plataforma usando meu e-mail e uma senha.
 
 <img width="200" height="198" alt="História 01" src="https://github.com/user-attachments/assets/86b3680c-1e05-4467-8fa2-a5f3eb6680a7" />
 
-- [ ] **[História 2]** Como um usuário cadastrado, eu quero poder fazer login no sistema para acessar meu painel.
+- [x] **[História 2]** Como um usuário cadastrado, eu quero poder fazer login no sistema para acessar meu painel.
 
 <img width="164" height="191" alt="História 02" src="https://github.com/user-attachments/assets/1c0df0e3-63c1-426e-807c-5183a03e4dec" />
 
-- [ ] **[História 3]** Como um usuário logado, eu quero poder fazer logout da minha conta.
+- [x] **[História 3]** Como um usuário logado, eu quero poder fazer logout da minha conta.
 
 <img width="172" height="193" alt="História 03" src="https://github.com/user-attachments/assets/4a8be666-f82c-4742-9a54-aad72da7c31c" />
 
