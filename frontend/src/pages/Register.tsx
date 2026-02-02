@@ -1,17 +1,23 @@
 import { useState } from 'react'
 import type { FormEvent } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { MdArrowBack, MdEmail, MdLock } from 'react-icons/md'
+// Adicionei o MdPerson para o ícone do nome
+import { MdArrowBack, MdEmail, MdLock, MdPerson } from 'react-icons/md'
 import '../styles/Register.css'
+// IMPORTANTE: Importamos a função real que conecta no Backend
+import { apiRegister } from '../services/api/ApiService'
 
 export default function Register() {
   const navigate = useNavigate()
   
+  // Adicionei o estado para o Nome
+  const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
   const [loading, setLoading] = useState(false)
   const [errors, setErrors] = useState<{ 
+    name?: string // Erro do nome
     email?: string
     password?: string
     confirmPassword?: string 
@@ -19,10 +25,18 @@ export default function Register() {
 
   const validate = (): boolean => {
     const newErrors: { 
+      name?: string
       email?: string
       password?: string
       confirmPassword?: string 
     } = {}
+
+    // Validação do Nome
+    if (!name) {
+      newErrors.name = 'Nome é obrigatório'
+    } else if (name.length < 3) {
+      newErrors.name = 'Mínimo 3 letras'
+    }
 
     if (!email) {
       newErrors.email = 'Email é obrigatório'
@@ -32,8 +46,8 @@ export default function Register() {
 
     if (!password) {
       newErrors.password = 'Senha é obrigatória'
-    } else if (password.length < 8) {
-      newErrors.password = 'Mínimo 8 caracteres'
+    } else if (password.length < 6) { // Ajustei para 6 (regra do seu backend)
+      newErrors.password = 'Mínimo 6 caracteres'
     }
 
     if (!confirmPassword) {
@@ -55,18 +69,20 @@ export default function Register() {
     setErrors({})
 
     try {
-      // Aqui viria a chamada para sua API de registro
-      // const response = await apiRegister(email, password)
-      console.log('✅ Conta criada:', { email, password })
+      // --- AQUI ESTÁ A MÁGICA: Chamada Real para o Backend ---
+      // Passamos Nome, Email e Senha para o arquivo ApiService.ts
+      await apiRegister(name, email, password)
       
-      // Simula delay da API
-      await new Promise(resolve => setTimeout(resolve, 1500))
+      console.log('✅ Cadastro Real realizado com sucesso!')
       
-      // Redireciona para login após sucesso
+      // Se der certo, redireciona para login
       navigate('/')
+      
     } catch (error) {
+      console.error("Erro no cadastro:", error);
       setErrors({ 
-        email: error instanceof Error ? error.message : 'Erro ao criar conta' 
+        // Se o erro for genérico, mostra no campo de email ou num alerta geral
+        email: error instanceof Error ? error.message : 'Erro ao conectar com o servidor' 
       })
     } finally {
       setLoading(false)
@@ -95,6 +111,26 @@ export default function Register() {
 
         {/* Formulário */}
         <form onSubmit={handleSubmit} noValidate>
+          
+          {/* NOVO: Input Nome */}
+          <div className="input-group">
+            <label htmlFor="name" className="input-label">Nome Completo</label>
+            <div className={`input-wrapper ${errors.name ? 'error' : ''}`}>
+              <MdPerson size={20} className="input-icon" />
+              <input
+                id="name"
+                type="text"
+                placeholder="Seu nome"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                className="input-field"
+                autoComplete="name"
+                required
+              />
+            </div>
+            {errors.name && <span className="error-message">{errors.name}</span>}
+          </div>
+
           {/* Input Email */}
           <div className="input-group">
             <label htmlFor="email" className="input-label">E-mail</label>
@@ -122,7 +158,7 @@ export default function Register() {
               <input
                 id="password"
                 type="password"
-                placeholder="Mín. 8 caracteres"
+                placeholder="Mín. 6 caracteres"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 className="input-field"
