@@ -76,8 +76,8 @@ export default function Login() {
           {/* Input Email */}
           <div className="input-group">
             <label htmlFor="email" className="input-label">E-mail</label>
-            <div className="input-wrapper">
-              <MdEmail size={20} className="input-icon" />
+            <div className={`input-wrapper ${errors.email ? 'error' : ''}`}>
+              <MdEmail size={20} className="input-icon" aria-hidden />
               <input
                 id="email"
                 type="email"
@@ -87,16 +87,18 @@ export default function Login() {
                 className={`input-field ${errors.email ? 'input-error' : ''}`}
                 autoComplete="email"
                 required
+                aria-invalid={!!errors.email}
+                aria-describedby={errors.email ? 'email-error' : undefined}
               />
             </div>
-            {errors.email && <span className="error-message">{errors.email}</span>}
+            {errors.email && <span id="email-error" className="error-message" role="alert">{errors.email}</span>}
           </div>
 
           {/* Input Senha */}
           <div className="input-group">
             <label htmlFor="senha" className="input-label">Senha</label>
-            <div className="input-wrapper">
-              <MdLock size={20} className="input-icon" />
+            <div className={`input-wrapper ${errors.senha ? 'error' : ''}`}>
+              <MdLock size={20} className="input-icon" aria-hidden />
               <input
                 id="senha"
                 type="password"
@@ -106,9 +108,11 @@ export default function Login() {
                 className={`input-field ${errors.senha ? 'input-error' : ''}`}
                 autoComplete="current-password"
                 required
+                aria-invalid={!!errors.senha}
+                aria-describedby={errors.senha ? 'senha-error' : undefined}
               />
             </div>
-            {errors.senha && <span className="error-message">{errors.senha}</span>}
+            {errors.senha && <span id="senha-error" className="error-message" role="alert">{errors.senha}</span>}
           </div>
 
           {/* Botão Submit */}
