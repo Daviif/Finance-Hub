@@ -1,0 +1,72 @@
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: finance_hub_db
+    restart: always
+    environment:
+      POSTGRES_USER: admin_finance_hub
+      POSTGRES_PASSWORD: password_finance
+      POSTGRES_DB: finance_hub_dev
+    ports:
+      - "5433:5432"  
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  migrate:
+    imagem: postgres:15-alpine
+    container_name: finance_hub_migrate
+    depends_on:
+      postgres:
+        condition: service_started
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USER: admin_finance_hub
+      DB_PASSWORD: password_finance
+      DB_NAME: finance_hub_dev
+    volumes:
+      - ./backend/src/database/migrations:/migrations
+      - ./scripts/run-migrations.sh:/run-migrations.sh
+    entrypoint: ["/bin/sh", "/run-migrations.sh"]
+  backend:
+    build: ./backend
+    container_name: finance_hub_backend_api
+    restart: always
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    ports:
+      - "3000:3000"
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USER: admin_finance_hub
+      DB_PASSWORD: password_finance
+      DB_NAME: finance_hub_dev
+    volumes:
+      - ./backend/src:/app/src
+      - ./backend/package.json:/app/package.json
+      - ./backend/package-lock.json:/app/package-lock.json
+    command: npm run dev
+  
+  frontend:
+    build: ./frontend
+    container_name: finance_hub_frontend
+    restart: always
+    depends_on:
+      - backend
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./frontend/src:/app/src
+      - ./frontend/index.html:/app/index.html
+      - ./frontend/package.json:/app/package.json
+      - ./frontend/package-lock.json:/app/package-lock.json
+      - ./frontend/vite.config.ts:/app/vite.config.ts
+      - ./frontend/tsconfig.json:/app/tsconfig.json
+      - ./frontend/tsconfig.app.json:/app/tsconfig.app.json
+      - ./frontend/tsconfig.node.json:/app/tsconfig.node.json
+    command: npm run dev -- --host
+
+volumes:
+  postgres_data:
