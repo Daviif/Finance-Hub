@@ -80,7 +80,6 @@ export default function Register() {
   return (
     <div className="login-page register-page">
       <div className="login-container">
-        <div className="register-scroll">
           <Link to="/login" className="register-back">
             ← Voltar para o login
           </Link>
@@ -193,7 +192,6 @@ export default function Register() {
               Faça login
             </Link>
           </p>
-        </div>
       </div>
     </div>
   )

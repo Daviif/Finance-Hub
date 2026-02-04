@@ -10,7 +10,7 @@
 }
 
 /* Área rolável: ocupa o espaço do cartão e faz scroll quando o formulário é maior */
-.register-page .login-container .register-scroll {
+.register-page .login-container {
   width: 100%;
   flex: 1;
   min-height: 0;
