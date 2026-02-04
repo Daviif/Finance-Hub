@@ -67,26 +67,6 @@ services:
         - financehub-network
       command: npm run dev
 
-  frontend:
-      build:
-        context: ./frontend
-        dockerfile: Dockerfile
-      container_name: financehub-frontend
-      restart: unless-stopped
-      depends_on:
-        - backend
-      environment:
-        VITE_API_URL: http://localhost:3000
-      ports:
-        - "5173:5173"
-      volumes:
-        - ./frontend:/app
-        - /app/node_modules
-      networks:
-        - financehub-network
-      stdin_open: true
-      tty: true
-
 volumes:
   postgres_data:
     driver: local
