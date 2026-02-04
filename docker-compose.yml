@@ -1,72 +1,76 @@
 services:
-  postgres:
-    image: postgres:15-alpine
-    container_name: finance_hub_db
-    restart: always
-    environment:
-      POSTGRES_USER: admin_finance_hub
-      POSTGRES_PASSWORD: password_finance
-      POSTGRES_DB: finance_hub_dev
-    ports:
-      - "5433:5432"  
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
+  db:
+      image: postgres:16-alpine
+      container_name: financehub-db
+      restart: unless-stopped
+      environment:
+        POSTGRES_DB: finance_hub
+        POSTGRES_USER: finance_hub_dev
+        POSTGRES_PASSWORD: password_finance
+      ports:
+        - "5432:5432"
+      volumes:
+        - postgres_data:/var/lib/postgresql/data
+        - ./backend/src/database/migrations:/docker-entrypoint-initdb.d:ro
+      healthcheck:
+        test: ["CMD-SHELL", "pg_isready -U finance_hub_dev -d finance_hub"]
+        interval: 10s
+        timeout: 5s
+        retries: 5
+      networks:
+        - financehub-network
 
-  migrate:
-    imagem: postgres:15-alpine
-    container_name: finance_hub_migrate
-    depends_on:
-      postgres:
-        condition: service_started
-    environment:
-      DB_HOST: postgres
-      DB_PORT: 5432
-      DB_USER: admin_finance_hub
-      DB_PASSWORD: password_finance
-      DB_NAME: finance_hub_dev
-    volumes:
-      - ./backend/src/database/migrations:/migrations
-      - ./scripts/run-migrations.sh:/run-migrations.sh
-    entrypoint: ["/bin/sh", "/run-migrations.sh"]
+  migrations:
+      image: postgres:16-alpine
+      container_name: financehub-migrations
+      depends_on:
+        db:
+          condition: service_healthy
+      environment:
+        DB_HOST: db
+        DB_PORT: 5432
+        DB_USER: finance_hub_dev
+        DB_PASSWORD: password_finance
+        DB_NAME: finance_hub
+        PGPASSWORD: password_finance
+      volumes:
+        - ./backend/src/database/migrations:/migrations:ro
+        - ./scripts/run-migrations.sh:/run-migrations.sh:ro
+      command: sh /run-migrations.sh
+      networks:
+        - financehub-network
+
   backend:
-    build: ./backend
-    container_name: finance_hub_backend_api
-    restart: always
-    depends_on:
-      migrate:
-        condition: service_completed_successfully
-    ports:
-      - "3000:3000"
-    environment:
-      DB_HOST: postgres
-      DB_PORT: 5432
-      DB_USER: admin_finance_hub
-      DB_PASSWORD: password_finance
-      DB_NAME: finance_hub_dev
-    volumes:
-      - ./backend/src:/app/src
-      - ./backend/package.json:/app/package.json
-      - ./backend/package-lock.json:/app/package-lock.json
-    command: npm run dev
-  
-  frontend:
-    build: ./frontend
-    container_name: finance_hub_frontend
-    restart: always
-    depends_on:
-      - backend
-    ports:
-      - "5173:5173"
-    volumes:
-      - ./frontend/src:/app/src
-      - ./frontend/index.html:/app/index.html
-      - ./frontend/package.json:/app/package.json
-      - ./frontend/package-lock.json:/app/package-lock.json
-      - ./frontend/vite.config.ts:/app/vite.config.ts
-      - ./frontend/tsconfig.json:/app/tsconfig.json
-      - ./frontend/tsconfig.app.json:/app/tsconfig.app.json
-      - ./frontend/tsconfig.node.json:/app/tsconfig.node.json
-    command: npm run dev -- --host
+      build:
+        context: ./backend
+        dockerfile: Dockerfile
+      container_name: financehub-backend
+      restart: unless-stopped
+      depends_on:
+        migrations:
+          condition: service_completed_successfully
+      environment:
+        NODE_ENV: development
+        PORT: 3000
+        DB_HOST: db
+        DB_PORT: 5432
+        DB_USER: finance_hub_dev
+        DB_PASSWORD: password_finance
+        DB_NAME: finance_hub
+        JWT_SECRET: seu-segredo-super-secreto-aqui-mude-em-producao
+      ports:
+        - "3000:3000"
+      volumes:
+        - ./backend:/app
+        - /app/node_modules
+      networks:
+        - financehub-network
+      command: npm run dev
 
 volumes:
   postgres_data:
+    driver: local
+
+networks:
+  financehub-network:
+    driver: bridge
