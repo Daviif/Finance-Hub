@@ -23,9 +23,6 @@
 hs_err_pid*
 replay_pid*
 
-#docker
-*.yml
-
 # --- REGRAS DO NODE.JS (Backend/Frontend) ---
 # Dependências gigantes (Nunca envie)
 node_modules/

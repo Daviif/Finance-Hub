@@ -1,0 +1,96 @@
+services:
+  db:
+      image: postgres:16-alpine
+      container_name: financehub-db
+      restart: unless-stopped
+      environment:
+        POSTGRES_DB: finance_hub
+        POSTGRES_USER: finance_hub_dev
+        POSTGRES_PASSWORD: password_finance
+      ports:
+        - "5432:5432"
+      volumes:
+        - postgres_data:/var/lib/postgresql/data
+        - ./backend/src/database/migrations:/docker-entrypoint-initdb.d:ro
+      healthcheck:
+        test: ["CMD-SHELL", "pg_isready -U finance_hub_dev -d finance_hub"]
+        interval: 10s
+        timeout: 5s
+        retries: 5
+      networks:
+        - financehub-network
+
+  migrations:
+      image: postgres:16-alpine
+      container_name: financehub-migrations
+      depends_on:
+        db:
+          condition: service_healthy
+      environment:
+        DB_HOST: db
+        DB_PORT: 5432
+        DB_USER: finance_hub_dev
+        DB_PASSWORD: password_finance
+        DB_NAME: finance_hub
+        PGPASSWORD: password_finance
+      volumes:
+        - ./backend/src/database/migrations:/migrations:ro
+        - ./scripts/run-migrations.sh:/run-migrations.sh:ro
+      command: sh /run-migrations.sh
+      networks:
+        - financehub-network
+
+  backend:
+      build:
+        context: ./backend
+        dockerfile: Dockerfile
+      container_name: financehub-backend
+      restart: unless-stopped
+      depends_on:
+        migrations:
+          condition: service_completed_successfully
+      environment:
+        NODE_ENV: development
+        PORT: 3000
+        DB_HOST: db
+        DB_PORT: 5432
+        DB_USER: finance_hub_dev
+        DB_PASSWORD: password_finance
+        DB_NAME: finance_hub
+        JWT_SECRET: seu-segredo-super-secreto-aqui-mude-em-producao
+      ports:
+        - "3000:3000"
+      volumes:
+        - ./backend:/app
+        - /app/node_modules
+      networks:
+        - financehub-network
+      command: npm run dev
+
+  frontend:
+      build:
+        context: ./frontend
+        dockerfile: Dockerfile
+      container_name: financehub-frontend
+      restart: unless-stopped
+      depends_on:
+        - backend
+      environment:
+        VITE_API_URL: http://localhost:3000
+      ports:
+        - "5173:5173"
+      volumes:
+        - ./frontend:/app
+        - /app/node_modules
+      networks:
+        - financehub-network
+      stdin_open: true
+      tty: true
+
+volumes:
+  postgres_data:
+    driver: local
+
+networks:
+  financehub-network:
+    driver: bridge
