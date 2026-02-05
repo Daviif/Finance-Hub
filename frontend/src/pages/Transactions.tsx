@@ -6,10 +6,12 @@ import {
   apiDeleteTransaction,
   type Transaction
 } from '../services/api/ApiService';
-import { MdAdd, MdDelete, MdAttachMoney, MdClose, MdArrowBack } from 'react-icons/md';
+import { MdAdd, MdDelete, MdAttachMoney, MdClose, MdArrowBack, MdCreditCard } from 'react-icons/md';
 import { Link } from 'react-router-dom';
 
 import '../styles/Transactions.css';
+
+type FormaPagamento = 'dinheiro' | 'debito' | 'credito' | 'boleto' | 'pix';
 
 export default function Transactions() {
   const [transacoes, setTransacoes] = useState<Transaction[]>([]);
@@ -18,9 +20,15 @@ export default function Transactions() {
 
   const [titulo, setTitulo] = useState('');
   const [valor, setValor] = useState('');
+  const [valorTotal, setValorTotal] = useState('');
   const [tipo, setTipo] = useState<'receita' | 'gasto'>('gasto');
   const [categoria, setCategoria] = useState('');
   const [data, setData] = useState('');
+  const [formaPagamento, setFormaPagamento] = useState<FormaPagamento>('dinheiro');
+  const [parcelas, setParcelas] = useState(1);
+
+  const isParcelado = tipo === 'gasto' && (formaPagamento === 'credito' || formaPagamento === 'boleto') && parcelas > 1;
+  const valorParcela = isParcelado && valorTotal ? (Number(valorTotal) / parcelas).toFixed(2) : null;
 
   useEffect(() => {
     carregarDados();
@@ -40,34 +48,55 @@ export default function Transactions() {
   const handleSalvar = async (e: FormEvent) => {
     e.preventDefault();
     try {
-      await apiCreateTransaction({
-        titulo,
-        valor: Number(valor),
-        tipo,
-        categoria,
-        data: data || new Date().toISOString()
-      });
+      const dataStr = data || new Date().toISOString().split('T')[0];
+      if (isParcelado) {
+        await apiCreateTransaction({
+          titulo,
+          valorTotal: Number(valorTotal),
+          tipo,
+          categoria,
+          data: dataStr,
+          forma_pagamento: formaPagamento,
+          parcelas
+        });
+      } else {
+        await apiCreateTransaction({
+          titulo,
+          valor: Number(isParcelado ? valorTotal : valor),
+          tipo,
+          categoria,
+          data: dataStr,
+          forma_pagamento: formaPagamento
+        });
+      }
       setIsModalOpen(false);
       limparFormulario();
       await carregarDados();
-    } catch {
-      alert('Erro ao salvar transação');
+    } catch (err) {
+      alert(err instanceof Error ? err.message : 'Erro ao salvar transação');
     }
   };
 
-  const handleDelete = async (id: number) => {
+  const handleDelete = async (id: string | number) => {
     if (confirm('Tem certeza que deseja excluir?')) {
-      await apiDeleteTransaction(id);
-      await carregarDados();
+      try {
+        await apiDeleteTransaction(id);
+        await carregarDados();
+      } catch {
+        alert('Erro ao excluir');
+      }
     }
   };
 
   const limparFormulario = () => {
     setTitulo('');
     setValor('');
+    setValorTotal('');
     setTipo('gasto');
     setCategoria('');
     setData('');
+    setFormaPagamento('dinheiro');
+    setParcelas(1);
   };
 
   return (
@@ -88,7 +117,7 @@ export default function Transactions() {
             <div className="actions-bar">
               <h3>Histórico Completo</h3>
               <button className="btn-new" onClick={() => setIsModalOpen(true)}>
-                <MdAdd size={20} /> Nova
+                <MdAdd size={20} /> Nova Transação
               </button>
             </div>
 
@@ -107,6 +136,9 @@ export default function Transactions() {
                       <span>
                         {t.categoria} •{' '}
                         {new Date(t.data).toLocaleDateString()}
+                        {t.parcelas && t.parcelas > 1 && (
+                          <span className="parcela-badge"> • {t.parcela_atual}/{t.parcelas}</span>
+                        )}
                       </span>
                     </div>
 
@@ -149,35 +181,86 @@ export default function Transactions() {
                       value={titulo}
                       onChange={e => setTitulo(e.target.value)}
                       required
-                      placeholder="Ex: Almoço"
+                      placeholder="Ex: Almoço, TV nova..."
                     />
                   </div>
 
                   <div className="form-row">
                     <div className="form-group">
+                      <label>Tipo</label>
+                      <select
+                        value={tipo}
+                        onChange={e => setTipo(e.target.value as 'receita' | 'gasto')}
+                      >
+                        <option value="gasto">Despesa</option>
+                        <option value="receita">Receita</option>
+                      </select>
+                    </div>
+
+                    <div className="form-group">
+                      <label>Forma de pagamento</label>
+                      <select
+                        value={formaPagamento}
+                        onChange={e => setFormaPagamento(e.target.value as FormaPagamento)}
+                      >
+                        <option value="dinheiro">Dinheiro</option>
+                        <option value="debito">Débito</option>
+                        <option value="credito">Cartão de crédito</option>
+                        <option value="boleto">Boleto</option>
+                        <option value="pix">PIX</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  {(formaPagamento === 'credito' || formaPagamento === 'boleto') && tipo === 'gasto' && (
+                    <div className="form-group">
+                      <label>Parcelar em</label>
+                      <select
+                        value={parcelas}
+                        onChange={e => setParcelas(Number(e.target.value))}
+                      >
+                        <option value={1}>À vista (1x)</option>
+                        {[2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map(n => (
+                          <option key={n} value={n}>{n}x</option>
+                        ))}
+                      </select>
+                    </div>
+                  )}
+
+                  {isParcelado ? (
+                    <>
+                      <div className="form-group">
+                        <label>Valor total (R$)</label>
+                        <input
+                          type="number"
+                          step="0.01"
+                          min="0"
+                          value={valorTotal}
+                          onChange={e => setValorTotal(e.target.value)}
+                          required
+                          placeholder="Ex: 1200.00"
+                        />
+                      </div>
+                      {valorParcela && (
+                        <p className="parcela-info">
+                          <MdCreditCard size={16} /> {parcelas}x de R$ {valorParcela}
+                        </p>
+                      )}
+                    </>
+                  ) : (
+                    <div className="form-group">
                       <label>Valor (R$)</label>
                       <input
                         type="number"
+                        step="0.01"
+                        min="0"
                         value={valor}
                         onChange={e => setValor(e.target.value)}
                         required
                         placeholder="0.00"
                       />
                     </div>
-
-                    <div className="form-group">
-                      <label>Tipo</label>
-                      <select
-                        value={tipo}
-                        onChange={e =>
-                          setTipo(e.target.value as 'receita' | 'gasto')
-                        }
-                      >
-                        <option value="gasto">Despesa</option>
-                        <option value="receita">Receita</option>
-                      </select>
-                    </div>
-                  </div>
+                  )}
 
                   <div className="form-group">
                     <label>Categoria</label>
@@ -191,7 +274,7 @@ export default function Transactions() {
                   </div>
 
                   <div className="form-group">
-                    <label>Data</label>
+                    <label>Data {isParcelado ? '(1ª parcela)' : ''}</label>
                     <input
                       type="date"
                       value={data}
@@ -200,7 +283,7 @@ export default function Transactions() {
                   </div>
 
                   <button type="submit" className="btn-save">
-                    Salvar
+                    {isParcelado ? `Criar ${parcelas} parcelas` : 'Salvar'}
                   </button>
                 </form>
               </div>

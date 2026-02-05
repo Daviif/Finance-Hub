@@ -1,8 +1,8 @@
 /* frontend/src/styles/Profile.css */
 
 :root {
-  --primary-green: #10B981;
-  --primary-green-bg: #D1FAE5;
+  --primary-blue: #2563eb;
+  --primary-blue-bg: #dbeafe;
   --bg-color: #F3F4F6;
   --text-dark: #1F2937;
   --text-gray: #6B7280;
@@ -20,7 +20,7 @@
 }
 
 .content-header { margin-bottom: 2rem; }
-.content-header h2 { font-size: 1.8rem; color: var(--primary-green); margin-bottom: 0.5rem; }
+.content-header h2 { font-size: 1.8rem; color: var(--primary-blue); margin-bottom: 0.5rem; }
 .date-display { color: var(--text-gray); font-size: 0.95rem; display: flex; align-items: center; gap: 6px; }
 
 /* --- ESTILOS DE PERFIL --- */
@@ -45,8 +45,8 @@
   width: 36px; height: 36px; border-radius: 8px;
   display: flex; align-items: center; justify-content: center;
 }
-.green-light { background-color: var(--primary-green-bg); }
-.text-green { color: var(--primary-green); }
+.blue-light { background-color: var(--primary-blue-bg); }
+.text-blue { color: var(--primary-blue); }
 
 /* Formulários Internos */
 .form-group { margin-bottom: 1rem; }
@@ -59,12 +59,12 @@
   color: var(--text-dark); background-color: #fff; outline: none;
   transition: border-color 0.2s;
 }
-.form-input:focus { border-color: var(--primary-green); box-shadow: 0 0 0 3px var(--primary-green-bg); }
+.form-input:focus { border-color: var(--primary-blue); box-shadow: 0 0 0 3px var(--primary-blue-bg); }
 
 .form-row { display: flex; gap: 1rem; }
 
 .btn-primary {
-  background-color: var(--primary-green); color: white; border: none;
+  background-color: var(--primary-blue); color: white; border: none;
   padding: 12px 20px; border-radius: 8px; font-weight: 600;
   cursor: pointer; display: flex; align-items: center; gap: 8px;
   transition: opacity 0.2s;
@@ -75,7 +75,7 @@
 /* Barra de Progresso */
 .progress-card { background: #F9FAFB; border-radius: 8px; padding: 1rem; margin-bottom: 1.5rem; border: 1px solid #f3f4f6;}
 .progress-bar-bg { width: 100%; height: 10px; background: #E5E7EB; border-radius: 5px; overflow: hidden; margin: 8px 0 1rem 0; }
-.progress-bar-fill { height: 100%; background: var(--primary-green); transition: width 0.5s; }
+.progress-bar-fill { height: 100%; background: var(--primary-blue); transition: width 0.5s; }
 
 /* Correção para telas pequenas */
 @media (max-width: 1024px) {
@@ -109,7 +109,7 @@
 }
 
 .progress-percent {
-  color: var(--primary-green);
+  color: var(--primary-blue);
 }
 
 .progress-info {

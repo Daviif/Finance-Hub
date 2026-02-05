@@ -1,8 +1,8 @@
 /* src/styles/Dashboard.css */
 
 :root {
-  --primary-green: #10B981;
-  --primary-green-bg: #D1FAE5;
+  --primary-blue: #2563eb;
+  --primary-blue-bg: #dbeafe;
   --primary-red: #EF4444;
   --primary-red-bg: #FEE2E2;
   --bg-color: #F3F4F6;
@@ -46,7 +46,7 @@
 .logo-icon {
   width: 32px;
   height: 32px;
-  background-color: var(--primary-green);
+  background-color: var(--primary-blue);
   color: white;
   border-radius: 8px;
   display: flex;
@@ -107,10 +107,10 @@
 }
 
 .sidebar-nav li.active {
-  background-color: #F0FDF4;
+  background-color: #eff6ff;
   color: var(--text-dark);
   font-weight: 500;
-  border-left: 3px solid var(--primary-green);
+  border-left: 3px solid var(--primary-blue);
 }
 
 .whatsapp-btn {
@@ -144,7 +144,7 @@
 .avatar {
   width: 32px;
   height: 32px;
-  background-color: var(--primary-green);
+  background-color: var(--primary-blue);
   color: white;
   border-radius: 50%;
   display: flex;
@@ -199,7 +199,7 @@
 
 .content-header h2 {
   font-size: 1.8rem;
-  color: var(--primary-green);
+  color: var(--primary-blue);
   margin-bottom: 0.5rem;
 }
 
@@ -248,7 +248,7 @@
   justify-content: center;
 }
 
-.green-light { background-color: var(--primary-green-bg); }
+.green-light, .blue-light { background-color: var(--primary-blue-bg); }
 .red-light { background-color: var(--primary-red-bg); }
 
 .card-value {
@@ -263,7 +263,7 @@
   font-weight: 500;
 }
 
-.text-green { color: var(--primary-green); }
+.text-green, .text-blue { color: var(--primary-blue); }
 .text-red { color: var(--primary-red); }
 .text-gray { color: var(--text-gray); }
 
@@ -320,7 +320,7 @@
   display: inline-block;
 }
 
-.dot.green { background-color: var(--primary-green); }
+.dot.green { background-color: var(--primary-blue); }
 .dot.red { background-color: var(--primary-red); }
 
 /* --- Empty State Melhorado --- */
@@ -392,7 +392,7 @@
 }
 
 .btn-new {
-  background-color: var(--primary-green);
+  background-color: var(--primary-blue);
   color: white;
   border: none;
   padding: 0.6rem 1.2rem;
@@ -447,8 +447,8 @@
 }
 
 .transaction-item.receita .icon-area {
-  background-color: var(--primary-green-bg);
-  color: var(--primary-green);
+  background-color: var(--primary-blue-bg);
+  color: var(--primary-blue);
 }
 
 .transaction-item.gasto .icon-area {
@@ -485,7 +485,7 @@
   font-size: 1.1rem;
 }
 
-.transaction-item.receita .value { color: var(--primary-green); }
+.transaction-item.receita .value { color: var(--primary-blue); }
 .transaction-item.gasto .value { color: var(--primary-red); }
 
 .btn-delete {
@@ -586,15 +586,15 @@
 
 .form-group input:focus,
 .form-group select:focus {
-  border-color: var(--primary-green);
-  box-shadow: 0 0 0 3px var(--primary-green-bg);
+  border-color: var(--primary-blue);
+  box-shadow: 0 0 0 3px var(--primary-blue-bg);
 }
 
 .btn-save {
   width: 100%;
   margin-top: 1rem;
   padding: 0.8rem;
-  background-color: var(--primary-green);
+  background-color: var(--primary-blue);
   color: white;
   font-weight: 600;
   border: none;
@@ -603,7 +603,7 @@
 }
 
 .btn-save:hover {
-  background-color: #059669;
+  background-color: #1d4ed8;
 }
 
 }

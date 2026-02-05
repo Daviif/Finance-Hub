@@ -1,5 +1,5 @@
 import { findAllUsers, createUser, findUserByEmail } from '../repositories/users.repository.js'
-import bcrypt from 'bcrypt'
+import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
 
 function isValidEmail(email) {
