@@ -7,7 +7,8 @@ import {
   type UserProfile, type FinancialGoal 
 } from '../services/api/ApiService';
 import { getUser } from '../utils/auth';
-import { User, Target, Save, AlertTriangle } from 'lucide-react';
+import { User, Target, Save, AlertTriangle, CheckCircle } from 'lucide-react';
+import { toast } from 'react-toastify'; // Adicionado para alertas bonitos
 
 import '../styles/Profile.css';
 
@@ -44,7 +45,7 @@ export default function Profile() {
         apiGetProfile(),
         apiGetGoal()
       ]);
-      // Prioriza dados do usuário logado (real) sobre o mock
+      
       const currentUser = getUser();
       setPerfil({
         ...dadosPerfil,
@@ -54,6 +55,7 @@ export default function Profile() {
       setMeta(dadosMeta);
     } catch (error) {
       console.error('Erro ao carregar', error);
+      toast.error("Erro ao carregar dados.");
     } finally {
       setLoading(false);
     }
@@ -71,10 +73,11 @@ export default function Profile() {
     if (meta.data_limite && valorFalta > 0) {
       const hoje = new Date();
       const limite = new Date(meta.data_limite);
-      const meses =
-        (limite.getFullYear() - hoje.getFullYear()) * 12 +
-        (limite.getMonth() - hoje.getMonth());
-
+      
+      // Diferença em meses
+      const meses = (limite.getFullYear() - hoje.getFullYear()) * 12 + (limite.getMonth() - hoje.getMonth());
+      
+      // Evita divisão por zero ou números negativos
       setMensalidade(valorFalta / Math.max(1, meses));
     } else {
       setMensalidade(0);
@@ -83,14 +86,22 @@ export default function Profile() {
 
   const handleSalvarPerfil = async (e: FormEvent) => {
     e.preventDefault();
-    await apiUpdateProfile(perfil);
-    alert('Perfil atualizado com sucesso!');
+    try {
+        await apiUpdateProfile(perfil);
+        toast.success('Perfil atualizado com sucesso!');
+    } catch (error) {
+        toast.error('Erro ao atualizar perfil.');
+    }
   };
 
   const handleSalvarMeta = async (e: FormEvent) => {
     e.preventDefault();
-    await apiUpdateGoal(meta);
-    alert('Meta atualizada com sucesso!');
+    try {
+        await apiUpdateGoal(meta);
+        toast.success('Meta atualizada com sucesso!');
+    } catch (error) {
+        toast.error('Erro ao atualizar meta.');
+    }
   };
 
   return (
@@ -109,7 +120,7 @@ export default function Profile() {
         </header>
 
         <div className="profile-grid">
-          {/* CARD 1 */}
+          {/* CARD 1: DADOS PESSOAIS */}
           <div className="card">
             <div className="card-header">
               <h3>Dados Pessoais & Finanças</h3>
@@ -135,8 +146,9 @@ export default function Profile() {
                   <input
                     className="form-input"
                     type="email"
+                    readOnly
+                    style={{backgroundColor: '#F3F4F6', cursor: 'not-allowed'}}
                     value={perfil.email}
-                    onChange={e => setPerfil({ ...perfil, email: e.target.value })}
                   />
                 </div>
 
@@ -146,14 +158,12 @@ export default function Profile() {
                     className="form-input"
                     type="text"
                     value={perfil.telefone}
-                    onChange={e =>
-                      setPerfil({ ...perfil, telefone: e.target.value })
-                    }
+                    onChange={e => setPerfil({ ...perfil, telefone: e.target.value })}
                   />
                 </div>
               </div>
 
-              <div className="divider" />
+              <div className="divider" style={{margin: '1.5rem 0', borderBottom: '1px solid #E5E7EB'}} />
 
               <div className="form-row">
                 <div className="form-group">
@@ -162,9 +172,7 @@ export default function Profile() {
                     className="form-input"
                     type="number"
                     value={perfil.salario}
-                    onChange={e =>
-                      setPerfil({ ...perfil, salario: Number(e.target.value) })
-                    }
+                    onChange={e => setPerfil({ ...perfil, salario: Number(e.target.value) })}
                   />
                 </div>
 
@@ -174,42 +182,38 @@ export default function Profile() {
                     className="form-input"
                     type="number"
                     value={perfil.custos_basicos}
-                    onChange={e =>
-                      setPerfil({
-                        ...perfil,
-                        custos_basicos: Number(e.target.value)
-                      })
-                    }
+                    onChange={e => setPerfil({ ...perfil, custos_basicos: Number(e.target.value) })}
                   />
                 </div>
               </div>
 
+              {/* --- NOVO: CAMPO DE ALERTA --- */}
               <div className="form-group">
-                <label className="alert-label">
-                  <AlertTriangle size={14} />
-                  Alerta de Gastos (Teto Mensal)
+                <label style={{display: 'flex', alignItems: 'center', gap: '8px', color: '#B45309'}}>
+                  <AlertTriangle size={16} />
+                  Limite de Alerta Mensal (R$)
                 </label>
                 <input
                   className="form-input"
                   type="number"
+                  style={{borderColor: '#FCD34D', backgroundColor: '#FFFBEB'}}
                   value={perfil.limite_alerta}
-                  onChange={e =>
-                    setPerfil({
-                      ...perfil,
-                      limite_alerta: Number(e.target.value)
-                    })
-                  }
+                  onChange={e => setPerfil({ ...perfil, limite_alerta: Number(e.target.value) })}
+                  placeholder="Ex: 2500.00"
                 />
+                <small style={{color: '#6B7280', fontSize: '0.8rem', marginTop: '4px'}}>
+                  Você será avisado no Dashboard ao atingir 80% deste valor.
+                </small>
               </div>
 
-              <button type="submit" className="btn-primary full-width">
+              <button type="submit" className="btn-save">
                 <Save size={18} />
                 Salvar Dados
               </button>
             </form>
           </div>
 
-          {/* CARD 2 */}
+          {/* CARD 2: META FINANCEIRA (Mantido Original) */}
           <div className="card">
             <div className="card-header">
               <h3>Objetivo Financeiro</h3>
@@ -219,28 +223,28 @@ export default function Profile() {
             </div>
 
             <div className="progress-card">
-              <div className="progress-header">
-                <span>Progresso</span>
-                <span className="progress-percent">{progresso.toFixed(1)}%</span>
+              <div className="progress-header" style={{display:'flex', justifyContent:'space-between', marginBottom:'8px'}}>
+                <span style={{fontSize:'0.9rem', color:'#6B7280'}}>Progresso</span>
+                <span className="progress-percent" style={{fontWeight:'bold', color: '#10B981'}}>{progresso.toFixed(1)}%</span>
               </div>
 
-              <div className="progress-bar-bg">
+              <div className="progress-bar-bg" style={{width:'100%', height:'10px', backgroundColor:'#E5E7EB', borderRadius:'5px', overflow:'hidden', marginBottom:'1rem'}}>
                 <div
                   className="progress-bar-fill"
-                  style={{ width: `${progresso}%` }}
+                  style={{ width: `${progresso}%`, height:'100%', backgroundColor: '#10B981', transition: 'width 0.5s ease' }}
                 />
               </div>
 
-              <div className="progress-info">
+              <div className="progress-info" style={{display:'flex', justifyContent:'space-between', fontSize:'0.9rem', marginBottom:'2rem'}}>
                 <div>
-                  <span>Falta Juntar</span>
-                  <strong className="danger">
+                  <span style={{display:'block', color:'#6B7280'}}>Falta Juntar</span>
+                  <strong className="danger" style={{color:'#EF4444'}}>
                     R$ {falta.toFixed(2)}
                   </strong>
                 </div>
-                <div className="right">
-                  <span>Economia Sugerida</span>
-                  <strong className="info">
+                <div style={{textAlign:'right'}}>
+                  <span style={{display:'block', color:'#6B7280'}}>Economia Sugerida</span>
+                  <strong className="info" style={{color:'#3B82F6'}}>
                     R$ {mensalidade.toFixed(2)}/mês
                   </strong>
                 </div>
@@ -254,9 +258,7 @@ export default function Profile() {
                   className="form-input"
                   type="text"
                   value={meta.titulo}
-                  onChange={e =>
-                    setMeta({ ...meta, titulo: e.target.value })
-                  }
+                  onChange={e => setMeta({ ...meta, titulo: e.target.value })}
                 />
               </div>
 
@@ -267,12 +269,7 @@ export default function Profile() {
                     className="form-input"
                     type="number"
                     value={meta.valor_objetivo}
-                    onChange={e =>
-                      setMeta({
-                        ...meta,
-                        valor_objetivo: Number(e.target.value)
-                      })
-                    }
+                    onChange={e => setMeta({ ...meta, valor_objetivo: Number(e.target.value) })}
                   />
                 </div>
 
@@ -282,12 +279,7 @@ export default function Profile() {
                     className="form-input"
                     type="number"
                     value={meta.valor_atual}
-                    onChange={e =>
-                      setMeta({
-                        ...meta,
-                        valor_atual: Number(e.target.value)
-                      })
-                    }
+                    onChange={e => setMeta({ ...meta, valor_atual: Number(e.target.value) })}
                   />
                 </div>
               </div>
@@ -297,14 +289,12 @@ export default function Profile() {
                 <input
                   className="form-input"
                   type="date"
-                  value={meta.data_limite}
-                  onChange={e =>
-                    setMeta({ ...meta, data_limite: e.target.value })
-                  }
+                  value={meta.data_limite ? meta.data_limite.split('T')[0] : ''}
+                  onChange={e => setMeta({ ...meta, data_limite: e.target.value })}
                 />
               </div>
 
-              <button type="submit" className="btn-primary full-width">
+              <button type="submit" className="btn-save" style={{backgroundColor: '#3B82F6'}}>
                 <Target size={18} />
                 Atualizar Meta
               </button>

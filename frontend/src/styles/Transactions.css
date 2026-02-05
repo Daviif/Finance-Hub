@@ -15,7 +15,7 @@
   max-width: 800px; 
 }
 
-/* --- Cabeçalho (Seta + Título) --- */
+
 .transactions-header {
   display: flex;
   align-items: center;
@@ -81,9 +81,9 @@
   background-color: #1d4ed8;
 }
 
-/* --- Lista de Transações (A Mágica dos Cards) --- */
+
 .transaction-list {
-  list-style: none; /* Remove as bolinhas feias */
+  list-style: none; 
   padding: 0;
   margin: 0;
   display: flex;
@@ -107,7 +107,7 @@
   box-shadow: 0 4px 6px rgba(0,0,0,0.05);
 }
 
-/* Ícone */
+
 .icon-area {
   width: 48px;
   height: 48px;

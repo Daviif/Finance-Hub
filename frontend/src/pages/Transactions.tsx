@@ -3,11 +3,13 @@ import Sidebar from '../components/SideBar';
 import {
   apiGetTransactions,
   apiCreateTransaction,
+  apiUpdateTransaction,
   apiDeleteTransaction,
   type Transaction
 } from '../services/api/ApiService';
-import { MdAdd, MdDelete, MdAttachMoney, MdClose, MdArrowBack, MdCreditCard } from 'react-icons/md';
+import { MdAdd, MdDelete, MdEdit, MdAttachMoney, MdClose, MdArrowBack, MdCreditCard } from 'react-icons/md';
 import { Link } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 import '../styles/Transactions.css';
 
@@ -17,17 +19,18 @@ export default function Transactions() {
   const [transacoes, setTransacoes] = useState<Transaction[]>([]);
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [editId, setEditId] = useState<string | number | null>(null);
 
   const [titulo, setTitulo] = useState('');
   const [valor, setValor] = useState('');
   const [valorTotal, setValorTotal] = useState('');
-  const [tipo, setTipo] = useState<'receita' | 'gasto'>('gasto');
+  const [tipo, setTipo] = useState<'receita' | 'gasto' | 'despesa'>('gasto');
   const [categoria, setCategoria] = useState('');
   const [data, setData] = useState('');
   const [formaPagamento, setFormaPagamento] = useState<FormaPagamento>('dinheiro');
   const [parcelas, setParcelas] = useState(1);
 
-  const isParcelado = tipo === 'gasto' && (formaPagamento === 'credito' || formaPagamento === 'boleto') && parcelas > 1;
+  const isParcelado = !editId && tipo === 'gasto' && (formaPagamento === 'credito' || formaPagamento === 'boleto') && parcelas > 1;
   const valorParcela = isParcelado && valorTotal ? (Number(valorTotal) / parcelas).toFixed(2) : null;
 
   useEffect(() => {
@@ -45,49 +48,6 @@ export default function Transactions() {
     }
   };
 
-  const handleSalvar = async (e: FormEvent) => {
-    e.preventDefault();
-    try {
-      const dataStr = data || new Date().toISOString().split('T')[0];
-      if (isParcelado) {
-        await apiCreateTransaction({
-          titulo,
-          valorTotal: Number(valorTotal),
-          tipo,
-          categoria,
-          data: dataStr,
-          forma_pagamento: formaPagamento,
-          parcelas
-        });
-      } else {
-        await apiCreateTransaction({
-          titulo,
-          valor: Number(isParcelado ? valorTotal : valor),
-          tipo,
-          categoria,
-          data: dataStr,
-          forma_pagamento: formaPagamento
-        });
-      }
-      setIsModalOpen(false);
-      limparFormulario();
-      await carregarDados();
-    } catch (err) {
-      alert(err instanceof Error ? err.message : 'Erro ao salvar transação');
-    }
-  };
-
-  const handleDelete = async (id: string | number) => {
-    if (confirm('Tem certeza que deseja excluir?')) {
-      try {
-        await apiDeleteTransaction(id);
-        await carregarDados();
-      } catch {
-        alert('Erro ao excluir');
-      }
-    }
-  };
-
   const limparFormulario = () => {
     setTitulo('');
     setValor('');
@@ -97,6 +57,84 @@ export default function Transactions() {
     setData('');
     setFormaPagamento('dinheiro');
     setParcelas(1);
+    setEditId(null);
+  };
+
+  const abrirModalEdicao = (t: Transaction) => {
+    setEditId(t.id);
+    setTitulo(t.titulo);
+    setValor(t.valor.toString());
+    setValorTotal(t.valor.toString());
+    setTipo(t.tipo === 'despesa' ? 'gasto' : t.tipo); 
+    setCategoria(t.categoria);
+    setData(t.data ? t.data.split('T')[0] : '');
+    setFormaPagamento((t.forma_pagamento as FormaPagamento) || 'dinheiro');
+    setParcelas(1); 
+    setIsModalOpen(true);
+  };
+
+  const abrirModalCriacao = () => {
+    limparFormulario();
+    setIsModalOpen(true);
+  };
+
+  const handleSalvar = async (e: FormEvent) => {
+    e.preventDefault();
+    try {
+      const dataStr = data || new Date().toISOString().split('T')[0];
+
+      if (editId) {
+        await apiUpdateTransaction(editId, {
+            titulo,
+            valor: Number(valor),
+            tipo,
+            categoria,
+            data: dataStr,
+            forma_pagamento: formaPagamento
+        });
+        toast.success('Transação atualizada!');
+      } else {
+        if (isParcelado) {
+            await apiCreateTransaction({
+            titulo,
+            valorTotal: Number(valorTotal),
+            tipo,
+            categoria,
+            data: dataStr,
+            forma_pagamento: formaPagamento,
+            parcelas
+            });
+        } else {
+            await apiCreateTransaction({
+            titulo,
+            valor: Number(isParcelado ? valorTotal : valor),
+            tipo,
+            categoria,
+            data: dataStr,
+            forma_pagamento: formaPagamento
+            });
+        }
+        toast.success('Transação criada!');
+      }
+
+      setIsModalOpen(false);
+      limparFormulario();
+      await carregarDados();
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : 'Erro ao salvar transação');
+    }
+  };
+
+  const handleDelete = async (id: string | number) => {
+    if (confirm('Tem certeza que deseja excluir?')) {
+      try {
+        await apiDeleteTransaction(id);
+        toast.info('Transação excluída');
+        await carregarDados();
+      } catch {
+        toast.error('Erro ao excluir');
+      }
+    }
   };
 
   return (
@@ -104,7 +142,6 @@ export default function Transactions() {
       <Sidebar />
 
       <main className="main-content">
-        {/* ⬇️ TODO O SEU CÓDIGO ORIGINAL FOI MANTIDO */}
         <div className="transactions-container">
           <div className="transactions-content">
             <header className="transactions-header">
@@ -116,7 +153,7 @@ export default function Transactions() {
 
             <div className="actions-bar">
               <h3>Histórico Completo</h3>
-              <button className="btn-new" onClick={() => setIsModalOpen(true)}>
+              <button className="btn-new" onClick={abrirModalCriacao}>
                 <MdAdd size={20} /> Nova Transação
               </button>
             </div>
@@ -126,7 +163,7 @@ export default function Transactions() {
             ) : (
               <ul className="transaction-list">
                 {transacoes.map(t => (
-                  <li key={t.id} className={`transaction-item ${t.tipo}`}>
+                  <li key={t.id} className={`transaction-item ${t.tipo === 'despesa' ? 'gasto' : t.tipo}`}>
                     <div className="icon-area">
                       <MdAttachMoney />
                     </div>
@@ -144,9 +181,18 @@ export default function Transactions() {
 
                     <div className="value-area">
                       <span className="value">
-                        {t.tipo === 'gasto' ? '- ' : '+ '}
+                        {(t.tipo === 'gasto' || t.tipo === 'despesa') ? '- ' : '+ '}
                         R$ {Number(t.valor).toFixed(2)}
                       </span>
+                      
+                      <button 
+                        className="btn-edit" 
+                        onClick={() => abrirModalEdicao(t)}
+                        style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#3B82F6', marginRight: '8px' }}
+                      >
+                        <MdEdit size={20} />
+                      </button>
+
                       <button
                         className="btn-delete"
                         onClick={() => handleDelete(t.id)}
@@ -164,7 +210,7 @@ export default function Transactions() {
             <div className="modal-overlay">
               <div className="modal-content">
                 <div className="modal-header">
-                  <h3>Nova Transação</h3>
+                  <h3>{editId ? 'Editar Transação' : 'Nova Transação'}</h3>
                   <button
                     onClick={() => setIsModalOpen(false)}
                     className="btn-close"
@@ -212,7 +258,7 @@ export default function Transactions() {
                     </div>
                   </div>
 
-                  {(formaPagamento === 'credito' || formaPagamento === 'boleto') && tipo === 'gasto' && (
+                  {!editId && (formaPagamento === 'credito' || formaPagamento === 'boleto') && tipo === 'gasto' && (
                     <div className="form-group">
                       <label>Parcelar em</label>
                       <select
@@ -283,7 +329,7 @@ export default function Transactions() {
                   </div>
 
                   <button type="submit" className="btn-save">
-                    {isParcelado ? `Criar ${parcelas} parcelas` : 'Salvar'}
+                    {editId ? 'Salvar Alterações' : (isParcelado ? `Criar ${parcelas} parcelas` : 'Salvar')}
                   </button>
                 </form>
               </div>

@@ -30,7 +30,7 @@ export interface Transaction {
   id: string | number;
   titulo: string;
   valor: number;
-  tipo: 'receita' | 'gasto';
+  tipo: 'receita' | 'despesa' | 'gasto'; // Aceita despesa ou gasto para compatibilidade
   categoria: string;
   data: string;
   forma_pagamento?: string;
@@ -64,7 +64,6 @@ export interface FinancialGoal {
 // --- 2. Dados Falsos (Mock para o Dashboard) ---
 
 const delay = (ms: number): Promise<void> => new Promise(resolve => setTimeout(resolve, ms));
-const generateToken = (email: string) => `fake-jwt-${btoa(email)}-${Date.now()}`;
 
 let mockTransactions: Transaction[] = [
   { 
@@ -79,7 +78,7 @@ let mockTransactions: Transaction[] = [
     id: 2, 
     titulo: 'Almoço Restaurante', 
     valor: 45.90, 
-    tipo: 'gasto', 
+    tipo: 'despesa', 
     categoria: 'Alimentação', 
     data: new Date().toISOString() 
   },
@@ -87,7 +86,7 @@ let mockTransactions: Transaction[] = [
     id: 3, 
     titulo: 'Uber', 
     valor: 15.50, 
-    tipo: 'gasto', 
+    tipo: 'despesa', 
     categoria: 'Transporte', 
     data: new Date().toISOString() 
   },
@@ -111,7 +110,6 @@ let mockGoal: FinancialGoal = {
 
 // --- 3. Funções da API ---
 
-// LOGIN - integrado com backend e banco
 export const apiLogin = async (email: string, senha: string): Promise<LoginResponse> => {
   try {
     const response = await axios.post(`${API_URL}/users/login`, {
@@ -135,7 +133,6 @@ export const apiLogin = async (email: string, senha: string): Promise<LoginRespo
   }
 };
 
-// CADASTRO REAL - integrado com o backend e banco
 export const apiRegister = async (nome: string, email: string, senha: string): Promise<RegisterResponse> => {
   try {
     const response = await axios.post(`${API_URL}/users/register`, {
@@ -157,21 +154,33 @@ export const apiRegister = async (nome: string, email: string, senha: string): P
   }
 };
 
-// --- MANTENDO O RESTO COMO MOCK ---
-
 export const apiForgot = async (email: string): Promise<ForgotResponse> => {
   await delay(800);
   return { email, message: 'Email enviado' };
 };
 
-export const apiGetTransactions = async (): Promise<Transaction[]> => {
+// Atualizado para aceitar filtros de mes/ano
+export const apiGetTransactions = async (mes?: number, ano?: number): Promise<Transaction[]> => {
   try {
+    const params: any = {};
+    if (mes) params.month = mes;
+    if (ano) params.year = ano;
+
     const { data } = await axios.get<Transaction[]>(`${API_URL}/transactions`, {
-      headers: getAuthHeaders()
+      headers: getAuthHeaders(),
+      params
     });
     return data;
   } catch {
-    return [...mockTransactions];
+    // Fallback Mock com filtros
+    let dados = [...mockTransactions];
+    if (mes && ano) {
+        dados = dados.filter(t => {
+            const d = new Date(t.data);
+            return (d.getMonth() + 1) === mes && d.getFullYear() === ano;
+        });
+    }
+    return dados;
   }
 };
 
@@ -179,7 +188,7 @@ export interface CreateTransactionInput {
   titulo: string;
   valor?: number;
   valorTotal?: number;
-  tipo: 'receita' | 'gasto';
+  tipo: 'receita' | 'despesa' | 'gasto';
   categoria: string;
   data: string;
   forma_pagamento?: string;
@@ -198,10 +207,36 @@ export const apiCreateTransaction = async (nova: CreateTransactionInput): Promis
   }
 };
 
+// NOVA FUNÇÃO: Atualizar Transação (Para a edição)
+export const apiUpdateTransaction = async (id: string | number, transaction: Partial<Transaction>): Promise<Transaction> => {
+    try {
+        const { data } = await axios.put(`${API_URL}/transactions/${id}`, transaction, {
+            headers: getAuthHeaders()
+        });
+        return data;
+    } catch (error: any) {
+        // Se der erro no backend, simulamos atualização no mock para testar o front
+        const index = mockTransactions.findIndex(t => t.id === id);
+        if (index !== -1) {
+            mockTransactions[index] = { ...mockTransactions[index], ...transaction };
+            return mockTransactions[index];
+        }
+
+        if (error.response?.data?.message) {
+            throw new Error(error.response.data.message);
+        }
+        throw new Error('Erro ao atualizar transação');
+    }
+};
+
 export const apiDeleteTransaction = async (id: string | number): Promise<void> => {
-  await axios.delete(`${API_URL}/transactions/${id}`, {
-    headers: getAuthHeaders()
-  });
+    try {
+        await axios.delete(`${API_URL}/transactions/${id}`, {
+            headers: getAuthHeaders()
+        });
+    } catch {
+        mockTransactions = mockTransactions.filter(t => t.id !== id);
+    }
 };
 
 export const apiGetSummary = async (): Promise<SummaryResponse> => {
@@ -211,7 +246,7 @@ export const apiGetSummary = async (): Promise<SummaryResponse> => {
       .filter(t => t.tipo === 'receita')
       .reduce((acc, t) => acc + Number(t.valor), 0);
     const gastos = transacoes
-      .filter(t => t.tipo === 'gasto')
+      .filter(t => t.tipo === 'despesa' || t.tipo === 'gasto')
       .reduce((acc, t) => acc + Number(t.valor), 0);
     return {
       total_receitas: receitas,
