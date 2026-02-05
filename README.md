@@ -176,3 +176,46 @@ O diagrama de classes apresenta a estrutura do sistema Finance Hub, destacando a
 <img width="1673" height="727" alt="Diagrama de Classes" src="https://github.com/user-attachments/assets/f63ca177-df6e-4754-873c-9f1bc8de8611" />
 
 ----------------------------------------------------------------------------------------------------------------------------------------
+
+###  Protótipos de Telas
+
+**Tela de entrada**
+
+<img width="1595" height="648" alt="Captura de tela 2026-02-05 140150" src="https://github.com/user-attachments/assets/d9f8f9d1-7106-4463-92f0-ebb9fe77acac" />
+
+<img width="1580" height="710" alt="Captura de tela 2026-02-05 140157" src="https://github.com/user-attachments/assets/9bf774b5-ef34-4a06-811d-c38717ee69be" />
+
+<img width="1575" height="707" alt="Captura de tela 2026-02-05 140205" src="https://github.com/user-attachments/assets/668b7362-3638-40e1-9696-1de598babff8" />
+
+<img width="1568" height="722" alt="Captura de tela 2026-02-05 140212" src="https://github.com/user-attachments/assets/7882b53e-ea3a-4e1f-a438-73fef4bb4f71" />
+
+**Tela de Login**
+
+<img width="1556" height="708" alt="Captura de tela 2026-02-05 140522" src="https://github.com/user-attachments/assets/199cd2a7-eb7f-42ac-84d4-69d7f84feb50" />
+
+**Tela de cadastro**
+
+<img width="1571" height="714" alt="Captura de tela 2026-02-05 140530" src="https://github.com/user-attachments/assets/5b895def-696b-4c20-8218-1912e22877c9" />
+
+**Esquice minha senha**
+
+<img width="1551" height="705" alt="Captura de tela 2026-02-05 140539" src="https://github.com/user-attachments/assets/5033028b-d758-433d-b7a9-f3240a126542" />
+
+**DashBoard**
+
+<img width="1584" height="726" alt="Captura de tela 2026-02-05 140707" src="https://github.com/user-attachments/assets/21e770bf-aeda-4097-a470-6389b32a7055" />
+
+**Perfil**
+
+<img width="1576" height="720" alt="Captura de tela 2026-02-05 140735" src="https://github.com/user-attachments/assets/568ce95c-6941-4b1d-accc-d7d575776931" />
+
+**Trasações**
+
+<img width="1563" height="711" alt="Captura de tela 2026-02-05 140714" src="https://github.com/user-attachments/assets/1d1ea9f0-091e-4664-8cce-96e49ed41ad2" />
+
+<img width="530" height="696" alt="Captura de tela 2026-02-05 140719" src="https://github.com/user-attachments/assets/0e2132b2-5d44-42d0-89db-262f65d92d83" />
+
+**Ralatórios**
+
+<img width="1574" height="716" alt="Captura de tela 2026-02-05 140728" src="https://github.com/user-attachments/assets/d468aaab-a86b-4a78-8de2-4ff606e0b64a" />
+
