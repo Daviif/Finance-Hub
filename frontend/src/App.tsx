@@ -6,24 +6,32 @@ import Dashboard from './pages/Dashboard'
 import Reports from './pages/Reports'
 import Transactions from './pages/Transactions'
 import Profile from './pages/Profile'
+import Budge from './pages/Budge'
+import { ToastProvider } from './contexts/ToastContext'
+import { ToastContainer } from './components/Toast/Toast'
 
 function App() {
   return (
     <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Navigate to="/login" replace />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register/>} />
-        <Route path="/forgot-password" element={<ForgotPassword />} />
-        
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/transactions" element={<Transactions />} />
-        <Route path="/profile" element={<Profile />} />
-        <Route path="/reports" element={<Reports />} />
+      <ToastProvider>
+          <Routes>
+            <Route path="/" element={<Navigate to="/login" replace />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register/>} />
+            <Route path="/forgot-password" element={<ForgotPassword />} />
+            
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/transactions" element={<Transactions />} />
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/reports" element={<Reports />} />
 
-        
-        <Route path="*" element={<Navigate to="/login" replace />} />
-      </Routes>
+             <Route path="/budge" element={<Budge />} />
+
+            
+            <Route path="*" element={<Navigate to="/login" replace />} />
+          </Routes>
+          <ToastContainer />
+        </ToastProvider>
     </BrowserRouter>
   )
 }

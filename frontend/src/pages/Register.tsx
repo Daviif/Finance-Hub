@@ -1,13 +1,15 @@
 import { useState } from 'react'
-import type { FormEvent } from 'react'
+import { authService } from '../services/api/auth.service'
+import { getErrorMessage, getValidationErrors, logError } from '../utils/errorHandler'
+import { useToast } from '../hooks/useToast'
 import { Link, useNavigate } from 'react-router-dom'
 import { MdEmail, MdLock, MdPerson } from 'react-icons/md'
 import '../styles/Login.css'
 import '../styles/Register.css'
-import { apiRegister } from '../services/api/ApiService'
 
 export default function Register() {
   const navigate = useNavigate()
+  const { success, error: showError } = useToast()
 
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
@@ -57,21 +59,30 @@ export default function Register() {
     return Object.keys(newErrors).length === 0
   }
 
-  const handleSubmit = async (e: FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+
     if (!validate()) return
 
     setLoading(true)
     setErrors({})
 
     try {
-      await apiRegister(name, email, password)
-      navigate('/login')
-    } catch (error) {
-      console.error('Erro no cadastro:', error)
-      setErrors({
-        email: error instanceof Error ? error.message : 'Erro ao conectar com o servidor'
-      })
+      await authService.register({ name, email, password })
+
+      success('Conta criada com sucesso! Bem-vindo ao FinanceHub!')
+
+      navigate('/dashboard')
+    } catch (err) {
+      logError(err, 'Register')
+      
+      const errorMessage = getErrorMessage(err)
+      showError(errorMessage)
+      
+      const validationErrors = getValidationErrors(err)
+      if (validationErrors) {
+        setErrors(validationErrors as any)
+      }
     } finally {
       setLoading(false)
     }

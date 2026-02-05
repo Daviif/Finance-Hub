@@ -1,5 +1,5 @@
 // frontend/src/pages/Profile.tsx
-import React, { useState, useEffect, type FormEvent } from 'react';
+import  { useState, useEffect, type FormEvent } from 'react';
 import Sidebar from '../components/SideBar';
 import { 
   apiGetProfile, apiUpdateProfile, 

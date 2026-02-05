@@ -1,0 +1,216 @@
+/* =========================================
+   ESTILOS DA PÁGINA DE ORÇAMENTOS
+   ========================================= */
+
+.budgets-page {
+  padding: 2rem;
+}
+
+.budgets-page h1 {
+  font-size: 1.8rem;
+  color: var(--primary-green);
+  margin-bottom: 2rem;
+}
+
+/* Formulário de Orçamento */
+.budget-form {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  margin-bottom: 2rem;
+}
+
+.budget-form .form-row {
+  display: grid;
+  grid-template-columns: 2fr 1.5fr 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.budget-form .form-group {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+
+.budget-form .form-group label {
+  font-size: 0.9rem;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  color: var(--text-dark);
+}
+
+.budget-form .form-group input,
+.budget-form .form-group select {
+  padding: 0.75rem;
+  border: 1px solid #D1D5DB;
+  border-radius: 8px;
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.2s;
+  background-color: white;
+  color: var(--text-dark);
+}
+
+.budget-form .form-group input:focus,
+.budget-form .form-group select:focus {
+  border-color: var(--primary-green);
+  box-shadow: 0 0 0 3px var(--primary-green-bg);
+}
+
+.btn-submit {
+  width: 100%;
+  padding: 0.8rem;
+  background-color: var(--primary-green);
+  color: white;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.btn-submit:hover {
+  background-color: #059669;
+}
+
+/* Lista de Orçamentos */
+.budgets-list {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+.budgets-list p {
+  text-align: center;
+  color: var(--text-gray);
+  padding: 2rem 0;
+}
+
+.budgets-list .empty-state {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 200px;
+  color: var(--text-gray);
+  font-size: 0.95rem;
+  font-style: italic;
+}
+
+/* Tabela de Orçamentos */
+.budgets-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.budgets-table thead {
+  background-color: #F9FAFB;
+}
+
+.budgets-table th {
+  padding: 1rem;
+  text-align: left;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-gray);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-bottom: 2px solid #E5E7EB;
+}
+
+.budgets-table tbody tr {
+  border-bottom: 1px solid #E5E7EB;
+  transition: background-color 0.2s;
+}
+
+.budgets-table tbody tr:hover {
+  background-color: #F9FAFB;
+}
+
+.budgets-table td {
+  padding: 1rem;
+  color: var(--text-dark);
+  font-size: 0.95rem;
+}
+
+.budgets-table td:nth-child(2) {
+  font-weight: 600;
+  color: var(--primary-green);
+}
+
+.budgets-table .btn-delete {
+  background: transparent;
+  color: #9CA3AF;
+  border: none;
+  padding: 8px;
+  cursor: pointer;
+  transition: color 0.2s, background-color 0.2s;
+  border-radius: 4px;
+  font-size: 1.2rem;
+}
+
+.budgets-table .btn-delete:hover {
+  color: var(--primary-red);
+  background-color: var(--primary-red-bg);
+}
+
+/* Responsividade */
+@media (max-width: 1024px) {
+  .budget-form .form-row {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .budgets-table {
+    font-size: 0.85rem;
+  }
+
+  .budgets-table th,
+  .budgets-table td {
+    padding: 0.75rem 0.5rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .budgets-page {
+    padding: 1rem;
+  }
+
+  .budget-form .form-row {
+    grid-template-columns: 1fr;
+  }
+
+  .budgets-table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+
+  .budgets-table thead {
+    display: none;
+  }
+
+  .budgets-table tbody tr {
+    display: block;
+    margin-bottom: 1rem;
+    border: 1px solid #E5E7EB;
+    border-radius: 8px;
+    padding: 1rem;
+  }
+
+  .budgets-table td {
+    display: block;
+    text-align: left;
+    padding: 0.5rem 0;
+    border: none;
+  }
+
+  .budgets-table td::before {
+    content: attr(data-label);
+    font-weight: 600;
+    color: var(--text-gray);
+    display: inline-block;
+    width: 100px;
+  }
+}

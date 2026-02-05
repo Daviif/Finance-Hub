@@ -1,12 +1,14 @@
 import { useState } from 'react'
-import type { FormEvent } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { apiLogin } from '../services/api/ApiService'
+import { authService } from '../services/api/auth.service'
+import { getErrorMessage, getValidationErrors, logError } from '../utils/errorHandler'
+import { useToast } from '../hooks/useToast'
 import { MdEmail, MdLock } from 'react-icons/md'
 import '../styles/Login.css'
 
 export default function Login() {
   const navigate = useNavigate()
+  const { success, error: showError } = useToast()
   
   const [email, setEmail] = useState('')
   const [senha, setSenha] = useState('')
@@ -32,26 +34,28 @@ export default function Login() {
     return Object.keys(newErrors).length === 0
   }
 
-  const handleSubmit = async (e: FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-
+    
     if (!validate()) return
 
     setLoading(true)
     setErrors({})
 
     try {
-      const response = await apiLogin(email, senha)
-      console.log('✅ Login realizado:', response)
-      
-      localStorage.setItem('token', response.token)
-      localStorage.setItem('user', JSON.stringify(response.user))
-      
+      await authService.login({ email, password: senha })
+      success('Login realizado com sucesso!')
       navigate('/dashboard')
-    } catch (error) {
-      setErrors({ 
-        senha: error instanceof Error ? error.message : 'Erro ao fazer login' 
-      })
+    } catch (err) {
+      logError(err, 'Login')
+
+      const errorMessage = getErrorMessage(err)
+      showError(errorMessage)
+
+      const validationErrors = getValidationErrors(err)
+      if (validationErrors) {
+        setErrors(validationErrors as any)
+      }
     } finally {
       setLoading(false)
     }

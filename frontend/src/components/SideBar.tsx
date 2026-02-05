@@ -74,6 +74,13 @@ const Sidebar: React.FC = () => {
                 <span>Perfil</span>
               </li>
             </Link>
+          
+            <Link to="/budge" className="nav-link">
+              <li className={isActive('/budge')}>
+                <User size={20} />
+                <span>Orçamentos</span>
+              </li>
+            </Link>
           </ul>
         </div>
 
