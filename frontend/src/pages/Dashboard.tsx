@@ -4,24 +4,22 @@ import {
   Wallet, 
   TrendingUp, 
   TrendingDown,
-  Calendar
+  Calendar,
+  AlertTriangle, // Ícone para 80%
+  AlertCircle    // Ícone para 100%
 } from 'lucide-react';
 import { 
-  AreaChart, 
-  Area, 
-  XAxis, 
-  YAxis, 
-  CartesianGrid, 
-  Tooltip, 
-  ResponsiveContainer,
-  PieChart,
-  Pie,
-  Cell,
-  Legend
+  AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
+  PieChart, Pie, Cell, Legend
 } from 'recharts';
 import '../styles/Dashboard.css';
 
-import { apiGetTransactions, type Transaction } from '../services/api/ApiService';
+import { 
+  apiGetTransactions, 
+  apiGetProfile, 
+  type Transaction,
+  type UserProfile 
+} from '../services/api/ApiService';
 
 interface ChartData {
   name: string;
@@ -35,12 +33,13 @@ interface CategoryData {
   value: number;
 }
 
-const COLORS = ['#2563eb', '#3B82F6', '#F59E0B', '#EF4444', '#8B5CF6', '#EC4899'];
-
+const COLORS = ['#10B981', '#3B82F6', '#F59E0B', '#EF4444', '#8B5CF6', '#EC4899'];
 
 const Dashboard: React.FC = () => {
   const [dataChart, setDataChart] = useState<ChartData[]>([]);
   const [categoryData, setCategoryData] = useState<CategoryData[]>([]);
+  const [profile, setProfile] = useState<UserProfile | null>(null); // Novo: Perfil para o limite
+  
   const [resumo, setResumo] = useState({
     saldo: 0,
     receitas: 0,
@@ -55,7 +54,13 @@ const Dashboard: React.FC = () => {
 
   const carregarDados = async () => {
     try {
-      const listaTransacoes = await apiGetTransactions();
+      // Carregamos Transações E Perfil ao mesmo tempo
+      const [listaTransacoes, dadosPerfil] = await Promise.all([
+        apiGetTransactions(),
+        apiGetProfile()
+      ]);
+      
+      setProfile(dadosPerfil);
       processarDadosResumo(listaTransacoes);
       processarDadosGrafico(listaTransacoes);
       processarDadosCategorias(listaTransacoes);
@@ -69,7 +74,7 @@ const Dashboard: React.FC = () => {
 
     lista.forEach(t => {
       const valor = Number(t.valor);
-      const tipo = t.tipo as string; // Casting para evitar erro de overlap
+      const tipo = t.tipo as string; 
       
       if (tipo === 'receita') {
         rec += valor;
@@ -124,7 +129,35 @@ const Dashboard: React.FC = () => {
     setCategoryData(formatado);
   };
 
-  // Correção definitiva para o erro do Formatter
+  // --- LÓGICA DO ALERTA (ADAPTADA) ---
+  const calcularEstadoAlerta = () => {
+    if (!profile || profile.limite_alerta <= 0) return null;
+    
+    // Usamos resumo.despesas que já foi calculado
+    const porcentagem = (resumo.despesas / profile.limite_alerta) * 100;
+    
+    if (porcentagem >= 100) {
+      return {
+        tipo: 'danger',
+        icone: <AlertCircle size={24} />,
+        titulo: 'Limite Mensal Excedido!',
+        mensagem: `Você gastou R$ ${resumo.despesas.toFixed(2)}, acima do teto de R$ ${profile.limite_alerta.toFixed(2)}.`
+      };
+    }
+    
+    if (porcentagem >= 80) {
+      return {
+        tipo: 'warning',
+        icone: <AlertTriangle size={24} />,
+        titulo: 'Atenção ao Orçamento',
+        mensagem: `Você já consumiu ${porcentagem.toFixed(1)}% do seu limite mensal.`
+      };
+    }
+    return null;
+  };
+
+  const alerta = calcularEstadoAlerta();
+
   const tooltipFormatter = (value: number | string | undefined) => {
     if (value === undefined) return 'R$ 0,00';
     const numValue = typeof value === 'string' ? Number(value) : value;
@@ -136,12 +169,28 @@ const Dashboard: React.FC = () => {
       <Sidebar />
       <main className="main-content">
         <header className="content-header">
-          <h2>Dashboard Financeiro</h2>
+          <div>
+            <h2>Dashboard Financeiro</h2>
+            <span style={{color: '#6B7280'}}>Visão geral do seu patrimônio</span>
+          </div>
           <div className="date-display">
             <Calendar size={18} />
             <span>{new Date().toLocaleDateString('pt-BR', { month: 'long', year: 'numeric' })}</span>
           </div>
         </header>
+
+        {/* --- AQUI ENTRA O ALERTA (SE HOUVER) --- */}
+        {alerta && (
+          <div className={`alert-banner ${alerta.tipo}`}>
+            <div className="alert-icon">
+              {alerta.icone}
+            </div>
+            <div className="alert-content">
+              <strong>{alerta.titulo}</strong>
+              <p>{alerta.mensagem}</p>
+            </div>
+          </div>
+        )}
 
         <div className="cards-grid">
           <div className="card">
@@ -163,7 +212,7 @@ const Dashboard: React.FC = () => {
 
         <div className="charts-grid">
           <div className="chart-card">
-            <h3>Fluxo de Caixa</h3>
+            <h3>Fluxo de Caixa (6 Meses)</h3>
             <div className="chart-wrapper">
               <ResponsiveContainer width="100%" height={300}>
                 <AreaChart data={dataChart}>
@@ -171,8 +220,8 @@ const Dashboard: React.FC = () => {
                   <XAxis dataKey="name" axisLine={false} tickLine={false} />
                   <YAxis axisLine={false} tickLine={false} />
                   <Tooltip formatter={tooltipFormatter} />
-                  <Area type="monotone" dataKey="receitas" stroke="#2563eb" fill="#2563eb" fillOpacity={0.1} />
-                  <Area type="monotone" dataKey="despesas" stroke="#EF4444" fill="#EF4444" fillOpacity={0.1} />
+                  <Area type="monotone" dataKey="receitas" stroke="#10B981" fill="#10B981" fillOpacity={0.1} name="Receitas" />
+                  <Area type="monotone" dataKey="despesas" stroke="#EF4444" fill="#EF4444" fillOpacity={0.1} name="Despesas" />
                 </AreaChart>
               </ResponsiveContainer>
             </div>
