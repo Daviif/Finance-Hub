@@ -32,7 +32,7 @@ const Reports: React.FC = () => {
   const handleExportCSV = () => {
     const dataToExport = filteredTransactions.length > 0 ? filteredTransactions : transactions;
     
-    const headers = ['Data,Categoria,Descricao,Valor,Tipo\n'];
+    const headers = ['Data,Categoria,Descrição,Valor,Tipo\n'];
     const rows = dataToExport.map(t => 
       `${new Date(t.data).toLocaleDateString('pt-BR')},${t.categoria || 'Outros'},${t.titulo},${t.valor},${t.tipo}`
     ).join('\n');
