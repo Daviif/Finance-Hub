@@ -4,7 +4,8 @@ import { Link, useNavigate } from 'react-router-dom'
 import { MdEmail, MdLock, MdPerson } from 'react-icons/md'
 import '../styles/Login.css'
 import '../styles/Register.css'
-import { apiRegister } from '../services/api/ApiService'
+import { apiRegister, apiLogin } from '../services/api/ApiService'
+import { setAuth } from '../utils/auth'
 
 export default function Register() {
   const navigate = useNavigate()
@@ -19,6 +20,7 @@ export default function Register() {
     email?: string
     password?: string
     confirmPassword?: string
+    server?: string
   }>({})
 
   const validate = (): boolean => {
@@ -27,6 +29,7 @@ export default function Register() {
       email?: string
       password?: string
       confirmPassword?: string
+      server?: string
     } = {}
 
     if (!name) {
@@ -66,12 +69,12 @@ export default function Register() {
 
     try {
       await apiRegister(name, email, password)
-      navigate('/login')
+      const loginRes = await apiLogin(email, password)
+      setAuth(loginRes.token, loginRes.user)
+      navigate('/dashboard')
     } catch (error) {
-      console.error('Erro no cadastro:', error)
-      setErrors({
-        email: error instanceof Error ? error.message : 'Erro ao conectar com o servidor'
-      })
+      const message = error instanceof Error ? error.message : 'Erro ao conectar com o servidor'
+      setErrors({ server: message })
     } finally {
       setLoading(false)
     }
@@ -80,8 +83,8 @@ export default function Register() {
   return (
     <div className="login-page register-page">
       <div className="login-container">
-          <Link to="/login" className="register-back">
-            ← Voltar para o login
+          <Link to="/" className="register-back">
+            ← Voltar
           </Link>
 
           <div className="login-logo">
@@ -92,6 +95,12 @@ export default function Register() {
 
           <h1 className="login-title">Crie sua Conta</h1>
           <p className="login-subtitle">Preencha os dados para começar</p>
+
+          {errors.server && (
+            <div className="error-banner" role="alert">
+              {errors.server}
+            </div>
+          )}
 
           <form onSubmit={handleSubmit} noValidate>
             <div className="input-group">

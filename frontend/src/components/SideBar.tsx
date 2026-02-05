@@ -8,14 +8,13 @@ import {
   LogOut, 
   MessageCircle 
 } from 'lucide-react';
+import { getUser, clearAuth } from '../utils/auth';
 import '../styles/Dashboard.css';
 
 const Sidebar: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
-
-  // Tenta recuperar o usuário salvo no login (se existir)
-  const user = JSON.parse(localStorage.getItem('user') || '{"username": "Usuário"}');
+  const user = getUser() ?? { username: 'Usuário' };
 
   // Função para checar se o link está ativo (para ficar verde)
   const isActive = (path: string) => {
@@ -23,12 +22,8 @@ const Sidebar: React.FC = () => {
   };
 
   const handleLogout = () => {
-    // 1. Limpa os dados de autenticação
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
-    
-    // 2. Redireciona para o Login
-    navigate('/');
+    clearAuth();
+    navigate('/login');
   };
 
   return (

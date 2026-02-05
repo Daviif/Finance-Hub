@@ -35,7 +35,7 @@ interface CategoryData {
   value: number;
 }
 
-const COLORS = ['#10B981', '#3B82F6', '#F59E0B', '#EF4444', '#8B5CF6', '#EC4899'];
+const COLORS = ['#2563eb', '#3B82F6', '#F59E0B', '#EF4444', '#8B5CF6', '#EC4899'];
 
 
 const Dashboard: React.FC = () => {
@@ -171,7 +171,7 @@ const Dashboard: React.FC = () => {
                   <XAxis dataKey="name" axisLine={false} tickLine={false} />
                   <YAxis axisLine={false} tickLine={false} />
                   <Tooltip formatter={tooltipFormatter} />
-                  <Area type="monotone" dataKey="receitas" stroke="#10B981" fill="#10B981" fillOpacity={0.1} />
+                  <Area type="monotone" dataKey="receitas" stroke="#2563eb" fill="#2563eb" fillOpacity={0.1} />
                   <Area type="monotone" dataKey="despesas" stroke="#EF4444" fill="#EF4444" fillOpacity={0.1} />
                 </AreaChart>
               </ResponsiveContainer>

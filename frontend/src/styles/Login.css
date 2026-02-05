@@ -37,14 +37,14 @@
 }
 
 .logo-circle {
-  background: linear-gradient(135deg, #0f766e 0%, #0d9488 100%);
+  background: linear-gradient(135deg, #1e40af 0%, #2563eb 100%);
   width: 72px;
   height: 72px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 4px 14px rgba(13, 148, 136, 0.25);
+  box-shadow: 0 4px 14px rgba(37, 99, 235, 0.25);
 }
 
 .logo-icon {
@@ -63,6 +63,17 @@
   font-size: 0.95rem;
   color: #6b7280;
   margin-bottom: 2rem;
+}
+
+.error-banner {
+  margin-bottom: 1rem;
+  padding: 0.875rem 1rem;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  border-radius: 10px;
+  font-size: 0.875rem;
+  color: #dc2626;
+  text-align: center;
 }
 
 /* === Formulário === */
@@ -95,9 +106,9 @@ form {
 }
 
 .input-wrapper:focus-within {
-  border-color: #0d9488;
+  border-color: #2563eb;
   background-color: #fff;
-  box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.12);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
 }
 
 .input-wrapper.error {
@@ -146,7 +157,7 @@ form {
   justify-content: center;
   align-items: center;
   gap: 0.5rem;
-  background: linear-gradient(135deg, #0f766e 0%, #0d9488 100%);
+  background: linear-gradient(135deg, #1e40af 0%, #2563eb 100%);
   color: white;
   padding: 0.875rem;
   border-radius: 10px;
@@ -159,18 +170,18 @@ form {
 }
 
 .login-button:hover:not(:disabled) {
-  background: linear-gradient(135deg, #0d9488 0%, #14b8a6 100%);
+  background: linear-gradient(135deg, #1d4ed8 0%, #3b82f6 100%);
   transform: translateY(-1px);
-  box-shadow: 0 4px 14px rgba(13, 148, 136, 0.35);
+  box-shadow: 0 4px 14px rgba(37, 99, 235, 0.35);
 }
 
 .login-button:active:not(:disabled) {
   transform: translateY(0);
-  box-shadow: 0 2px 8px rgba(13, 148, 136, 0.25);
+  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.25);
 }
 
 .login-button:focus-visible {
-  outline: 2px solid #0d9488;
+  outline: 2px solid #2563eb;
   outline-offset: 2px;
 }
 
@@ -196,6 +207,20 @@ form {
   }
 }
 
+.login-back-link {
+  display: inline-block;
+  margin-bottom: 1rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #6b7280;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.login-back-link:hover {
+  color: #2563eb;
+}
+
 /* === Link esqueci senha === */
 .login-forgot {
   display: flex;
@@ -212,12 +237,12 @@ form {
 }
 
 .forgot-link:hover {
-  color: #0d9488;
+  color: #2563eb;
   text-decoration: underline;
 }
 
 .forgot-link:focus-visible {
-  outline: 2px solid #0d9488;
+  outline: 2px solid #2563eb;
   outline-offset: 2px;
   border-radius: 2px;
 }
@@ -232,19 +257,19 @@ form {
 }
 
 .register-link {
-  color: #0d9488;
+  color: #2563eb;
   text-decoration: none;
   font-weight: 600;
   transition: color 0.2s ease;
 }
 
 .register-link:hover {
-  color: #0f766e;
+  color: #1d4ed8;
   text-decoration: underline;
 }
 
 .register-link:focus-visible {
-  outline: 2px solid #0d9488;
+  outline: 2px solid #2563eb;
   outline-offset: 2px;
   border-radius: 2px;
 }

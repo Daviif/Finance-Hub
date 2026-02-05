@@ -2,16 +2,17 @@ import { useState } from 'react'
 import type { FormEvent } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { apiLogin } from '../services/api/ApiService'
+import { setAuth } from '../utils/auth'
 import { MdEmail, MdLock } from 'react-icons/md'
 import '../styles/Login.css'
 
 export default function Login() {
   const navigate = useNavigate()
-  
+
   const [email, setEmail] = useState('')
   const [senha, setSenha] = useState('')
   const [loading, setLoading] = useState(false)
-  const [errors, setErrors] = useState<{ email?: string; senha?: string }>({})
+  const [errors, setErrors] = useState<{ email?: string; senha?: string; server?: string }>({})
 
   const validate = (): boolean => {
     const newErrors: { email?: string; senha?: string } = {}
@@ -42,16 +43,11 @@ export default function Login() {
 
     try {
       const response = await apiLogin(email, senha)
-      console.log('✅ Login realizado:', response)
-      
-      localStorage.setItem('token', response.token)
-      localStorage.setItem('user', JSON.stringify(response.user))
-      
+      setAuth(response.token, response.user)
       navigate('/dashboard')
     } catch (error) {
-      setErrors({ 
-        senha: error instanceof Error ? error.message : 'Erro ao fazer login' 
-      })
+      const message = error instanceof Error ? error.message : 'Erro ao fazer login'
+      setErrors({ server: message })
     } finally {
       setLoading(false)
     }
@@ -60,6 +56,9 @@ export default function Login() {
   return (
     <div className="login-page">
       <div className="login-container">
+        <Link to="/" className="login-back-link">
+          ← Voltar
+        </Link>
         {/* Logo */}
         <div className="login-logo">
           <div className="logo-circle">
@@ -70,6 +69,12 @@ export default function Login() {
         {/* Títulos */}
         <h1 className="login-title">Bem-vindo ao FinanceHub</h1>
         <p className="login-subtitle">Faça login para continuar</p>
+
+        {errors.server && (
+          <div className="error-banner" role="alert">
+            {errors.server}
+          </div>
+        )}
 
         {/* Formulário */}
         <form onSubmit={handleSubmit} noValidate>

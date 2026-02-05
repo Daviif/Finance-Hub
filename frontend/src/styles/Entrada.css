@@ -1,0 +1,282 @@
+/* frontend/src/styles/Entrada.css */
+
+:root {
+  --primary-green: #10B981;
+  --primary-green-dark: #059669;
+  --primary-green-light: #D1FAE5;
+  --text-main: #111827;
+  --text-gray: #6B7280;
+  --bg-gradient: radial-gradient(circle at 50% 0%, #ecfdf5 0%, #ffffff 60%);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+.entrada-container {
+  font-family: 'Inter', sans-serif;
+  color: var(--text-main);
+  background-color: #ffffff;
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+/* --- NAVBAR --- */
+.entrada-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 5%;
+  max-width: 1200px;
+  margin: 0 auto;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(0,0,0,0.05);
+  width: 100%;
+}
+
+.nav-logo {
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: var(--primary-green);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  letter-spacing: -0.5px;
+}
+
+.nav-buttons {
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+}
+
+.btn-login {
+  color: var(--text-gray);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: color 0.2s;
+}
+.btn-login:hover { color: var(--primary-green); }
+
+.btn-register {
+  background-color: var(--primary-green);
+  color: white;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.95rem;
+  padding: 10px 24px;
+  border-radius: 50px;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 6px -1px rgba(16, 185, 129, 0.2);
+}
+
+.btn-register:hover { 
+  background-color: var(--primary-green-dark);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 10px -1px rgba(16, 185, 129, 0.3);
+}
+
+/* --- HERO SECTION --- */
+.hero-section {
+  text-align: center;
+  padding: 6rem 1rem 4rem 1rem;
+  background: var(--bg-gradient);
+  animation: fadeIn 0.8s ease-out;
+}
+
+.hero-title {
+  font-size: 4rem;
+  font-weight: 800;
+  line-height: 1.1;
+  margin-bottom: 1.5rem;
+  color: var(--text-main);
+  letter-spacing: -1.5px;
+}
+
+.hero-title span {
+  background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.hero-subtitle {
+  font-size: 1.25rem;
+  color: var(--text-gray);
+  max-width: 650px;
+  margin: 0 auto 3rem auto;
+  line-height: 1.6;
+}
+
+.hero-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--text-main);
+  color: white;
+  padding: 16px 48px;
+  border-radius: 100px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  text-decoration: none;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.hero-cta:hover {
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  background-color: black;
+}
+
+/* --- FEATURES --- */
+.features-section {
+  padding: 5rem 5%;
+  background-color: #fff;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  margin-top: 3rem;
+}
+
+.feature-card {
+  padding: 2.5rem;
+  border-radius: 24px;
+  background-color: white;
+  border: 1px solid #f3f4f6;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.feature-card:hover {
+  border-color: rgba(16, 185, 129, 0.3);
+  box-shadow: 0 20px 40px -5px rgba(0, 0, 0, 0.05);
+  transform: translateY(-5px);
+}
+
+.feature-icon {
+  width: 56px; height: 56px;
+  background-color: var(--primary-green-light);
+  color: var(--primary-green-dark);
+  border-radius: 16px;
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 1.5rem;
+}
+
+.feature-card h3 { 
+  font-size: 1.4rem; 
+  margin-bottom: 0.75rem; 
+  font-weight: 700;
+}
+
+/* --- NOVO: COMO FUNCIONA --- */
+.steps-section {
+  padding: 5rem 5%;
+  background-color: #F9FAFB;
+  text-align: center;
+}
+
+.steps-container {
+  max-width: 1000px;
+  margin: 3rem auto 0;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 2rem;
+}
+
+.step-item {
+  flex: 1;
+  min-width: 250px;
+  position: relative;
+}
+
+.step-number {
+  font-size: 4rem;
+  font-weight: 900;
+  color: #E5E7EB;
+  line-height: 1;
+  margin-bottom: -20px;
+  position: relative;
+  z-index: 1;
+}
+
+.step-content {
+  background: white;
+  padding: 2rem;
+  border-radius: 16px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+  position: relative;
+  z-index: 2;
+}
+
+.step-content h4 { font-size: 1.2rem; margin-bottom: 0.5rem; color: var(--text-main); }
+.step-content p { font-size: 0.95rem; color: var(--text-gray); }
+
+/* --- NOVO: FAQ (Dúvidas) --- */
+.faq-section {
+  padding: 5rem 5%;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.faq-item {
+  border-bottom: 1px solid #E5E7EB;
+  margin-bottom: 1rem;
+}
+
+.faq-question {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: none;
+  padding: 1.5rem 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-main);
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.faq-answer {
+  color: var(--text-gray);
+  line-height: 1.6;
+  padding-bottom: 1.5rem;
+  display: none; /* Escondido por padrão */
+  animation: fadeIn 0.3s ease;
+}
+
+/* Quando estiver aberto (controlado pelo details/summary do HTML) */
+details[open] .faq-answer { display: block; }
+details > summary { list-style: none; }
+details > summary::-webkit-details-marker { display: none; }
+
+/* --- FOOTER --- */
+.entrada-footer {
+  text-align: center;
+  padding: 4rem 2rem;
+  background-color: #111827; /* Fundo escuro agora */
+  color: #9CA3AF;
+  font-size: 0.9rem;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 768px) {
+  .hero-title { font-size: 2.5rem; }
+  .steps-container { flex-direction: column; }
+  .entrada-nav { flex-direction: column; gap: 1rem; }
+}

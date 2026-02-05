@@ -6,6 +6,7 @@ import {
   apiGetGoal, apiUpdateGoal, 
   type UserProfile, type FinancialGoal 
 } from '../services/api/ApiService';
+import { getUser } from '../utils/auth';
 import { User, Target, Save, AlertTriangle } from 'lucide-react';
 
 import '../styles/Profile.css';
@@ -13,8 +14,11 @@ import '../styles/Profile.css';
 export default function Profile() {
   const [loading, setLoading] = useState(true);
 
+  const user = getUser();
   const [perfil, setPerfil] = useState<UserProfile>({ 
-    nome: '', email: '', telefone: '', 
+    nome: user?.username ?? '', 
+    email: user?.email ?? '', 
+    telefone: '', 
     salario: 0, custos_basicos: 0, limite_alerta: 0 
   });
 
@@ -40,7 +44,13 @@ export default function Profile() {
         apiGetProfile(),
         apiGetGoal()
       ]);
-      setPerfil(dadosPerfil);
+      // Prioriza dados do usuário logado (real) sobre o mock
+      const currentUser = getUser();
+      setPerfil({
+        ...dadosPerfil,
+        nome: currentUser?.username ?? dadosPerfil.nome,
+        email: currentUser?.email ?? dadosPerfil.email
+      });
       setMeta(dadosMeta);
     } catch (error) {
       console.error('Erro ao carregar', error);

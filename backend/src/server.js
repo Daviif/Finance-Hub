@@ -3,6 +3,7 @@ import express from 'express'
 import healthRoutes from './routes/health.routes.js'
 import healthDbRoutes from './routes/health.db.routes.js'
 import usersRoutes from './routes/users.routes.js'
+import transactionsRoutes from './routes/transactions.routes.js'
 import cors from 'cors'
 
 
@@ -16,6 +17,7 @@ app.use(express.json())
 app.use(healthRoutes)
 app.use(healthDbRoutes)
 app.use('/users', usersRoutes)
+app.use('/transactions', transactionsRoutes)
 
 
 

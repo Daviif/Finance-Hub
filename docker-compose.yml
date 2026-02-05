@@ -5,15 +5,15 @@ services:
       restart: unless-stopped
       environment:
         POSTGRES_DB: finance_hub
-        POSTGRES_USER: finance_hub_dev
-        POSTGRES_PASSWORD: password_finance
+        POSTGRES_USER: postgres
+        POSTGRES_PASSWORD: 33624055
       ports:
         - "5432:5432"
       volumes:
         - postgres_data:/var/lib/postgresql/data
         - ./backend/src/database/migrations:/docker-entrypoint-initdb.d:ro
       healthcheck:
-        test: ["CMD-SHELL", "pg_isready -U finance_hub_dev -d finance_hub"]
+        test: ["CMD-SHELL", "pg_isready -U postgres -d finance_hub"]
         interval: 10s
         timeout: 5s
         retries: 5
@@ -29,10 +29,10 @@ services:
       environment:
         DB_HOST: db
         DB_PORT: 5432
-        DB_USER: finance_hub_dev
-        DB_PASSWORD: password_finance
+        DB_USER: postgres
+        DB_PASSWORD: 33624055
         DB_NAME: finance_hub
-        PGPASSWORD: password_finance
+        PGPASSWORD: 33624055
       volumes:
         - ./backend/src/database/migrations:/migrations:ro
         - ./scripts/run-migrations.sh:/run-migrations.sh:ro
@@ -54,8 +54,8 @@ services:
         PORT: 3000
         DB_HOST: db
         DB_PORT: 5432
-        DB_USER: finance_hub_dev
-        DB_PASSWORD: password_finance
+        DB_USER: postgres
+        DB_PASSWORD: 33624055
         DB_NAME: finance_hub
         JWT_SECRET: seu-segredo-super-secreto-aqui-mude-em-producao
       ports:
