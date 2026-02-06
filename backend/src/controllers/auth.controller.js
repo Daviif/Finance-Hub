@@ -17,6 +17,13 @@ const transporter = nodemailer.createTransport({
     pass: process.env.EMAIL_PASSWORD,
   },
 })
+transporter.verify((error, success) => {
+  if (error) {
+    console.error('❌ Erro na configuração de e-mail:', error);
+  } else {
+    console.log('✅ Servidor de e-mail pronto');
+  }
+});
 
 // --- FORGOT PASSWORD ---
 export async function forgotPasswordController(req, res) {
@@ -113,6 +120,8 @@ export async function resetPasswordController(req, res) {
 
     // Atualizar senha do usuário
     await updateUserPassword(resetToken.user_id, passwordHash)
+    
+    await invalidateAllUserTokens(resetToken.user_id);
 
     // Marcar token como utilizado
     await markTokenAsUsed(resetToken.id)
