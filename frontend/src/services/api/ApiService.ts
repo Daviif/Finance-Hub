@@ -155,8 +155,71 @@ export const apiRegister = async (nome: string, email: string, senha: string): P
 };
 
 export const apiForgot = async (email: string): Promise<ForgotResponse> => {
-  await delay(800);
-  return { email, message: 'Email enviado' };
+  try {
+    const response = await axios.post(`${API_URL}/auth/forgot-password`, {
+      email
+    });
+    return {
+      email,
+      message: response.data.message
+    };
+  } catch (error: any) {
+    if (error.response?.data?.message) {
+      throw new Error(error.response.data.message);
+    }
+    throw new Error('Erro ao enviar email de recuperação');
+  }
+};
+
+export const apiResetPassword = async (token: string, newPassword: string): Promise<{ message: string }> => {
+  try {
+    const response = await axios.post(`${API_URL}/auth/reset-password`, {
+      token,
+      newPassword
+    });
+    return {
+      message: response.data.message
+    };
+  } catch (error: any) {
+    if (error.response?.data?.message) {
+      throw new Error(error.response.data.message);
+    }
+    throw new Error('Erro ao resetar senha');
+  }
+};
+
+export const apiValidateToken = async (token: string): Promise<{ valid: boolean; expiresAt?: string; message: string }> => {
+  try {
+    const response = await axios.post(`${API_URL}/auth/validate-token`, {
+      token
+    });
+    return {
+      valid: response.data.valid,
+      expiresAt: response.data.expiresAt,
+      message: response.data.message
+    };
+  } catch (error: any) {
+    if (error.response?.data?.message) {
+      throw new Error(error.response.data.message);
+    }
+    throw new Error('Erro ao validar token');
+  }
+};
+
+export const apiRevokeToken = async (token: string): Promise<{ message: string }> => {
+  try {
+    const response = await axios.post(`${API_URL}/auth/revoke-token`, {
+      token
+    });
+    return {
+      message: response.data.message
+    };
+  } catch (error: any) {
+    if (error.response?.data?.message) {
+      throw new Error(error.response.data.message);
+    }
+    throw new Error('Erro ao revogar token');
+  }
 };
 
 // Atualizado para aceitar filtros de mes/ano

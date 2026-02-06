@@ -1,15 +1,14 @@
 import pkg from 'pg'
 const { Pool } = pkg
 
+// Suportar DATABASE_URL ou variáveis individuais
 const pool = new Pool({
-  host: process.env.DB_HOST,
-  port: process.env.DB_PORT,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASS || process.env.DB_PASSWORD,
-  database: process.env.DB_NAME,
+  host: process.env.DB_HOST, 
+  database: process.env.DB_NAME,    
+  user: process.env.DB_USER, 
+  port: process.env.DB_PORT, 
+  password: process.env.DB_PASS || process.env.DB_PASSWORD
 })
-
-console.log(`[DB] Configurado: ${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_NAME} (user: ${process.env.DB_USER})`)
 
 // Log de conexão
 pool.on('connect', () => {

@@ -12,6 +12,7 @@ export default function ForgotPassword() {
   const [email, setEmail] = useState('')
   const [loading, setLoading] = useState(false)
   const [errors, setErrors] = useState<{ email?: string; senha?: string }>({})
+  const [success, setSuccess] = useState(false)
 
   // Validação
   const validate = (): boolean => {
@@ -37,11 +38,13 @@ export default function ForgotPassword() {
     setErrors({})
 
     try {
-      const response = await apiForgot(email, )
+      const response = await apiForgot(email)
       console.log('✅ Email enviado:', response)
+      setSuccess(true)
       
-      
-      navigate('/Login')
+      setTimeout(() => {
+        navigate('/login')
+      }, 3000)
     } catch (error) {
       setErrors({ 
         email: error instanceof Error ? error.message : 'Erro ao enviar email' 
@@ -55,10 +58,11 @@ export default function ForgotPassword() {
     <div className="forgot-page">
       <div className="forgot-container">
         {/* Botão Voltar */}
-                <Link to="/" className="back-button">
-                  <MdArrowBack size={20} />
-                  <span>Voltar para o login</span>
-                </Link>
+        <Link to="/" className="back-button">
+          <MdArrowBack size={20} />
+          <span>Voltar para o login</span>
+        </Link>
+        
         {/* Logo */}
         <div className="forgot-logo">
           <div className="logo-circle">
@@ -68,46 +72,53 @@ export default function ForgotPassword() {
 
         {/* Títulos */}
         <h1 className="forgot-title">Redefina sua senha</h1>
-        <p className="forgot-subtitle">Insira sua senha e enviaremos um link para redefinir sua senha</p>
+        <p className="forgot-subtitle">Insira seu email e enviaremos um link para redefinir sua senha</p>
 
-
-        {/* Formulário */}
-        <form onSubmit={handleSubmit} noValidate>
-                  {/* Input Email */}
-                  <div className="input-group">
-                    <label htmlFor="email" className="input-label">E-mail</label>
-                    <div className="input-wrapper">
-                      <MdEmail size={20} className="input-icon" />
-                      <input
-                        id="email"
-                        type="email"
-                        placeholder="você@exemplo.com"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        className={`input-field ${errors.email ? 'input-error' : ''}`}
-                        autoComplete="email"
-                        required
-                      />
-                    </div>
-                    {errors.email && <span className="error-message">{errors.email}</span>}
-                  </div>
-        
-                  {/* Botão Submit */}
-                  <button
-                    type="submit"
-                    className="forgot-button"
-                    disabled={loading}
-                  >
-                    {loading ? (
-                      <>
-                        <span className="spinner"></span>
-                        Enviando...
-                      </>
-                    ) : (
-                      'Enviar link de redefinição'
-                    )}
-                  </button>
-                </form>
+        {success ? (
+          <div className="success-box">
+            <h2>✅ Email enviado com sucesso!</h2>
+            <p>Verifique sua caixa de entrada para o link de recuperação.</p>
+            <p className="redirect-info">Você será redirecionado em breve...</p>
+          </div>
+        ) : (
+          /* Formulário */
+          <form onSubmit={handleSubmit} noValidate>
+            {/* Input Email */}
+            <div className="input-group">
+              <label htmlFor="email" className="input-label">E-mail</label>
+              <div className="input-wrapper">
+                <MdEmail size={20} className="input-icon" />
+                <input
+                  id="email"
+                  type="email"
+                  placeholder="você@exemplo.com"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className={`input-field ${errors.email ? 'input-error' : ''}`}
+                  autoComplete="email"
+                  required
+                />
+              </div>
+              {errors.email && <span className="error-message">{errors.email}</span>}
+            </div>
+      
+            {/* Botão Submit */}
+            <button
+              type="submit"
+              className="forgot-button"
+              disabled={loading}
+            >
+              {loading ? (
+                <>
+                  <span className="spinner"></span>
+                  Enviando...
+                </>
+              ) : (
+                'Enviar link de redefinição'
+              )}
+            </button>
+          </form>
+        )}
       </div>
     </div>
   )

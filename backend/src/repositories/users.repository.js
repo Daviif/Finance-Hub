@@ -26,3 +26,16 @@ export async function createUser({ username, email, passwordHash }) {
   const { rows } = await pool.query(query, values)
   return rows[0]
 }
+
+// Atualizar senha do usuário
+export async function updateUserPassword(userId, passwordHash) {
+  const query = `
+    UPDATE users
+    SET password = $2
+    WHERE id = $1
+    RETURNING id, username, email
+  `
+  const values = [userId, passwordHash]
+  const { rows } = await pool.query(query, values)
+  return rows[0]
+}
