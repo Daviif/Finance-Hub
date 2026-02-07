@@ -2,7 +2,7 @@
 import axios from 'axios';
 import { getToken } from '../../utils/auth';
 
-const API_URL = 'http://localhost:3000';
+const API_URL = 'http://200.239.154.106:3000';
 
 function getAuthHeaders() {
   const token = getToken();
