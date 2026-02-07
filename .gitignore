@@ -29,7 +29,6 @@ replay_pid*
 node_modules/
 
 # Segurança (SENHAS - CRÍTICO: Nunca envie)
-.env
 .env.local
 .env.development
 .env.test

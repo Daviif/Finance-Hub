@@ -4,8 +4,8 @@
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  background-color: #f8f9fa;
-  font-family: 'Inter', sans-serif;
+  background: linear-gradient(160deg, #f0f4f8 0%, #e2e8f0 50%, #f8fafc 100%);
+  font-family: 'Inter', system-ui, sans-serif;
   padding: 2rem 1rem;
 }
 
@@ -14,11 +14,10 @@
   background: #fff;
   padding: 40px 40px;
   border-radius: 16px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06), 0 1px 3px rgba(0, 0, 0, 0.04);
   width: 100%;
   max-width: 450px;
   text-align: center;
-  position: relative;
 }
 
 /* === Botão Voltar === */
@@ -156,6 +155,45 @@ form {
   font-size: 0.875rem;
   color: #ef4444;
   text-align: left;
+}
+
+/* === Success Box === */
+.success-box {
+  background: #f0fdf4;
+  border: 2px solid #22c55e;
+  color: #16a34a;
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+  animation: slideUp 0.5s ease-out;
+}
+
+.success-box h2 {
+  margin: 0 0 10px 0;
+  font-size: 1.25rem;
+  color: #16a34a;
+}
+
+.success-box p {
+  margin: 8px 0;
+  font-size: 0.95rem;
+}
+
+.redirect-info {
+  font-size: 0.85rem;
+  color: #65a30d;
+  margin-top: 10px;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* === Botão Enviar === */

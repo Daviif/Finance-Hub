@@ -55,9 +55,21 @@ export async function createUserController(req, res) {
         return res.status(201).json(user)
 
     } catch (error) {
-        if (error.code === '23505') return res.status(409).json({ message: 'Email já existe' })
-        console.error(error)
-        return res.status(500).json({ message: 'Erro ao criar usuário' })
+        // Tratamento de erros do PostgreSQL
+        if (error.code === '23505') {
+            return res.status(409).json({ message: 'Email já existe' })
+        }
+        
+        // Erro de conexão com banco
+        if (error.message.includes('ECONNREFUSED') || error.message.includes('connect')) {
+            console.error('❌ Erro de conexão com banco:', error.message)
+            return res.status(503).json({ message: 'Banco de dados indisponível' })
+        }
+
+        // Erro genérico
+        console.error('❌ Erro ao criar usuário:', error.message)
+        console.error('   Detalhes:', error)
+        return res.status(500).json({ message: 'Erro ao criar usuário', error: error.message })
     }
 }
 
