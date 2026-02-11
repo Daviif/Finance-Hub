@@ -1,33 +1,18 @@
-/* src/styles/Dashboard.css */
+/* frontend/src/styles/Dashboard.css */
 
-:root {
-  --primary-blue: #2563eb;
-  --primary-blue-bg: #dbeafe;
-  --primary-red: #EF4444;
-  --primary-red-bg: #FEE2E2;
-  --bg-color: #F3F4F6;
-  --text-dark: #1F2937;
-  --text-gray: #6B7280;
-  --sidebar-width: 260px;
-}
-
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-  font-family: 'Inter', sans-serif;
-}
+/* --- CONFIGURAÇÃO INICIAL --- */
+/* Nota: Variáveis de cor (--primary, --bg-page, etc) já vêm do index.css */
 
 .dashboard-container {
   display: flex;
   min-height: 100vh;
-  background-color: var(--bg-color);
+  background-color: var(--bg-page);
 }
 
 /* --- Sidebar --- */
 .sidebar {
   width: var(--sidebar-width);
-  background-color: #ffffff;
+  background-color: var(--white);
   border-right: 1px solid #E5E7EB;
   display: flex;
   flex-direction: column;
@@ -46,8 +31,8 @@
 .logo-icon {
   width: 32px;
   height: 32px;
-  background-color: var(--primary-blue);
-  color: white;
+  background-color: var(--primary);
+  color: var(--white);
   border-radius: 8px;
   display: flex;
   align-items: center;
@@ -58,7 +43,7 @@
 
 .logo-text {
   font-size: 1.1rem;
-  color: var(--text-dark);
+  color: var(--text-main);
   font-weight: 700;
 }
 
@@ -104,29 +89,33 @@
 
 .sidebar-nav li:hover {
   background-color: #F9FAFB;
+  color: var(--primary);
 }
 
 .sidebar-nav li.active {
-  background-color: #eff6ff;
-  color: var(--text-dark);
-  font-weight: 500;
-  border-left: 3px solid var(--primary-blue);
+  background-color: var(--primary-light);
+  color: var(--primary-dark);
+  font-weight: 600;
+  border-left: 3px solid var(--primary);
 }
 
+/* Botão Whatsapp (Mantido Verde Whatsapp Original ou pode usar --primary) */
 .whatsapp-btn {
   width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
-  background-color: #25D366;
+  background-color: #25D366; /* Verde Whatsapp Oficial */
   color: white;
   border: none;
   padding: 10px;
   border-radius: 8px;
   font-weight: 600;
   cursor: pointer;
+  transition: opacity 0.2s;
 }
+.whatsapp-btn:hover { opacity: 0.9; }
 
 .sidebar-footer {
   margin-top: auto;
@@ -144,8 +133,8 @@
 .avatar {
   width: 32px;
   height: 32px;
-  background-color: var(--primary-blue);
-  color: white;
+  background-color: var(--primary-light);
+  color: var(--primary);
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -153,14 +142,12 @@
   font-weight: bold;
 }
 
-.user-info p {
-  line-height: 1.2;
-}
+.user-info p { line-height: 1.2; }
 
 .user-name {
   font-size: 0.9rem;
   font-weight: 600;
-  color: var(--text-dark);
+  color: var(--text-main);
 }
 
 .user-email {
@@ -181,10 +168,12 @@
   width: 100%;
   padding: 8px;
   border-radius: 6px;
-  color: var(--text-dark);
+  color: var(--text-main);
   cursor: pointer;
   justify-content: center;
+  transition: background-color 0.2s;
 }
+.logout-btn:hover { background-color: #F3F4F6; }
 
 /* --- Main Content --- */
 .main-content {
@@ -199,7 +188,7 @@
 
 .content-header h2 {
   font-size: 1.8rem;
-  color: var(--primary-blue);
+  color: var(--primary);
   margin-bottom: 0.5rem;
 }
 
@@ -211,27 +200,27 @@
   gap: 6px;
 }
 
-/* --- ALERTAS (NOVO: ADICIONADO AQUI) --- */
+/* --- ALERTAS --- */
 .alert-banner {
   display: flex;
   align-items: center;
   gap: 1rem;
   padding: 1rem 1.5rem;
-  border-radius: 12px;
+  border-radius: var(--radius-md);
   margin-bottom: 2rem;
   animation: slideDown 0.3s ease-out;
 }
 
-/* Estilo Amarelo (Atenção 80%) */
+/* Alerta Amarelo (Atenção) */
 .alert-banner.warning {
-  background-color: #FFFBEB; /* Fundo amarelado */
-  border: 1px solid #FCD34D; /* Borda amarela */
-  color: #B45309;            /* Texto âmbar */
+  background-color: #FFFBEB;
+  border: 1px solid #FCD34D;
+  color: #B45309;
 }
 
-/* Estilo Vermelho (Perigo 100%) */
+/* Alerta Vermelho (Perigo) */
 .alert-banner.danger {
-  background-color: var(--primary-red-bg);
+  background-color: var(--danger-bg);
   border: 1px solid #FCA5A5;
   color: #B91C1C;
 }
@@ -260,7 +249,7 @@
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* Cards Grid */
+/* --- Cards Grid --- */
 .cards-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -269,7 +258,7 @@
 }
 
 .card {
-  background: white;
+  background: var(--white);
   padding: 1.5rem;
   border-radius: 12px;
   box-shadow: 0 1px 3px rgba(0,0,0,0.05);
@@ -297,13 +286,13 @@
   justify-content: center;
 }
 
-.green-light, .blue-light { background-color: var(--primary-blue-bg); }
-.red-light { background-color: var(--primary-red-bg); }
+.green-light, .blue-light { background-color: var(--primary-light); }
+.red-light { background-color: var(--danger-bg); }
 
 .card-value {
   font-size: 1.8rem;
   font-weight: 700;
-  color: var(--text-dark);
+  color: var(--text-main);
   margin-bottom: 0.5rem;
 }
 
@@ -312,11 +301,11 @@
   font-weight: 500;
 }
 
-.text-green, .text-blue { color: var(--primary-blue); }
-.text-red { color: var(--primary-red); }
+.text-green, .text-blue { color: var(--primary); }
+.text-red { color: var(--danger); }
 .text-gray { color: var(--text-gray); }
 
-/* Charts Grid */
+/* --- Charts Grid --- */
 .charts-grid {
   display: grid;
   grid-template-columns: 2fr 1fr;
@@ -324,7 +313,7 @@
 }
 
 .chart-card {
-  background: white;
+  background: var(--white);
   padding: 1.5rem;
   border-radius: 12px;
   box-shadow: 0 1px 3px rgba(0,0,0,0.05);
@@ -335,7 +324,7 @@
 
 .chart-card h3 {
   font-size: 1.1rem;
-  color: var(--text-dark);
+  color: var(--text-main);
   margin-bottom: 1.5rem;
 }
 
@@ -369,10 +358,10 @@
   display: inline-block;
 }
 
-.dot.green { background-color: var(--primary-blue); }
-.dot.red { background-color: var(--primary-red); }
+.dot.green { background-color: var(--primary); }
+.dot.red { background-color: var(--danger); }
 
-/* --- Empty State Melhorado --- */
+/* Empty State */
 .empty-state {
   display: flex;
   align-items: center;
@@ -385,7 +374,7 @@
   font-style: italic;
 }
 
-/* Estilos específicos para a legenda do Recharts */
+/* Recharts Legend Override */
 .recharts-default-legend {
   display: flex;
   justify-content: center;
@@ -401,24 +390,18 @@
 
 /* Responsividade Básica */
 @media (max-width: 1024px) {
-  .cards-grid {
-    grid-template-columns: 1fr;
-  }
-  .charts-grid {
-    grid-template-columns: 1fr;
-  }
-  .main-content {
-    padding: 1.5rem;
-  }
+  .cards-grid { grid-template-columns: 1fr; }
+  .charts-grid { grid-template-columns: 1fr; }
+  .main-content { padding: 1.5rem; }
 }
 
 /* =========================================
    ESTILOS DA PÁGINA DE TRANSAÇÕES
    ========================================= */
 
-/* Cabeçalho da página */
+/* Cabeçalho */
 .dashboard-header {
-  background-color: white;
+  background-color: var(--white);
   padding: 1rem 2rem;
   border-bottom: 1px solid #E5E7EB;
   margin: -2rem -2rem 2rem -2rem;
@@ -428,11 +411,11 @@
 
 .dashboard-header h2 {
   font-size: 1.5rem;
-  color: var(--text-dark);
+  color: var(--text-main);
   margin: 0;
 }
 
-/* Barra de Ações (Título + Botão Nova) */
+/* Barra de Ações */
 .actions-bar {
   display: flex;
   justify-content: space-between;
@@ -441,7 +424,7 @@
 }
 
 .btn-new {
-  background-color: var(--primary-blue);
+  background-color: var(--primary);
   color: white;
   border: none;
   padding: 0.6rem 1.2rem;
@@ -450,15 +433,15 @@
   align-items: center;
   gap: 8px;
   font-weight: 600;
-  transition: opacity 0.2s;
+  transition: background-color 0.2s;
   cursor: pointer;
 }
 
 .btn-new:hover {
-  opacity: 0.9;
+  background-color: var(--primary-hover);
 }
 
-/* Lista de Transações (Cards) */
+/* Lista de Transações */
 .transaction-list {
   list-style: none;
   display: flex;
@@ -467,7 +450,7 @@
 }
 
 .transaction-item {
-  background: white;
+  background: var(--white);
   padding: 1rem 1.5rem;
   border-radius: 12px;
   box-shadow: 0 1px 3px rgba(0,0,0,0.05);
@@ -482,7 +465,7 @@
   box-shadow: 0 4px 6px rgba(0,0,0,0.1);
 }
 
-/* Ícone lateral do item */
+/* Ícone lateral */
 .icon-area {
   width: 40px;
   height: 40px;
@@ -497,16 +480,16 @@
 }
 
 .transaction-item.receita .icon-area {
-  background-color: var(--primary-blue-bg);
-  color: var(--primary-blue);
+  background-color: var(--primary-light);
+  color: var(--primary);
 }
 
 .transaction-item.gasto .icon-area {
-  background-color: var(--primary-red-bg);
-  color: var(--primary-red);
+  background-color: var(--danger-bg);
+  color: var(--danger);
 }
 
-/* Informações (Título e Data) */
+/* Informações */
 .info-area {
   flex: 1;
   display: flex;
@@ -514,7 +497,7 @@
 }
 
 .info-area strong {
-  color: var(--text-dark);
+  color: var(--text-main);
   font-size: 1rem;
 }
 
@@ -523,7 +506,7 @@
   color: var(--text-gray);
 }
 
-/* Valor e Botão de Deletar */
+/* Valor e Botões */
 .value-area {
   display: flex;
   align-items: center;
@@ -535,8 +518,8 @@
   font-size: 1.1rem;
 }
 
-.transaction-item.receita .value { color: var(--primary-blue); }
-.transaction-item.gasto .value { color: var(--primary-red); }
+.transaction-item.receita .value { color: var(--primary); }
+.transaction-item.gasto .value { color: var(--danger); }
 
 .btn-delete {
   background: transparent;
@@ -544,22 +527,19 @@
   border: none;
   padding: 8px;
   cursor: pointer;
-  transition: color 0.2s;
+  transition: all 0.2s;
 }
 
 .btn-delete:hover {
-  color: var(--primary-red);
-  background-color: var(--primary-red-bg);
+  color: var(--danger);
+  background-color: var(--danger-bg);
   border-radius: 50%;
 }
 
-/* ================= MODAL (Pop-up) ================= */
+/* ================= MODAL ================= */
 .modal-overlay {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  top: 0; left: 0; width: 100%; height: 100%;
   background-color: rgba(0, 0, 0, 0.5);
   display: flex;
   justify-content: center;
@@ -569,18 +549,13 @@
 }
 
 .modal-content {
-  background: white;
+  background: var(--white);
   padding: 2rem;
   border-radius: 16px;
   width: 100%;
   max-width: 500px;
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
   animation: slideIn 0.3s ease-out;
-}
-
-@keyframes slideIn {
-  from { transform: translateY(20px); opacity: 0; }
-  to { transform: translateY(0); opacity: 1; }
 }
 
 .modal-header {
@@ -592,7 +567,7 @@
 
 .modal-header h3 {
   font-size: 1.25rem;
-  color: var(--text-dark);
+  color: var(--text-main);
 }
 
 .btn-close {
@@ -602,7 +577,7 @@
   cursor: pointer;
 }
 
-/* Estilos do Formulário */
+/* Formulários do Modal */
 .form-group {
   margin-bottom: 1rem;
   display: flex;
@@ -619,7 +594,7 @@
   font-size: 0.9rem;
   font-weight: 500;
   margin-bottom: 0.5rem;
-  color: var(--text-dark);
+  color: var(--text-main);
 }
 
 .form-group input,
@@ -630,21 +605,21 @@
   font-size: 1rem;
   outline: none;
   transition: border-color 0.2s;
-  background-color: white;
-  color: var(--text-dark);
+  background-color: var(--white);
+  color: var(--text-main);
 }
 
 .form-group input:focus,
 .form-group select:focus {
-  border-color: var(--primary-blue);
-  box-shadow: 0 0 0 3px var(--primary-blue-bg);
+  border-color: var(--primary);
+  box-shadow: var(--focus-ring);
 }
 
 .btn-save {
   width: 100%;
   margin-top: 1rem;
   padding: 0.8rem;
-  background-color: var(--primary-blue);
+  background-color: var(--primary);
   color: white;
   font-weight: 600;
   border: none;
@@ -654,12 +629,12 @@
 }
 
 .btn-save:hover {
-  background-color: #1d4ed8;
+  background-color: var(--primary-hover);
 }
 
 .parcela-info {
-  background-color: #EFF6FF;
-  color: var(--primary-blue);
+  background-color: var(--primary-light);
+  color: var(--primary-dark);
   padding: 10px;
   border-radius: 8px;
   font-size: 0.9rem;
@@ -667,5 +642,5 @@
   align-items: center;
   gap: 8px;
   margin-bottom: 1rem;
-  border: 1px solid #DBEAFE;
+  border: 1px solid #D1FAE5;
 }

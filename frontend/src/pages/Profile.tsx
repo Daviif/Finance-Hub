@@ -294,7 +294,7 @@ export default function Profile() {
                 />
               </div>
 
-              <button type="submit" className="btn-save" style={{backgroundColor: '#3B82F6'}}>
+              <button type="submit" className="btn-save" >
                 <Target size={18} />
                 Atualizar Meta
               </button>

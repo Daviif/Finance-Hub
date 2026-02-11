@@ -1,16 +1,13 @@
+/* frontend/src/styles/Register.css */
+
 /*
  * Cadastro: usa o mesmo layout do Login (Login.css).
- * Este arquivo só define: área de scroll e link "Voltar".
- * O cartão tem as mesmas dimensões (450×500px) do login.
+ * Este arquivo apenas ajusta o comportamento de scroll e o link de voltar.
  */
 
 /* No cadastro o conteúdo começa no topo e a área interna rola */
 .register-page .login-container {
   justify-content: flex-start;
-}
-
-/* Área rolável: ocupa o espaço do cartão e faz scroll quando o formulário é maior */
-.register-page .login-container {
   width: 100%;
   flex: 1;
   min-height: 0;
@@ -18,24 +15,24 @@
   overflow-x: hidden;
 }
 
-/* Link "Voltar para o login" (mesmo estilo do "Esqueceu sua senha?" do login) */
+/* Link "Voltar para o login" */
 .register-back {
   display: inline-block;
   margin-bottom: 1rem;
   font-size: 0.875rem;
   font-weight: 500;
-  color: #6b7280;
+  color: var(--text-gray);
   text-decoration: none;
   transition: color 0.2s ease;
 }
 
 .register-back:hover {
-  color: #2563eb;
+  color: var(--primary);
   text-decoration: underline;
 }
 
 .register-back:focus-visible {
-  outline: 2px solid #2563eb;
+  outline: 2px solid var(--primary);
   outline-offset: 2px;
   border-radius: 2px;
 }
@@ -44,10 +41,10 @@
 .error-banner {
   margin-bottom: 1rem;
   padding: 0.875rem 1rem;
-  background: #fef2f2;
-  border: 1px solid #fecaca;
-  border-radius: 10px;
+  background: var(--danger-bg);
+  border: 1px solid var(--danger);
+  border-radius: var(--radius-md);
   font-size: 0.875rem;
-  color: #dc2626;
+  color: var(--danger);
   text-align: center;
 }

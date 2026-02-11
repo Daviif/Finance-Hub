@@ -1,20 +1,17 @@
 /* frontend/src/styles/Entrada.css */
 
-:root {
-  --primary-green: #10B981;
-  --primary-green-dark: #059669;
-  --primary-green-light: #D1FAE5;
-  --text-main: #111827;
-  --text-gray: #6B7280;
-  --bg-gradient: radial-gradient(circle at 50% 0%, #ecfdf5 0%, #ffffff 60%);
-}
+/* --- CONFIGURAÇÃO INICIAL --- */
+/* As cores principais vêm do index.css (--primary, --text-main, etc) */
 
-* { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  /* Gradiente exclusivo da Landing Page */
+  --bg-gradient: radial-gradient(circle at 50% 0%, var(--primary-light) 0%, #ffffff 60%);
+}
 
 .entrada-container {
   font-family: 'Inter', sans-serif;
   color: var(--text-main);
-  background-color: #ffffff;
+  background-color: var(--white);
   overflow-x: hidden;
   min-height: 100vh;
 }
@@ -39,7 +36,7 @@
 .nav-logo {
   font-size: 1.4rem;
   font-weight: 800;
-  color: var(--primary-green);
+  color: var(--primary);
   display: flex;
   align-items: center;
   gap: 8px;
@@ -59,10 +56,10 @@
   font-size: 0.95rem;
   transition: color 0.2s;
 }
-.btn-login:hover { color: var(--primary-green); }
+.btn-login:hover { color: var(--primary); }
 
 .btn-register {
-  background-color: var(--primary-green);
+  background-color: var(--primary);
   color: white;
   text-decoration: none;
   font-weight: 600;
@@ -70,11 +67,11 @@
   padding: 10px 24px;
   border-radius: 50px;
   transition: all 0.2s ease;
-  box-shadow: 0 4px 6px -1px rgba(16, 185, 129, 0.2);
+  box-shadow: var(--shadow-primary);
 }
 
 .btn-register:hover { 
-  background-color: var(--primary-green-dark);
+  background-color: var(--primary-hover);
   transform: translateY(-1px);
   box-shadow: 0 6px 10px -1px rgba(16, 185, 129, 0.3);
 }
@@ -97,7 +94,7 @@
 }
 
 .hero-title span {
-  background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+  background: var(--gradient-primary);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -134,7 +131,7 @@
 /* --- FEATURES --- */
 .features-section {
   padding: 5rem 5%;
-  background-color: #fff;
+  background-color: var(--white);
   max-width: 1200px;
   margin: 0 auto;
 }
@@ -149,7 +146,7 @@
 .feature-card {
   padding: 2.5rem;
   border-radius: 24px;
-  background-color: white;
+  background-color: var(--white);
   border: 1px solid #f3f4f6;
   transition: all 0.3s ease;
   position: relative;
@@ -164,8 +161,8 @@
 
 .feature-icon {
   width: 56px; height: 56px;
-  background-color: var(--primary-green-light);
-  color: var(--primary-green-dark);
+  background-color: var(--primary-light);
+  color: var(--primary);
   border-radius: 16px;
   display: flex; align-items: center; justify-content: center;
   margin-bottom: 1.5rem;
@@ -175,9 +172,10 @@
   font-size: 1.4rem; 
   margin-bottom: 0.75rem; 
   font-weight: 700;
+  color: var(--text-main);
 }
 
-/* --- NOVO: COMO FUNCIONA --- */
+/* --- COMO FUNCIONA --- */
 .steps-section {
   padding: 5rem 5%;
   background-color: #F9FAFB;
@@ -210,7 +208,7 @@
 }
 
 .step-content {
-  background: white;
+  background: var(--white);
   padding: 2rem;
   border-radius: 16px;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
@@ -221,7 +219,7 @@
 .step-content h4 { font-size: 1.2rem; margin-bottom: 0.5rem; color: var(--text-main); }
 .step-content p { font-size: 0.95rem; color: var(--text-gray); }
 
-/* --- NOVO: FAQ (Dúvidas) --- */
+/* --- FAQ --- */
 .faq-section {
   padding: 5rem 5%;
   max-width: 800px;
@@ -252,11 +250,11 @@
   color: var(--text-gray);
   line-height: 1.6;
   padding-bottom: 1.5rem;
-  display: none; /* Escondido por padrão */
+  display: none;
   animation: fadeIn 0.3s ease;
 }
 
-/* Quando estiver aberto (controlado pelo details/summary do HTML) */
+/* Quando estiver aberto */
 details[open] .faq-answer { display: block; }
 details > summary { list-style: none; }
 details > summary::-webkit-details-marker { display: none; }
@@ -265,7 +263,7 @@ details > summary::-webkit-details-marker { display: none; }
 .entrada-footer {
   text-align: center;
   padding: 4rem 2rem;
-  background-color: #111827; /* Fundo escuro agora */
+  background-color: #111827;
   color: #9CA3AF;
   font-size: 0.9rem;
 }

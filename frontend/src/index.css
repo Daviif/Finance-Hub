@@ -1,50 +1,60 @@
-/* frontend/src/index.css - VERSÃO LIMPA */
-
 :root {
-  font-family: 'Inter', system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
+  /* === PALETA DE CORES (VERDE ESMERALDA) === */
+  
+  /* Cor Principal (#10B981) */
+  --primary: #10B981;       
+  
+  /* Cor para Hovers (Interações) - Um pouco mais escuro */
+  --primary-hover: #059669; 
+  
+  /* Cor de Fundo Claro (Para cards, badges e detalhes) */
+  --primary-light: #ECFDF5; 
+  
+  /* Cor Escura (Para textos de destaque em verde) */
+  --primary-dark: #064E3B;
 
-  /* DEFINIÇÃO DE CORES (MODO CLARO) */
-  color-scheme: light; 
-  color: #1F2937;            /* Texto Cinza Escuro (Quase Preto) */
-  background-color: #F3F4F6; /* Fundo da página (Cinza Claro igual ao Dashboard) */
+  /* === GRADIENTES (Para Botões e Logos) === */
+  /* O gradiente padrão da marca */
+  --gradient-primary: linear-gradient(135deg, #10B981 0%, #34D399 100%);
+  
+  /* O gradiente quando passa o mouse */
+  --gradient-hover: linear-gradient(135deg, #059669 0%, #10B981 100%);
 
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  /* === SOMBRAS COLORIDAS === */
+  --shadow-primary: 0 4px 14px rgba(16, 185, 129, 0.25);
+  --focus-ring: 0 0 0 3px rgba(16, 185, 129, 0.20);
+
+  /* === CORES DE SISTEMA (Neutras e Alertas) === */
+  --danger: #EF4444;       /* Vermelho Erro */
+  --danger-bg: #FEE2E2;    /* Fundo Vermelho Claro */
+  
+  --bg-page: #F3F4F6;      /* Cinza de Fundo do Site */
+  --white: #FFFFFF;
+  
+  --text-main: #1F2937;    /* Preto Suave (Títulos) */
+  --text-gray: #6B7280;    /* Cinza (Subtítulos) */
+
+  /* === MEDIDAS PADRÃO === */
+  --sidebar-width: 260px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+}
+
+/* Reset Básico usando as variáveis */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
 body {
-  margin: 0;
-  padding: 0;
-  display: block; /* IMPORTANTE: Remove o 'flex' que quebrava a sidebar */
-  min-width: 320px;
-  min-height: 100vh;
-  background-color: #F3F4F6;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  background-color: var(--bg-page);
+  color: var(--text-main);
+  -webkit-font-smoothing: antialiased;
 }
 
-/* Garante que links não fiquem roxos/azuis se não tiverem classe */
-a {
-  text-decoration: none;
-  color: inherit;
-}
-
-/* Estilo básico de botão (para não ficar feio se estiver sem classe) */
-button {
-  cursor: pointer;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1F2937; /* Botão escuro */
-  color: white;              /* Texto branco */
-  border-radius: 8px;
-  transition: opacity 0.25s;
-}
-
-button:hover {
-  opacity: 0.9;
-}
+/* Classes Utilitárias Globais (Opcional, ajuda muito) */
+.text-primary { color: var(--primary); }
+.bg-primary { background-color: var(--primary); }
+.bg-primary-light { background-color: var(--primary-light); }
