@@ -5,8 +5,7 @@ import {
   ArrowRightLeft, 
   FileText, 
   User, 
-  LogOut, 
-  MessageCircle 
+  LogOut 
 } from 'lucide-react';
 import { getUser, clearAuth } from '../utils/auth';
 import '../styles/Dashboard.css';
@@ -70,15 +69,6 @@ const Sidebar: React.FC = () => {
               </li>
             </Link>
           </ul>
-        </div>
-
-        {/* Seção WhatsApp (Visual) */}
-        <div className="nav-section">
-          <div className="nav-title">WHATSAPP</div>
-          <button className="whatsapp-btn">
-            <MessageCircle size={20} />
-            Conectar WhatsApp
-          </button>
         </div>
       </nav>
 
