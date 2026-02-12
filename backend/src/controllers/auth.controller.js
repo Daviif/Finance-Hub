@@ -51,10 +51,10 @@ export async function forgotPasswordController(req, res) {
     console.log(`   Email: ${email}`)
     console.log(`   Token: ${resetToken.token}`)
     console.log(`   Expira em: ${resetToken.expires_at}`)
-    console.log(`   URL: ${process.env.FRONTEND_URL}reset-password?token=${resetToken.token}\n`)
+    console.log(`   URL: ${process.env.FRONTEND_URL}/reset-password?token=${resetToken.token}\n`)
 
     // Construir link de reset (ajustar a URL do frontend conforme necessário)
-    const resetLink = `${process.env.FRONTEND_URL}reset-password?token=${resetToken.token}`
+    const resetLink = `${process.env.FRONTEND_URL}/reset-password?token=${resetToken.token}`
 
     // Enviar email
     const mailOptions = {
