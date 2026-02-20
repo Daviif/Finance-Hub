@@ -58,3 +58,20 @@ body {
 .text-primary { color: var(--primary); }
 .bg-primary { background-color: var(--primary); }
 .bg-primary-light { background-color: var(--primary-light); }
+.input-wrapper {
+  display: flex !important;
+  align-items: center !important;
+  position: relative !important;
+}
+
+.input-icon {
+  position: static !important; /* Tira o absolute que estava fazendo o ícone flutuar sobre o texto */
+  margin-left: 15px !important;
+  margin-right: 10px !important;
+  flex-shrink: 0 !important;
+}
+
+.input-field {
+  padding-left: 5px !important; /* Garante um pequeno espaço entre o ícone e o texto */
+  flex: 1 !important; /* Faz o input ocupar o resto do espaço certinho */
+}
