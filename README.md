@@ -91,7 +91,7 @@ O **Finance Hub** é uma plataforma centralizada para controle e gestão das fin
 
 <img width="250" height="208" alt="História 12" src="https://github.com/user-attachments/assets/a0785f8e-71d7-4ac7-bcba-a66b27dc3c68" />
 
-- [ ] **[História 13]** Como usuário, eu quero ver um alerta visual quando atingir 80% do meu limite de orçamento.
+- [x] **[História 13]** Como usuário, eu quero ver um alerta visual quando atingir 80% do meu limite de orçamento.
 
 <img width="274" height="213" alt="História 13" src="https://github.com/user-attachments/assets/f93f274f-7975-47d9-8f70-68948a33055d" />
 
