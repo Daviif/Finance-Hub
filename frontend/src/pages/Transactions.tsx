@@ -16,7 +16,7 @@ import {
   apiDeleteTransaction, 
   type Transaction 
 } from '../services/api/ApiService';
-import Sidebar from '../components/SideBar'; // <--- IMPORTANTE: Importando a Sidebar
+import Sidebar from '../components/SideBar';
 import '../styles/Transactions.css';
 
 const Transactions: React.FC = () => {
@@ -27,32 +27,28 @@ const Transactions: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
-  // ESTADO DO NOVO ALERTA BONITO (TOAST)
+  // ESTADO DO ALERTA BONITO (TOAST)
   const [toast, setToast] = useState<{message: string, type: 'success' | 'error'} | null>(null);
 
   // Estados do Modal e Formulário
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingId, setEditingId] = useState<string | number | null>(null);
 
-  // CORREÇÃO AQUI: Valor padrão de tipo passa a ser 'gasto'
   const [formData, setFormData] = useState({
     titulo: '',
     valor: '',
     tipo: 'gasto', 
     categoria: 'Outros',
-    data: new Date().toISOString().split('T')[0],
-    parcelas: 1
+    data: new Date().toISOString().split('T')[0]
   });
 
-  // Função para mostrar o alerta bonito que some sozinho
   const showToast = (message: string, type: 'success' | 'error') => {
     setToast({ message, type });
     setTimeout(() => {
       setToast(null);
-    }, 3000); // Some após 3 segundos
+    }, 3000); 
   };
 
-  // Carregar transações ao abrir a tela
   useEffect(() => {
     loadTransactions();
   }, []);
@@ -74,10 +70,9 @@ const Transactions: React.FC = () => {
     setFormData({
       titulo: '',
       valor: '',
-      tipo: 'gasto', // Mantém 'gasto'
+      tipo: 'gasto',
       categoria: 'Outros',
-      data: new Date().toISOString().split('T')[0],
-      parcelas: 1
+      data: new Date().toISOString().split('T')[0]
     });
     setIsModalOpen(true);
   };
@@ -87,11 +82,9 @@ const Transactions: React.FC = () => {
     setFormData({
       titulo: transaction.titulo,
       valor: transaction.valor.toString(),
-      // Garante que se vier 'despesa', ajustamos para 'gasto' no form
       tipo: (transaction.tipo === 'despesa' ? 'gasto' : transaction.tipo) as string, 
       categoria: transaction.categoria,
-      data: transaction.data.split('T')[0],
-      parcelas: 1 
+      data: transaction.data.split('T')[0]
     });
     setIsModalOpen(true);
   };
@@ -104,19 +97,15 @@ const Transactions: React.FC = () => {
       const payload: any = {
         titulo: formData.titulo,
         valor: valorNumber,
-        tipo: formData.tipo as 'receita' | 'gasto', // Força tipagem correta
+        tipo: formData.tipo as 'receita' | 'gasto',
         categoria: formData.categoria,
-        data: formData.data,
-        parcelas: Number(formData.parcelas)
+        data: formData.data
       };
 
       if (editingId) {
         await apiUpdateTransaction(editingId, payload);
         showToast('Transação atualizada com sucesso!', 'success');
       } else {
-        if (payload.parcelas > 1) {
-             payload.valorTotal = valorNumber; 
-        }
         await apiCreateTransaction(payload);
         showToast('Transação criada com sucesso!', 'success');
       }
@@ -142,20 +131,17 @@ const Transactions: React.FC = () => {
   };
 
   return (
-    <div className="dashboard-container"> {/* <--- Usando o container padrão do Dashboard */}
+    <div className="dashboard-container">
       
-      <Sidebar /> {/* <--- A Sidebar entra aqui */}
+      <Sidebar />
 
-      <main className="main-content"> {/* <--- Empurra o conteúdo para a direita */}
+      <main className="main-content">
         <div className="transactions-content">
           
-          {/* Cabeçalho */}
           <div className="transactions-header">
-            {/* Botão Voltar removido ou mantido conforme preferência (geralmente não precisa com sidebar) */}
             <h2>Minhas Transações</h2>
           </div>
 
-          {/* Barra de Ações */}
           <div className="actions-bar">
             <h3>Histórico</h3>
             <button onClick={handleOpenNew} className="btn-new">
@@ -164,11 +150,9 @@ const Transactions: React.FC = () => {
             </button>
           </div>
 
-          {/* Mensagens */}
           {loading && <p>Carregando...</p>}
           {error && <p className="text-red">{error}</p>}
 
-          {/* Lista */}
           <ul className="transaction-list">
             {transactions.map((t) => (
               <li key={t.id} className={`transaction-item ${t.tipo === 'receita' ? 'receita' : 'gasto'}`}>
@@ -179,6 +163,7 @@ const Transactions: React.FC = () => {
                 <div className="info-area">
                   <strong>{t.titulo}</strong>
                   <span>{new Date(t.data).toLocaleDateString('pt-BR')} • {t.categoria}</span>
+                  {/* Mantive o badge de parcela aqui SÓ CASO venha alguma transação antiga do banco que já estava parcelada, para não quebrar o visual */}
                   {t.parcelas && t.parcelas > 1 && (
                     <div className="parcela-info" style={{marginTop: '4px', width: 'fit-content'}}>
                       Parcela {t.parcela_atual}/{t.parcelas}
@@ -213,7 +198,6 @@ const Transactions: React.FC = () => {
         </div>
       </main>
 
-      {/* COMPONENTE DO TOAST (Aviso flutuante) */}
       {toast && (
         <div className={`toast-notification ${toast.type}`}>
           {toast.message}
@@ -261,7 +245,6 @@ const Transactions: React.FC = () => {
                     value={formData.tipo}
                     onChange={e => setFormData({...formData, tipo: e.target.value})}
                   >
-                    {/* Mantém value="gasto" mas o label visível é "Despesa" */}
                     <option value="gasto">Despesa</option>
                     <option value="receita">Receita</option>
                   </select>
@@ -295,19 +278,6 @@ const Transactions: React.FC = () => {
                   />
                 </div>
               </div>
-
-              {!editingId && (
-                <div className="form-group">
-                  <label>Parcelas (1x = À vista)</label>
-                  <input 
-                    type="number" 
-                    min="1" 
-                    max="48"
-                    value={formData.parcelas}
-                    onChange={e => setFormData({...formData, parcelas: Number(e.target.value)})}
-                  />
-                </div>
-              )}
 
               <button type="submit" className="btn-save">
                 {editingId ? 'Salvar Alterações' : 'Adicionar'}
