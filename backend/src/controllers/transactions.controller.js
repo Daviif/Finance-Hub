@@ -88,3 +88,102 @@ export async function remove(req, res) {
     return res.status(500).json({ message: 'Erro ao excluir transação' })
   }
 }
+
+export async function update(req, res) {
+  try {
+    const { id } = req.params
+    const {
+      titulo,
+      valor,
+      tipo,
+      categoria,
+      data,
+      forma_pagamento,
+      parcelas,
+      notas
+    } = req.body
+
+    const payload = {}
+
+    if (titulo !== undefined) {
+      if (typeof titulo !== 'string' || !titulo.trim()) {
+        return res.status(400).json({ message: 'Título inválido' })
+      }
+      payload.titulo = titulo.trim()
+    }
+
+    if (valor !== undefined) {
+      const valorNum = Number(valor)
+      if (isNaN(valorNum) || valorNum <= 0) {
+        return res.status(400).json({ message: 'Valor inválido' })
+      }
+      payload.valor = valorNum
+    }
+
+    if (tipo !== undefined) {
+      const tipoNormalizado = tipo === 'despesa' ? 'gasto' : tipo
+      if (tipoNormalizado !== 'receita' && tipoNormalizado !== 'gasto') {
+        return res.status(400).json({ message: 'Tipo deve ser receita ou gasto' })
+      }
+      payload.tipo = tipoNormalizado
+    }
+
+    if (categoria !== undefined) {
+      if (typeof categoria !== 'string' || !categoria.trim()) {
+        return res.status(400).json({ message: 'Categoria inválida' })
+      }
+      payload.categoria = categoria.trim()
+    }
+
+    if (data !== undefined) {
+      const dataObj = new Date(data)
+      if (Number.isNaN(dataObj.getTime())) {
+        return res.status(400).json({ message: 'Data inválida' })
+      }
+      payload.data = data
+    }
+
+    if (forma_pagamento !== undefined) {
+      payload.forma_pagamento = forma_pagamento
+    }
+
+    if (parcelas !== undefined) {
+      const parcelasNum = Number(parcelas)
+      if (!Number.isInteger(parcelasNum) || parcelasNum < 1) {
+        return res.status(400).json({ message: 'Número de parcelas inválido' })
+      }
+      payload.parcelas = parcelasNum
+    }
+
+    if (notas !== undefined) {
+      payload.notas = notas
+    }
+
+    if (Object.keys(payload).length === 0) {
+      return res.status(400).json({ message: 'Nenhum campo válido para atualização' })
+    }
+
+    const atualizada = await transactionsRepo.update(id, req.userId, payload)
+
+    if (!atualizada) {
+      return res.status(404).json({ message: 'Transação não encontrada' })
+    }
+
+    return res.json({
+      id: atualizada.id,
+      titulo: atualizada.titulo,
+      valor: Number(atualizada.valor),
+      tipo: atualizada.tipo,
+      categoria: atualizada.categoria,
+      data: atualizada.data,
+      forma_pagamento: atualizada.forma_pagamento,
+      parcelas: atualizada.parcelas,
+      parcela_atual: atualizada.parcela_atual,
+      grupo_parcela_id: atualizada.grupo_parcela_id,
+      notas: atualizada.notas
+    })
+  } catch (err) {
+    console.error(err)
+    return res.status(500).json({ message: 'Erro ao atualizar transação' })
+  }
+}

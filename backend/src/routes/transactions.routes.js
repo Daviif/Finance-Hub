@@ -7,6 +7,7 @@ router.use(authMiddleware)
 
 router.get('/', transactionsController.list)
 router.post('/', transactionsController.create)
+router.put('/:id', transactionsController.update)
 router.delete('/:id', transactionsController.remove)
 
 export default router

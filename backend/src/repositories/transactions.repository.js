@@ -74,6 +74,48 @@ export async function remove(id, userId) {
   return rows[0]
 }
 
+export async function update(id, userId, updates) {
+  const allowedFields = {
+    titulo: 'titulo',
+    valor: 'valor',
+    tipo: 'tipo',
+    categoria: 'categoria',
+    data: 'data',
+    forma_pagamento: 'forma_pagamento',
+    parcelas: 'parcelas',
+    notas: 'notas'
+  }
+
+  const setClauses = []
+  const values = []
+  let paramIndex = 1
+
+  for (const [field, column] of Object.entries(allowedFields)) {
+    if (updates[field] !== undefined) {
+      setClauses.push(`${column} = $${paramIndex}`)
+      values.push(updates[field])
+      paramIndex++
+    }
+  }
+
+  if (setClauses.length === 0) {
+    return null
+  }
+
+  values.push(id)
+  values.push(userId)
+
+  const query = `
+    UPDATE transactions
+    SET ${setClauses.join(', ')}
+    WHERE id = $${paramIndex} AND user_id = $${paramIndex + 1}
+    RETURNING id, titulo, valor, tipo, categoria, data, forma_pagamento, parcelas, parcela_atual, grupo_parcela_id, notas
+  `
+
+  const { rows } = await pool.query(query, values)
+  return rows[0]
+}
+
 export async function removeByGrupo(grupoParcelaId, userId) {
   const query = 'DELETE FROM transactions WHERE grupo_parcela_id = $1 AND user_id = $2'
   await pool.query(query, [grupoParcelaId, userId])

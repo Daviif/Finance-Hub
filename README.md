@@ -51,7 +51,7 @@ O **Finance Hub** é uma plataforma centralizada para controle e gestão das fin
 
 <img width="172" height="193" alt="História 03" src="https://github.com/user-attachments/assets/4a8be666-f82c-4742-9a54-aad72da7c31c" />
 
-- [ ] **[História 4]** Como um usuário que esqueceu a senha, eu quero poder solicitar uma redefinição via e-mail.
+- [x] **[História 4]** Como um usuário que esqueceu a senha, eu quero poder solicitar uma redefinição via e-mail.
 
 <img width="188" height="196" alt="História 04" src="https://github.com/user-attachments/assets/cb6f7064-9e58-48ca-83c1-9fb5768f51af" />
 
@@ -65,7 +65,7 @@ O **Finance Hub** é uma plataforma centralizada para controle e gestão das fin
 
 <img width="196" height="197" alt="História 06" src="https://github.com/user-attachments/assets/ce0d36bc-a662-489c-a42e-16ed6abc6377" />
 
-- [ ] **[História 7]** Como usuário, eu quero poder editar os detalhes de uma transação já registrada.
+- [x] **[História 7]** Como usuário, eu quero poder editar os detalhes de uma transação já registrada.
 
 <img width="194" height="197" alt="História 07" src="https://github.com/user-attachments/assets/0c92ccd9-4464-4e2c-a74f-71880384d875" />
 
