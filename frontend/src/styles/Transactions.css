@@ -318,3 +318,41 @@
     padding: 1rem;
   }
 }
+
+
+.toast-notification {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  padding: 16px 24px;
+  border-radius: var(--radius-md);
+  color: var(--white);
+  font-weight: 600;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+  z-index: 9999; /* Fica acima de tudo */
+  animation: slideInUp 0.3s ease-out;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.toast-notification.success {
+  background-color: var(--primary);
+  border-left: 6px solid var(--primary-dark);
+}
+
+.toast-notification.error {
+  background-color: var(--danger);
+  border-left: 6px solid #991B1B; 
+}
+
+@keyframes slideInUp {
+  from {
+    transform: translateY(100px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}

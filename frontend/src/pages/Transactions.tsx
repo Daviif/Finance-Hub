@@ -27,18 +27,30 @@ const Transactions: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
+  // ESTADO DO NOVO ALERTA BONITO (TOAST)
+  const [toast, setToast] = useState<{message: string, type: 'success' | 'error'} | null>(null);
+
   // Estados do Modal e Formulário
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingId, setEditingId] = useState<string | number | null>(null);
 
+  // CORREÇÃO AQUI: Valor padrão de tipo passa a ser 'gasto'
   const [formData, setFormData] = useState({
     titulo: '',
     valor: '',
-    tipo: 'despesa', 
+    tipo: 'gasto', 
     categoria: 'Outros',
     data: new Date().toISOString().split('T')[0],
     parcelas: 1
   });
+
+  // Função para mostrar o alerta bonito que some sozinho
+  const showToast = (message: string, type: 'success' | 'error') => {
+    setToast({ message, type });
+    setTimeout(() => {
+      setToast(null);
+    }, 3000); // Some após 3 segundos
+  };
 
   // Carregar transações ao abrir a tela
   useEffect(() => {
@@ -62,7 +74,7 @@ const Transactions: React.FC = () => {
     setFormData({
       titulo: '',
       valor: '',
-      tipo: 'despesa',
+      tipo: 'gasto', // Mantém 'gasto'
       categoria: 'Outros',
       data: new Date().toISOString().split('T')[0],
       parcelas: 1
@@ -75,7 +87,8 @@ const Transactions: React.FC = () => {
     setFormData({
       titulo: transaction.titulo,
       valor: transaction.valor.toString(),
-      tipo: (transaction.tipo === 'gasto' ? 'despesa' : transaction.tipo) as string, 
+      // Garante que se vier 'despesa', ajustamos para 'gasto' no form
+      tipo: (transaction.tipo === 'despesa' ? 'gasto' : transaction.tipo) as string, 
       categoria: transaction.categoria,
       data: transaction.data.split('T')[0],
       parcelas: 1 
@@ -91,7 +104,7 @@ const Transactions: React.FC = () => {
       const payload: any = {
         titulo: formData.titulo,
         valor: valorNumber,
-        tipo: formData.tipo as 'receita' | 'despesa' | 'gasto',
+        tipo: formData.tipo as 'receita' | 'gasto', // Força tipagem correta
         categoria: formData.categoria,
         data: formData.data,
         parcelas: Number(formData.parcelas)
@@ -99,20 +112,21 @@ const Transactions: React.FC = () => {
 
       if (editingId) {
         await apiUpdateTransaction(editingId, payload);
-        alert('Transação atualizada com sucesso!');
+        showToast('Transação atualizada com sucesso!', 'success');
       } else {
         if (payload.parcelas > 1) {
              payload.valorTotal = valorNumber; 
         }
         await apiCreateTransaction(payload);
-        alert('Transação criada com sucesso!');
+        showToast('Transação criada com sucesso!', 'success');
       }
 
       setIsModalOpen(false);
       loadTransactions(); 
-    } catch (err) {
+    } catch (err: any) {
       console.error('Erro ao salvar:', err);
-      alert('Erro ao salvar transação. Verifique os dados.');
+      const errorMsg = err.message || 'Erro ao salvar transação. Verifique os dados.';
+      showToast(errorMsg, 'error');
     }
   };
 
@@ -121,8 +135,9 @@ const Transactions: React.FC = () => {
     try {
       await apiDeleteTransaction(id);
       setTransactions(transactions.filter(t => t.id !== id));
+      showToast('Transação excluída.', 'success');
     } catch (err) {
-      alert('Erro ao excluir transação.');
+      showToast('Erro ao excluir transação.', 'error');
     }
   };
 
@@ -198,6 +213,13 @@ const Transactions: React.FC = () => {
         </div>
       </main>
 
+      {/* COMPONENTE DO TOAST (Aviso flutuante) */}
+      {toast && (
+        <div className={`toast-notification ${toast.type}`}>
+          {toast.message}
+        </div>
+      )}
+
       {/* --- MODAL --- */}
       {isModalOpen && (
         <div className="modal-overlay">
@@ -239,7 +261,8 @@ const Transactions: React.FC = () => {
                     value={formData.tipo}
                     onChange={e => setFormData({...formData, tipo: e.target.value})}
                   >
-                    <option value="despesa">Despesa</option>
+                    {/* Mantém value="gasto" mas o label visível é "Despesa" */}
+                    <option value="gasto">Despesa</option>
                     <option value="receita">Receita</option>
                   </select>
                 </div>
