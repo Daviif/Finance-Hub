@@ -48,8 +48,18 @@ const Dashboard: React.FC = () => {
     countDespesas: 0
   });
 
-  useEffect(() => {
+    useEffect(() => {
     carregarDados();
+
+    const limiteLocal = localStorage.getItem("limite_alerta");
+
+    if (limiteLocal) {
+      setProfile(prev => ({
+        ...(prev as UserProfile),
+        limite_alerta: Number(limiteLocal)
+      }));
+    }
+
   }, []);
 
   const carregarDados = async () => {
@@ -69,13 +79,22 @@ const Dashboard: React.FC = () => {
     }
   };
 
-  const processarDadosResumo = (lista: Transaction[]) => {
+    const processarDadosResumo = (lista: Transaction[]) => {
     let rec = 0, desp = 0, cRec = 0, cDesp = 0;
+
+    const hoje = new Date();
 
     lista.forEach(t => {
       const valor = Number(t.valor);
       const tipo = t.tipo as string; 
-      
+      const data = new Date(t.data);
+
+      const ehMesAtual =
+        data.getMonth() === hoje.getMonth() &&
+        data.getFullYear() === hoje.getFullYear();
+
+      if (!ehMesAtual) return;
+
       if (tipo === 'receita') {
         rec += valor;
         cRec++;
@@ -85,7 +104,13 @@ const Dashboard: React.FC = () => {
       }
     });
 
-    setResumo({ saldo: rec - desp, receitas: rec, despesas: desp, countReceitas: cRec, countDespesas: cDesp });
+    setResumo({ 
+      saldo: rec - desp, 
+      receitas: rec, 
+      despesas: desp, 
+      countReceitas: cRec, 
+      countDespesas: cDesp 
+    });
   };
 
   const processarDadosGrafico = (lista: Transaction[]) => {

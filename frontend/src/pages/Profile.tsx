@@ -84,10 +84,13 @@ export default function Profile() {
     }
   };
 
-  const handleSalvarPerfil = async (e: FormEvent) => {
+      const handleSalvarPerfil = async (e: FormEvent) => {
     e.preventDefault();
     try {
         await apiUpdateProfile(perfil);
+
+        localStorage.setItem("limite_alerta", perfil.limite_alerta.toString());
+
         toast.success('Perfil atualizado com sucesso!');
     } catch (error) {
         toast.error('Erro ao atualizar perfil.');
