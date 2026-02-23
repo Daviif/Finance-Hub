@@ -16,7 +16,7 @@ import {
   apiDeleteTransaction, 
   type Transaction 
 } from '../services/api/ApiService';
-import Sidebar from '../components/SideBar'; // <--- IMPORTANTE: Importando a Sidebar
+import Sidebar from '../components/SideBar';
 import '../styles/Transactions.css';
 
 const Transactions: React.FC = () => {
@@ -27,6 +27,9 @@ const Transactions: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
+  // ESTADO DO ALERTA BONITO (TOAST)
+  const [toast, setToast] = useState<{message: string, type: 'success' | 'error'} | null>(null);
+
   // Estados do Modal e Formulário
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingId, setEditingId] = useState<string | number | null>(null);
@@ -34,13 +37,18 @@ const Transactions: React.FC = () => {
   const [formData, setFormData] = useState({
     titulo: '',
     valor: '',
-    tipo: 'despesa', 
+    tipo: 'gasto', 
     categoria: 'Outros',
-    data: new Date().toISOString().split('T')[0],
-    parcelas: 1
+    data: new Date().toISOString().split('T')[0]
   });
 
-  // Carregar transações ao abrir a tela
+  const showToast = (message: string, type: 'success' | 'error') => {
+    setToast({ message, type });
+    setTimeout(() => {
+      setToast(null);
+    }, 3000); 
+  };
+
   useEffect(() => {
     loadTransactions();
   }, []);
@@ -62,10 +70,9 @@ const Transactions: React.FC = () => {
     setFormData({
       titulo: '',
       valor: '',
-      tipo: 'despesa',
+      tipo: 'gasto',
       categoria: 'Outros',
-      data: new Date().toISOString().split('T')[0],
-      parcelas: 1
+      data: new Date().toISOString().split('T')[0]
     });
     setIsModalOpen(true);
   };
@@ -75,10 +82,9 @@ const Transactions: React.FC = () => {
     setFormData({
       titulo: transaction.titulo,
       valor: transaction.valor.toString(),
-      tipo: (transaction.tipo === 'gasto' ? 'despesa' : transaction.tipo) as string, 
+      tipo: (transaction.tipo === 'despesa' ? 'gasto' : transaction.tipo) as string, 
       categoria: transaction.categoria,
-      data: transaction.data.split('T')[0],
-      parcelas: 1 
+      data: transaction.data.split('T')[0]
     });
     setIsModalOpen(true);
   };
@@ -91,28 +97,25 @@ const Transactions: React.FC = () => {
       const payload: any = {
         titulo: formData.titulo,
         valor: valorNumber,
-        tipo: formData.tipo as 'receita' | 'despesa' | 'gasto',
+        tipo: formData.tipo as 'receita' | 'gasto',
         categoria: formData.categoria,
-        data: formData.data,
-        parcelas: Number(formData.parcelas)
+        data: formData.data
       };
 
       if (editingId) {
         await apiUpdateTransaction(editingId, payload);
-        alert('Transação atualizada com sucesso!');
+        showToast('Transação atualizada com sucesso!', 'success');
       } else {
-        if (payload.parcelas > 1) {
-             payload.valorTotal = valorNumber; 
-        }
         await apiCreateTransaction(payload);
-        alert('Transação criada com sucesso!');
+        showToast('Transação criada com sucesso!', 'success');
       }
 
       setIsModalOpen(false);
       loadTransactions(); 
-    } catch (err) {
+    } catch (err: any) {
       console.error('Erro ao salvar:', err);
-      alert('Erro ao salvar transação. Verifique os dados.');
+      const errorMsg = err.message || 'Erro ao salvar transação. Verifique os dados.';
+      showToast(errorMsg, 'error');
     }
   };
 
@@ -121,26 +124,24 @@ const Transactions: React.FC = () => {
     try {
       await apiDeleteTransaction(id);
       setTransactions(transactions.filter(t => t.id !== id));
+      showToast('Transação excluída.', 'success');
     } catch (err) {
-      alert('Erro ao excluir transação.');
+      showToast('Erro ao excluir transação.', 'error');
     }
   };
 
   return (
-    <div className="dashboard-container"> {/* <--- Usando o container padrão do Dashboard */}
+    <div className="dashboard-container">
       
-      <Sidebar /> {/* <--- A Sidebar entra aqui */}
+      <Sidebar />
 
-      <main className="main-content"> {/* <--- Empurra o conteúdo para a direita */}
+      <main className="main-content">
         <div className="transactions-content">
           
-          {/* Cabeçalho */}
           <div className="transactions-header">
-            {/* Botão Voltar removido ou mantido conforme preferência (geralmente não precisa com sidebar) */}
             <h2>Minhas Transações</h2>
           </div>
 
-          {/* Barra de Ações */}
           <div className="actions-bar">
             <h3>Histórico</h3>
             <button onClick={handleOpenNew} className="btn-new">
@@ -149,11 +150,9 @@ const Transactions: React.FC = () => {
             </button>
           </div>
 
-          {/* Mensagens */}
           {loading && <p>Carregando...</p>}
           {error && <p className="text-red">{error}</p>}
 
-          {/* Lista */}
           <ul className="transaction-list">
             {transactions.map((t) => (
               <li key={t.id} className={`transaction-item ${t.tipo === 'receita' ? 'receita' : 'gasto'}`}>
@@ -164,6 +163,7 @@ const Transactions: React.FC = () => {
                 <div className="info-area">
                   <strong>{t.titulo}</strong>
                   <span>{new Date(t.data).toLocaleDateString('pt-BR')} • {t.categoria}</span>
+                  {/* Mantive o badge de parcela aqui SÓ CASO venha alguma transação antiga do banco que já estava parcelada, para não quebrar o visual */}
                   {t.parcelas && t.parcelas > 1 && (
                     <div className="parcela-info" style={{marginTop: '4px', width: 'fit-content'}}>
                       Parcela {t.parcela_atual}/{t.parcelas}
@@ -197,6 +197,12 @@ const Transactions: React.FC = () => {
           </ul>
         </div>
       </main>
+
+      {toast && (
+        <div className={`toast-notification ${toast.type}`}>
+          {toast.message}
+        </div>
+      )}
 
       {/* --- MODAL --- */}
       {isModalOpen && (
@@ -239,7 +245,7 @@ const Transactions: React.FC = () => {
                     value={formData.tipo}
                     onChange={e => setFormData({...formData, tipo: e.target.value})}
                   >
-                    <option value="despesa">Despesa</option>
+                    <option value="gasto">Despesa</option>
                     <option value="receita">Receita</option>
                   </select>
                 </div>
@@ -272,19 +278,6 @@ const Transactions: React.FC = () => {
                   />
                 </div>
               </div>
-
-              {!editingId && (
-                <div className="form-group">
-                  <label>Parcelas (1x = À vista)</label>
-                  <input 
-                    type="number" 
-                    min="1" 
-                    max="48"
-                    value={formData.parcelas}
-                    onChange={e => setFormData({...formData, parcelas: Number(e.target.value)})}
-                  />
-                </div>
-              )}
 
               <button type="submit" className="btn-save">
                 {editingId ? 'Salvar Alterações' : 'Adicionar'}
