@@ -42,81 +42,80 @@ O **Finance Hub** é uma plataforma centralizada para controle e gestão das fin
 ### 🔐 [ÉPICO] Autenticação e Segurança do Usuário
 - [x] **[História 1]** Como um novo usuário, eu quero poder me cadastrar na plataforma usando meu e-mail e uma senha.
 
-<img width="200" height="198" alt="História 01" src="https://github.com/user-attachments/assets/86b3680c-1e05-4467-8fa2-a5f3eb6680a7" />
+<img width="621" height="213" alt="História 1" src="https://github.com/user-attachments/assets/2b5fa333-e4c0-4a1b-8076-66a7c9331847" />
 
 - [x] **[História 2]** Como um usuário cadastrado, eu quero poder fazer login no sistema para acessar meu painel.
 
-<img width="164" height="191" alt="História 02" src="https://github.com/user-attachments/assets/1c0df0e3-63c1-426e-807c-5183a03e4dec" />
+<img width="566" height="209" alt="História 2" src="https://github.com/user-attachments/assets/ad21cf66-d529-4a0c-bbcd-4e146c7aa1ee" />
 
 - [x] **[História 3]** Como um usuário logado, eu quero poder fazer logout da minha conta.
 
-<img width="172" height="193" alt="História 03" src="https://github.com/user-attachments/assets/4a8be666-f82c-4742-9a54-aad72da7c31c" />
+<img width="556" height="152" alt="História 3" src="https://github.com/user-attachments/assets/209661f2-cba8-4338-8e7a-49b7f4305ea0" />
 
 - [x] **[História 4]** Como um usuário que esqueceu a senha, eu quero poder solicitar uma redefinição via e-mail.
 
-<img width="188" height="196" alt="História 04" src="https://github.com/user-attachments/assets/cb6f7064-9e58-48ca-83c1-9fb5768f51af" />
-
+<img width="997" height="152" alt="História 4" src="https://github.com/user-attachments/assets/de007e93-0342-4245-ae1a-401d5a836f42" />
 
 ### 💸 [ÉPICO] Gestão de Transações (Receitas e Despesas)
 - [x] **[História 5]** Como usuário, eu quero poder registrar uma nova despesa informando valor, data e categoria.
 
-<img width="202" height="199" alt="História 05" src="https://github.com/user-attachments/assets/ceba83c9-d0fc-4f9a-8ac3-2ee125ee1eb6" />
+<img width="669" height="217" alt="História 5" src="https://github.com/user-attachments/assets/2c435a0a-07cc-4b85-bb12-d51b4d7a2c12" />
 
 - [x] **[História 6]** Como usuário, eu quero poder registrar uma nova receita para acompanhar minha renda.
 
-<img width="196" height="197" alt="História 06" src="https://github.com/user-attachments/assets/ce0d36bc-a662-489c-a42e-16ed6abc6377" />
+<img width="655" height="215" alt="História 6" src="https://github.com/user-attachments/assets/21218106-913d-45e7-b7a0-f1bcc7cf20b2" />
 
 - [x] **[História 7]** Como usuário, eu quero poder editar os detalhes de uma transação já registrada.
 
-<img width="194" height="197" alt="História 07" src="https://github.com/user-attachments/assets/0c92ccd9-4464-4e2c-a74f-71880384d875" />
+<img width="647" height="222" alt="História 7" src="https://github.com/user-attachments/assets/89586505-03a4-44bb-a981-6d52d3a1f331" />
 
 - [x] **[História 8]** Como usuário, eu quero poder excluir uma transação registrada por engano.
 
-<img width="198" height="198" alt="História 08" src="https://github.com/user-attachments/assets/93295971-a325-4efb-b4a5-47edb9e70f7a" />
+<img width="647" height="152" alt="História 8" src="https://github.com/user-attachments/assets/c36f1f5e-3f5e-48bc-903a-90f880c7b812" />
 
 - [x] **[História 9]** Como usuário, eu quero ver uma lista de todas as minhas transações em ordem cronológica.
 
-<img width="198" height="198" alt="História 09" src="https://github.com/user-attachments/assets/01559255-afb1-4eef-9674-9fbfcd9e8619" />
-
+<img width="654" height="152" alt="História 9" src="https://github.com/user-attachments/assets/c3fa4df3-c0d2-46d9-8919-054cb1cbac80" />
 
 ### 📊 [ÉPICO] Visualização e Orçamento
 - [x] **[História 10]** Como usuário, eu quero ver um dashboard com meu saldo atual (Receitas - Despesas).
 
-<img width="220" height="202" alt="História 10" src="https://github.com/user-attachments/assets/1739c982-1005-4b20-a418-e52b88d502fc" />
+<img width="612" height="152" alt="História 10" src="https://github.com/user-attachments/assets/3ffc0229-ff33-475c-a2db-725d4db3ca9b" />
 
 - [x] **[História 11]** Como usuário, eu quero ver um gráfico de gastos por categoria no mês atual.
 
-<img width="288" height="216" alt="História 11" src="https://github.com/user-attachments/assets/235ca947-96db-4f2b-9ed5-a9593e4799ca" />
+<img width="830" height="168" alt="História 11" src="https://github.com/user-attachments/assets/d3641112-d21d-4c13-bc65-a3b4ecf17635" />
 
 - [x] **[História 12]** Como usuário, eu quero poder definir um limite de orçamento mensal por categoria.
 
-<img width="250" height="208" alt="História 12" src="https://github.com/user-attachments/assets/a0785f8e-71d7-4ac7-bcba-a66b27dc3c68" />
+<img width="754" height="160" alt="História 12" src="https://github.com/user-attachments/assets/6cfc11cd-6627-42f7-bf0c-616dda027d36" />
 
 - [x] **[História 13]** Como usuário, eu quero ver um alerta visual quando atingir 80% do meu limite de orçamento.
 
-<img width="274" height="213" alt="História 13" src="https://github.com/user-attachments/assets/f93f274f-7975-47d9-8f70-68948a33055d" />
-
+<img width="781" height="158" alt="História 13" src="https://github.com/user-attachments/assets/b3c266fa-594d-43fd-8a10-85cb1dcff019" />
 
 ### 🔍 [ÉPICO] Filtros e Exportação (Melhorias de UX)
 - [x] **[História 14]** Como usuário, quero filtrar minha lista de transações por mês e ano para análise histórica.
 
-<img width="200" height="198" alt="História 14" src="https://github.com/user-attachments/assets/af09e751-8027-4186-be95-52c0a0db6430" />
+<img width="704" height="152" alt="História 14" src="https://github.com/user-attachments/assets/1442aa71-34ea-4802-86ec-3c846c35b701" />
 
 - [x] **[História 15]** Como usuário, quero poder baixar um arquivo CSV das minhas transações para uso externo.
 
-<img width="244" height="207" alt="História 15" src="https://github.com/user-attachments/assets/0a9799f2-58a8-4517-9232-811361a94f6a" />
+<img width="686" height="215" alt="História 15" src="https://github.com/user-attachments/assets/721523e9-3453-4973-9ce5-64e527fe5733" />
 
 ### 🤖 [ÉPICO] Assistente Virtual e Interação Inteligente
 
 - [x] **[História 16]** Como usuário, eu quero interagir com um chatbot inteligente dentro do dashboard para tirar dúvidas e obter orientações financeiras.
 
-*(Inserir aqui o diagrama de caso de uso correspondente à interação com o chatbot, seguindo o padrão das demais histórias.)*
+<img width="1048" height="241" alt="Diagrama casos de uso Chat Bot" src="https://github.com/user-attachments/assets/80e9517f-1fe1-4daf-aad4-d79a7836f128" />
+
 
 ### 🎨 [ÉPICO] Experiência Visual e Engajamento
 
 - [x] **[História 17]** Como usuário, eu quero visualizar um objeto 3D interativo na tela inicial para tornar a experiência mais moderna e intuitiva.
 
-*(Se desejarem, podem incluir um diagrama simples ou imagem representativa da interação visual.)*
+<img width="729" height="230" alt="Casos de uso objeto 3d" src="https://github.com/user-attachments/assets/b0b51778-ec45-4c7f-a833-393ac5798c5d" />
+
 
 
 5. ## 📅 Backlog da Sprint 1
@@ -190,7 +189,8 @@ O **Finance Hub** é uma plataforma centralizada para controle e gestão das fin
 - [x] Implementar lógica de comunicação com serviço de IA.
 - [x] Integrar chatbot ao Dashboard.
 
-*(Inserir aqui o diagrama de atividade correspondente.)*
+<img width="495" height="1063" alt="Diagrama de atividade do chat bot" src="https://github.com/user-attachments/assets/cb4f9908-52a8-469a-838f-dc7d0204ce5f" />
+
 
 ---
 
@@ -201,7 +201,8 @@ O **Finance Hub** é uma plataforma centralizada para controle e gestão das fin
 - [x] Implementar objeto interativo.
 - [x] Ajustar layout da Home para exibição adequada.
 
-*(Inserir aqui o diagrama de atividade correspondente, se desejado.)*
+<img width="722" height="625" alt="Diagrama de atividades do porquinho" src="https://github.com/user-attachments/assets/d59df653-92d3-4e71-9495-8f4cf46942ef" />
+
 
 ---
 
@@ -310,6 +311,8 @@ A versão revisada do backlog demonstra que:
 
 Esta documentação garante transparência entre o planejamento idealizado e a execução real do projeto.
 
+Durante o desenvolvimento do Finance Hub, vivenciamos desafios reais que trouxeram grandes aprendizados para a equipe. No planejamento inicial, cometemos o erro de distribuir as histórias de forma aleatória, sem focar nas facilidades e afinidades técnicas de cada membro. Isso gerou dificuldades pontuais e deixou o andamento mais lento. Além disso, devido à indisponibilidade de horários causada por compromissos externos (trabalho), acabamos desenvolvendo cerca de 90% do Frontend antes que o Backend estivesse implementado, o que inevitavelmente causou retrabalhos na fase de integração. Outro ponto de vulnerabilidade foi a comunicação inicial: a falta de alinhamento assertivo fez com que duas pessoas desenvolvessem a mesma funcionalidade, gerando conflitos de código. Ao identificarmos esses gargalos, adaptamos nossa gestão ágil: implementamos reuniões rápidas de sincronização e passamos a notificar o status das tarefas no grupo. Também centralizamos a aprovação de merges nas branchs em uma única pessoa, criando uma hierarquia de revisão que evitou novos conflitos. Superados esses obstáculos, a experiência foi altamente recompensadora. O projeto nos proporcionou uma bagagem técnica imensa com novas tecnologias, sendo um marco prático fundamental para as nossas carreiras profissionais.
+
 ---
 
 ## 🤖 Descrição Técnica do Chatbot
@@ -326,7 +329,9 @@ Essa arquitetura permite escalabilidade, flexibilidade de interação e aprimora
 
 O diagrama de classes apresenta a estrutura do sistema Finance Hub, destacando as principais entidades do domínio, seus atributos, métodos e relacionamentos. Ele evidencia como o usuário se relaciona com transações, perfil e metas financeiras, além das classes de serviço responsáveis pela lógica de negócio e comunicação entre frontend e backend. O diagrama fornece uma visão geral da arquitetura do sistema e apoia o entendimento da implementação.
 
-<img width="1673" height="727" alt="Diagrama de Classes" src="https://github.com/user-attachments/assets/f63ca177-df6e-4754-873c-9f1bc8de8611" />
+<img width="2316" height="727" alt="Novo diagrama de classes" src="https://github.com/user-attachments/assets/5a0b77c9-a29f-4d45-896e-4b767938c098" />
+
+
 
 ----------------------------------------------------------------------------------------------------------------------------------------
 
