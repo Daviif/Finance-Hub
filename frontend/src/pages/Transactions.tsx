@@ -22,15 +22,12 @@ import '../styles/Transactions.css';
 const Transactions: React.FC = () => {
   const navigate = useNavigate();
   
-  // Estados da Lista
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
-  // ESTADO DO ALERTA BONITO (TOAST)
   const [toast, setToast] = useState<{message: string, type: 'success' | 'error'} | null>(null);
 
-  // Estados do Modal e Formulário
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingId, setEditingId] = useState<string | number | null>(null);
 
@@ -163,7 +160,7 @@ const Transactions: React.FC = () => {
                 <div className="info-area">
                   <strong>{t.titulo}</strong>
                   <span>{new Date(t.data).toLocaleDateString('pt-BR')} • {t.categoria}</span>
-                  {/* Mantive o badge de parcela aqui SÓ CASO venha alguma transação antiga do banco que já estava parcelada, para não quebrar o visual */}
+        
                   {t.parcelas && t.parcelas > 1 && (
                     <div className="parcela-info" style={{marginTop: '4px', width: 'fit-content'}}>
                       Parcela {t.parcela_atual}/{t.parcelas}
@@ -204,7 +201,6 @@ const Transactions: React.FC = () => {
         </div>
       )}
 
-      {/* --- MODAL --- */}
       {isModalOpen && (
         <div className="modal-overlay">
           <div className="modal-content">

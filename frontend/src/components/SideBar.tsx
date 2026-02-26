@@ -15,7 +15,7 @@ const Sidebar: React.FC = () => {
   const location = useLocation();
   const user = getUser() ?? { username: 'Usuário' };
 
-  // Função para checar se o link está ativo (para ficar verde)
+  
   const isActive = (path: string) => {
     return location.pathname === path ? 'active' : '';
   };
@@ -27,7 +27,7 @@ const Sidebar: React.FC = () => {
 
   return (
     <aside className="sidebar">
-      {/* Cabeçalho da Sidebar (Logo) */}
+      
       <div className="sidebar-header">
         <div className="logo-icon">F</div>
         <div>
@@ -36,7 +36,7 @@ const Sidebar: React.FC = () => {
         </div>
       </div>
 
-      {/* Menu de Navegação */}
+    
       <nav className="sidebar-nav">
         <div className="nav-section">
           <div className="nav-title">MENU PRINCIPAL</div>
@@ -72,7 +72,7 @@ const Sidebar: React.FC = () => {
         </div>
       </nav>
 
-      {/* Rodapé (Perfil + Logout) */}
+      
       <div className="sidebar-footer">
         <div className="user-profile">
           <div className="avatar">

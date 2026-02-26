@@ -1,11 +1,6 @@
 /* frontend/src/styles/Register.css */
 
-/*
- * Cadastro: usa o mesmo layout do Login (Login.css).
- * Este arquivo apenas ajusta o comportamento de scroll e o link de voltar.
- */
 
-/* No cadastro o conteúdo começa no topo e a área interna rola */
 .register-page .login-container {
   justify-content: flex-start;
   width: 100%;
@@ -15,7 +10,7 @@
   overflow-x: hidden;
 }
 
-/* Link "Voltar para o login" */
+
 .register-back {
   display: inline-block;
   margin-bottom: 1rem;
@@ -37,7 +32,7 @@
   border-radius: 2px;
 }
 
-/* Mensagem de erro do servidor */
+
 .error-banner {
   margin-bottom: 1rem;
   padding: 0.875rem 1rem;

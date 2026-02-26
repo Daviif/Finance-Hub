@@ -11,7 +11,7 @@ export default function Entrada() {
   return (
     <div className="entrada-container">
       
-      {/* 1. Navbar */}
+      
       <nav className="entrada-nav">
         <div className="nav-logo">
           <LayoutDashboard size={28} />
@@ -23,7 +23,7 @@ export default function Entrada() {
         </div>
       </nav>
 
-      {/* 2. Hero Section */}
+      
       <header 
         className="hero-section" 
         style={{ 
@@ -31,11 +31,11 @@ export default function Entrada() {
           alignItems: 'center', 
           justifyContent: 'space-between', 
           minHeight: 'calc(100vh - 80px)',
-          gap: '2rem' /* Dá um respiro entre o texto e o 3D */
+          gap: '2rem' 
         }}
       >
         
-        {/* Lado Esquerdo: Textos e CTA (flex: 1.5 faz ele crescer mais) */}
+        
         <div className="hero-content" style={{ flex: '1.5', maxWidth: '750px', zIndex: 10 }}>
           <h1 className="hero-title" style={{ fontSize: '3.5rem', fontWeight: '800', lineHeight: 1.2, color: 'var(--primary-dark)', marginBottom: '1.5rem' }}>
             Domine suas finanças, <br />
@@ -50,14 +50,14 @@ export default function Entrada() {
           </Link>
         </div>
 
-        {/* Lado Direito: O 3D (flex: 1 e maxWidth seguram o tamanho dele) */}
+       
         <div className="hero-3d-wrapper" style={{ flex: '1', maxWidth: '450px', height: '500px', position: 'relative', display: 'flex', justifyContent: 'flex-end', alignItems: 'center', pointerEvents: 'auto' }}>
           <Spline scene="https://prod.spline.design/i-54T6uxuBgwZMvz/scene.splinecode" />
         </div>
 
       </header>
 
-      {/* 3. Benefícios (Features) */}
+     
       <section className="features-section">
         <div style={{textAlign:'center', marginBottom: '3rem'}}>
           <h2 style={{fontSize:'2.2rem', marginBottom:'0.5rem', fontWeight:'800'}}>Tudo o que você precisa</h2>
@@ -85,7 +85,7 @@ export default function Entrada() {
         </div>
       </section>
 
-      {/* 4. Como Funciona (Passo a Passo) */}
+      
       <section className="steps-section">
         <h2 style={{fontSize:'2rem', fontWeight:'800', marginBottom:'1rem'}}>Comece em 3 passos</h2>
         <div className="steps-container">
@@ -113,7 +113,7 @@ export default function Entrada() {
         </div>
       </section>
 
-      {/* 5. FAQ (Dúvidas Frequentes) */}
+      
       <section className="faq-section">
         <div style={{textAlign:'center', marginBottom: '3rem'}}>
           <h2 style={{fontSize:'2rem', fontWeight:'800'}}>Dúvidas Frequentes</h2>
@@ -147,7 +147,7 @@ export default function Entrada() {
         </details>
       </section>
 
-      {/* 6. Footer */}
+      
       <footer className="entrada-footer">
         <div style={{marginBottom:'1.5rem'}}>
           <LayoutDashboard size={32} color="#10B981" style={{marginBottom:'10px'}}/>

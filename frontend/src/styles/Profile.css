@@ -1,7 +1,6 @@
 /* frontend/src/styles/Profile.css */
 
-/* --- CONFIGURAÇÃO INICIAL --- */
-/* As cores (var(--primary), var(--bg-page), etc) vêm do index.css */
+
 
 .dashboard-container { 
   display: flex; 
@@ -9,7 +8,7 @@
   background-color: var(--bg-page); 
 }
 
-/* --- MAIN LAYOUT --- */
+
 .main-content {
   margin-left: var(--sidebar-width);
   flex: 1; 
@@ -20,7 +19,7 @@
 .content-header h2 { font-size: 1.8rem; color: var(--primary); margin-bottom: 0.5rem; }
 .date-display { color: var(--text-gray); font-size: 0.95rem; display: flex; align-items: center; gap: 6px; }
 
-/* --- ESTILOS DE PERFIL --- */
+
 .profile-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
@@ -45,14 +44,14 @@
   display: flex; align-items: center; justify-content: center;
 }
 
-/* Cores do Tema (Usando Globais) */
+
 .green-light { background-color: var(--primary-light); }
 .text-green { color: var(--primary); }
 
 .red-light { background-color: var(--danger-bg); }
 .text-red { color: var(--danger); }
 
-/* Formulários Internos */
+
 .form-group { margin-bottom: 1rem; }
 .form-group label { display: block; font-size: 0.85rem; font-weight: 600; color: var(--text-gray); margin-bottom: 0.5rem; }
 
@@ -72,7 +71,7 @@
 
 .form-row { display: flex; gap: 1rem; }
 
-/* Botão Salvar */
+
 .btn-save {
   background-color: var(--primary); 
   color: var(--white); 
@@ -86,7 +85,7 @@
 }
 .btn-save:hover { background-color: var(--primary-hover); }
 
-/* Barra de Progresso */
+
 .progress-card { background: #F9FAFB; border-radius: 8px; padding: 1rem; margin-bottom: 1.5rem; border: 1px solid #f3f4f6;}
 .progress-bar-bg { width: 100%; height: 10px; background: #E5E7EB; border-radius: 5px; overflow: hidden; margin: 8px 0 1rem 0; }
 .progress-bar-fill { height: 100%; background: var(--primary); transition: width 0.5s; }
@@ -118,11 +117,11 @@
   text-align: right;
 }
 
-/* Cores de status */
-.danger { color: var(--danger); }
-.info { color: #3B82F6; } /* Azul mantido para informações neutras */
 
-/* Divisor e Alertas */
+.danger { color: var(--danger); }
+.info { color: #3B82F6; } 
+
+
 .divider {
   border-top: 1px solid #F3F4F6;
   margin: 1.5rem 0;
@@ -132,10 +131,10 @@
   display: flex;
   align-items: center;
   gap: 6px;
-  color: #B45309; /* Alerta Amarelo/Laranja Escuro */
+  color: #B45309; 
 }
 
-/* Responsividade */
+
 @media (max-width: 1024px) {
   .sidebar { display: none; }
   .main-content { margin-left: 0; padding: 1rem; }

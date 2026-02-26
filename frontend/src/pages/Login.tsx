@@ -59,26 +59,24 @@ export default function Login() {
         <Link to="/" className="login-back-link">
           ← Voltar
         </Link>
-        {/* Logo */}
         <div className="login-logo">
           <div className="logo-circle">
             <span className="logo-icon">💰</span>
           </div>
         </div>
 
-        {/* Títulos */}
+        
         <h1 className="login-title">Bem-vindo ao FinanceHub</h1>
         <p className="login-subtitle">Faça login para continuar</p>
-
         {errors.server && (
           <div className="error-banner" role="alert">
             {errors.server}
           </div>
         )}
 
-        {/* Formulário */}
+        
         <form onSubmit={handleSubmit} noValidate>
-          {/* Input Email */}
+          
           <div className="input-group">
             <label htmlFor="email" className="input-label">E-mail</label>
             <div className={`input-wrapper ${errors.email ? 'error' : ''}`}>
@@ -99,7 +97,7 @@ export default function Login() {
             {errors.email && <span id="email-error" className="error-message" role="alert">{errors.email}</span>}
           </div>
 
-          {/* Input Senha */}
+          
           <div className="input-group">
             <label htmlFor="senha" className="input-label">Senha</label>
             <div className={`input-wrapper ${errors.senha ? 'error' : ''}`}>
@@ -120,7 +118,7 @@ export default function Login() {
             {errors.senha && <span id="senha-error" className="error-message" role="alert">{errors.senha}</span>}
           </div>
 
-          {/* Botão Submit */}
+         
           <button
             type="submit"
             className="login-button"
@@ -137,14 +135,14 @@ export default function Login() {
           </button>
         </form>
 
-        {/* Link Esqueceu Senha */}
+       
         <div className="login-forgot">
           <Link to="/forgot-password" className="forgot-link">
             Esqueceu sua senha?
           </Link>
         </div>
 
-        {/* Link para Cadastro */}
+        
         <p className="login-register">
           Não tem uma conta?{' '}
           <Link to="/register" className="register-link">

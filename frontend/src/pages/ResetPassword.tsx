@@ -9,7 +9,7 @@ export default function ResetPassword() {
   const navigate = useNavigate()
   const [searchParams] = useSearchParams()
   
-  // Estados do formulário
+  
   const [token, setToken] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
@@ -19,7 +19,7 @@ export default function ResetPassword() {
   const [success, setSuccess] = useState(false)
   const [tokenInfo, setTokenInfo] = useState<{ expiresAt?: string }>({})
 
-  // Extrair e validar token da URL
+ 
   useEffect(() => {
     const tokenFromUrl = searchParams.get('token')
     if (!tokenFromUrl) {
@@ -31,7 +31,7 @@ export default function ResetPassword() {
     }
   }, [searchParams])
 
-  // Validar token ao carregar a página
+ 
   const validateTokenOnLoad = async (tokenValue: string) => {
     try {
       const result = await apiValidateToken(tokenValue)
@@ -48,7 +48,7 @@ export default function ResetPassword() {
     }
   }
 
-  // Validação
+  
   const validate = (): boolean => {
     const newErrors: typeof errors = {}
 
@@ -68,7 +68,7 @@ export default function ResetPassword() {
     return Object.keys(newErrors).length === 0
   }
 
-  // Submit do formulário
+
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
 
@@ -125,20 +125,20 @@ export default function ResetPassword() {
   return (
     <div className="reset-page">
       <div className="reset-container">
-        {/* Botão Voltar */}
+        
         <button onClick={() => navigate('/login')} className="back-button">
           <MdArrowBack size={20} />
           <span>Voltar para o login</span>
         </button>
 
-        {/* Logo */}
+       
         <div className="reset-logo">
           <div className="logo-circle">
             <span className="logo-icon">🔐</span>
           </div>
         </div>
 
-        {/* Títulos */}
+       
         <h1 className="reset-title">Redefinir Senha</h1>
         <p className="reset-subtitle">Digite sua nova senha abaixo</p>
 
@@ -154,9 +154,9 @@ export default function ResetPassword() {
             <p>Você será redirecionado para o login em breve...</p>
           </div>
         ) : (
-          /* Formulário */
+          
           <form onSubmit={handleSubmit} noValidate>
-            {/* Input Nova Senha */}
+           
             <div className="input-group">
               <label htmlFor="password" className="input-label">Nova Senha</label>
               <div className="input-wrapper">
@@ -175,7 +175,7 @@ export default function ResetPassword() {
               {errors.password && <span className="error-message">{errors.password}</span>}
             </div>
 
-            {/* Input Confirmar Senha */}
+            
             <div className="input-group">
               <label htmlFor="confirmPassword" className="input-label">Confirmar Senha</label>
               <div className="input-wrapper">
@@ -194,7 +194,7 @@ export default function ResetPassword() {
               {errors.confirmPassword && <span className="error-message">{errors.confirmPassword}</span>}
             </div>
 
-            {/* Botão Submit */}
+           
             <button
               type="submit"
               className="reset-button"

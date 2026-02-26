@@ -48,7 +48,6 @@ const Reports: React.FC = () => {
 
   return (
     <div className="dashboard-container">
-      {/* Sidebar adicionada para corrigir a navegação lateral */}
       <Sidebar />
 
       <main className="main-content">

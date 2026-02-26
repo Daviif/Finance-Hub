@@ -123,7 +123,6 @@ export default function Profile() {
         </header>
 
         <div className="profile-grid">
-          {/* CARD 1: DADOS PESSOAIS */}
           <div className="card">
             <div className="card-header">
               <h3>Dados Pessoais & Finanças</h3>
@@ -190,7 +189,6 @@ export default function Profile() {
                 </div>
               </div>
 
-              {/* --- NOVO: CAMPO DE ALERTA --- */}
               <div className="form-group">
                 <label style={{display: 'flex', alignItems: 'center', gap: '8px', color: '#B45309'}}>
                   <AlertTriangle size={16} />
@@ -216,7 +214,7 @@ export default function Profile() {
             </form>
           </div>
 
-          {/* CARD 2: META FINANCEIRA (Mantido Original) */}
+        
           <div className="card">
             <div className="card-header">
               <h3>Objetivo Financeiro</h3>

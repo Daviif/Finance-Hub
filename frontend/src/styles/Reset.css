@@ -1,13 +1,13 @@
 /* frontend/src/styles/Reset.css */
 
-/* Reset Password Page Styles */
+
 
 .reset-page {
   min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  /* Gradiente Global */
+  
   background: linear-gradient(135deg, var(--primary-light) 0%, #ffffff 100%);
   padding: 20px;
 }
@@ -28,7 +28,7 @@
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* Back Button */
+
 .back-button {
   display: flex;
   align-items: center;
@@ -49,7 +49,7 @@
   color: var(--primary);
 }
 
-/* Logo */
+
 .reset-logo {
   text-align: center;
   margin-bottom: 30px;
@@ -72,7 +72,7 @@
   color: var(--white);
 }
 
-/* Titles */
+
 .reset-title {
   text-align: center;
   font-size: 28px;
@@ -88,7 +88,7 @@
   margin-bottom: 30px;
 }
 
-/* Form Groups */
+
 .input-group {
   margin-bottom: 20px;
 }
@@ -144,7 +144,7 @@
   margin-top: 4px;
 }
 
-/* Error Box */
+
 .error-box {
   background: var(--danger-bg);
   border: 1px solid var(--danger);
@@ -163,7 +163,6 @@
 
 .error-box p { margin: 0; }
 
-/* Loading Box */
 .loading-box {
   display: flex;
   flex-direction: column;
@@ -189,7 +188,7 @@
   margin: 0;
 }
 
-/* Info Box */
+
 .info-box {
   background: var(--primary-light);
   border: 1px solid var(--primary);
@@ -204,7 +203,7 @@
 .info-box p { margin: 0; }
 .info-box strong { color: var(--primary); font-weight: 600; }
 
-/* Success Box */
+
 .success-box {
   background: var(--primary-light);
   border: 1px solid var(--primary);
@@ -226,7 +225,7 @@
   font-size: 14px;
 }
 
-/* Buttons */
+
 .reset-button {
   width: 100%;
   padding: 12px;
@@ -269,7 +268,7 @@
   to { transform: rotate(360deg); }
 }
 
-/* Responsive */
+
 @media (max-width: 480px) {
   .reset-container { padding: 30px 20px; }
   .reset-title { font-size: 24px; }

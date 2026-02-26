@@ -8,19 +8,19 @@ import '../styles/Forgot.css'
 export default function ForgotPassword() {
   const navigate = useNavigate()
   
-  // Estados do formulário
+  
   const [email, setEmail] = useState('')
   const [loading, setLoading] = useState(false)
   
-  // errors é usado para validações locais no frontend (ex: "E-mail inválido")
+  
   const [errors, setErrors] = useState<{ email?: string; senha?: string }>({})
   
-  // serverError é usado para mostrar a caixa vermelha (ex: "E-mail não cadastrado")
+
   const [serverError, setServerError] = useState<string>('')
   
   const [success, setSuccess] = useState(false)
 
-  // Validação Local (Frontend)
+  
   const validate = (): boolean => {
     const newErrors: { email?:string} = {}
 
@@ -34,14 +34,13 @@ export default function ForgotPassword() {
     return Object.keys(newErrors).length === 0
   }
 
-  // Submit do formulário
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
 
-    // Limpa os erros do servidor toda vez que o usuário tenta de novo
+    
     setServerError('')
 
-    // Se falhar na validação local, não chama a API
+  
     if (!validate()) return
 
     setLoading(true)
@@ -53,11 +52,10 @@ export default function ForgotPassword() {
       setSuccess(true)
       
       setTimeout(() => {
-        navigate('/login') // Ajuste para a rota de login correta
+        navigate('/login') 
       }, 3000)
     } catch (error: any) {
-      // Se a API retornar erro (ex: 404 E-mail não encontrado)
-      // Capturamos a mensagem que vem do ApiService
+      
       setServerError(
         error instanceof Error ? error.message : 'Ocorreu um erro ao tentar recuperar a senha.'
       )
@@ -69,20 +67,20 @@ export default function ForgotPassword() {
   return (
     <div className="forgot-page">
       <div className="forgot-container">
-        {/* Botão Voltar */}
+        
         <Link to="/login" className="back-button">
           <MdArrowBack size={20} />
           <span>Voltar para o login</span>
         </Link>
         
-        {/* Logo */}
+        
         <div className="forgot-logo">
           <div className="logo-circle">
             <span className="logo-icon">💰</span>
           </div>
         </div>
 
-        {/* Títulos */}
+        
         <h1 className="forgot-title">Redefina sua senha</h1>
         <p className="forgot-subtitle">Insira seu email e enviaremos um link para redefinir sua senha</p>
 
@@ -93,10 +91,10 @@ export default function ForgotPassword() {
             <p className="redirect-info">Você será redirecionado em breve...</p>
           </div>
         ) : (
-          /* Formulário */
+          
           <form onSubmit={handleSubmit} noValidate>
             
-            {/* CAIXA DE ERRO DO SERVIDOR (Vermelha) */}
+            
             {serverError && (
               <div 
                 className="error-banner" 
@@ -114,7 +112,7 @@ export default function ForgotPassword() {
               </div>
             )}
 
-            {/* Input Email */}
+          
             <div className="input-group">
               <label htmlFor="email" className="input-label">E-mail</label>
               
@@ -127,19 +125,19 @@ export default function ForgotPassword() {
                   value={email}
                   onChange={(e) => {
                     setEmail(e.target.value)
-                    setErrors({}) // Limpa erros de validação ao digitar
-                    setServerError('') // Limpa erros do servidor ao digitar
+                    setErrors({}) 
+                    setServerError('') 
                   }}
                   className={`input-field ${errors.email ? 'input-error' : ''}`}
                   autoComplete="email"
                   required
                 />
               </div>
-              {/* Mensagem de erro de validação (abaixo do input) */}
+             
               {errors.email && <span className="error-message">{errors.email}</span>}
             </div>
       
-            {/* Botão Submit */}
+            
             <button
               type="submit"
               className="forgot-button"

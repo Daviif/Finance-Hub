@@ -1,10 +1,8 @@
 /* frontend/src/styles/Entrada.css */
 
-/* --- CONFIGURAÇÃO INICIAL --- */
-/* As cores principais vêm do index.css (--primary, --text-main, etc) */
 
 :root {
-  /* Gradiente exclusivo da Landing Page */
+  
   --bg-gradient: radial-gradient(circle at 50% 0%, var(--primary-light) 0%, #ffffff 60%);
 }
 
@@ -16,7 +14,7 @@
   min-height: 100vh;
 }
 
-/* --- NAVBAR --- */
+
 .entrada-nav {
   display: flex;
   justify-content: space-between;
@@ -76,7 +74,7 @@
   box-shadow: 0 6px 10px -1px rgba(16, 185, 129, 0.3);
 }
 
-/* --- HERO SECTION --- */
+
 .hero-section {
   text-align: center;
   padding: 6rem 1rem 4rem 1rem;
@@ -128,7 +126,7 @@
   background-color: black;
 }
 
-/* --- FEATURES --- */
+
 .features-section {
   padding: 5rem 5%;
   background-color: var(--white);
@@ -175,7 +173,7 @@
   color: var(--text-main);
 }
 
-/* --- COMO FUNCIONA --- */
+
 .steps-section {
   padding: 5rem 5%;
   background-color: #F9FAFB;
@@ -219,7 +217,7 @@
 .step-content h4 { font-size: 1.2rem; margin-bottom: 0.5rem; color: var(--text-main); }
 .step-content p { font-size: 0.95rem; color: var(--text-gray); }
 
-/* --- FAQ --- */
+
 .faq-section {
   padding: 5rem 5%;
   max-width: 800px;
@@ -254,12 +252,12 @@
   animation: fadeIn 0.3s ease;
 }
 
-/* Quando estiver aberto */
+
 details[open] .faq-answer { display: block; }
 details > summary { list-style: none; }
 details > summary::-webkit-details-marker { display: none; }
 
-/* --- FOOTER --- */
+
 .entrada-footer {
   text-align: center;
   padding: 4rem 2rem;

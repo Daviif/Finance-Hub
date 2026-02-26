@@ -1,7 +1,6 @@
 /* frontend/src/styles/Dashboard.css */
 
-/* --- CONFIGURAÇÃO INICIAL --- */
-/* Nota: Variáveis de cor (--primary, --bg-page, etc) já vêm do index.css */
+
 
 .dashboard-container {
   display: flex;
@@ -9,7 +8,7 @@
   background-color: var(--bg-page);
 }
 
-/* --- Sidebar --- */
+
 .sidebar {
   width: var(--sidebar-width);
   background-color: var(--white);
@@ -99,14 +98,14 @@
   border-left: 3px solid var(--primary);
 }
 
-/* Botão Whatsapp (Mantido Verde Whatsapp Original ou pode usar --primary) */
+
 .whatsapp-btn {
   width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
-  background-color: #25D366; /* Verde Whatsapp Oficial */
+  background-color: #25D366; 
   color: white;
   border: none;
   padding: 10px;
@@ -175,7 +174,7 @@
 }
 .logout-btn:hover { background-color: #F3F4F6; }
 
-/* --- Main Content --- */
+
 .main-content {
   margin-left: var(--sidebar-width);
   flex: 1;
@@ -200,7 +199,7 @@
   gap: 6px;
 }
 
-/* --- ALERTAS --- */
+
 .alert-banner {
   display: flex;
   align-items: center;
@@ -211,14 +210,14 @@
   animation: slideDown 0.3s ease-out;
 }
 
-/* Alerta Amarelo (Atenção) */
+
 .alert-banner.warning {
   background-color: #FFFBEB;
   border: 1px solid #FCD34D;
   color: #B45309;
 }
 
-/* Alerta Vermelho (Perigo) */
+
 .alert-banner.danger {
   background-color: var(--danger-bg);
   border: 1px solid #FCA5A5;
@@ -249,7 +248,7 @@
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* --- Cards Grid --- */
+
 .cards-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -305,7 +304,7 @@
 .text-red { color: var(--danger); }
 .text-gray { color: var(--text-gray); }
 
-/* --- Charts Grid --- */
+
 .charts-grid {
   display: grid;
   grid-template-columns: 2fr 1fr;
@@ -361,7 +360,7 @@
 .dot.green { background-color: var(--primary); }
 .dot.red { background-color: var(--danger); }
 
-/* Empty State */
+
 .empty-state {
   display: flex;
   align-items: center;
@@ -374,7 +373,7 @@
   font-style: italic;
 }
 
-/* Recharts Legend Override */
+
 .recharts-default-legend {
   display: flex;
   justify-content: center;
@@ -388,18 +387,15 @@
   font-size: 0.85rem;
 }
 
-/* Responsividade Básica */
+
 @media (max-width: 1024px) {
   .cards-grid { grid-template-columns: 1fr; }
   .charts-grid { grid-template-columns: 1fr; }
   .main-content { padding: 1.5rem; }
 }
 
-/* =========================================
-   ESTILOS DA PÁGINA DE TRANSAÇÕES
-   ========================================= */
 
-/* Cabeçalho */
+
 .dashboard-header {
   background-color: var(--white);
   padding: 1rem 2rem;
@@ -415,7 +411,7 @@
   margin: 0;
 }
 
-/* Barra de Ações */
+
 .actions-bar {
   display: flex;
   justify-content: space-between;
@@ -441,7 +437,7 @@
   background-color: var(--primary-hover);
 }
 
-/* Lista de Transações */
+
 .transaction-list {
   list-style: none;
   display: flex;
@@ -465,7 +461,7 @@
   box-shadow: 0 4px 6px rgba(0,0,0,0.1);
 }
 
-/* Ícone lateral */
+
 .icon-area {
   width: 40px;
   height: 40px;
@@ -489,7 +485,7 @@
   color: var(--danger);
 }
 
-/* Informações */
+
 .info-area {
   flex: 1;
   display: flex;
@@ -506,7 +502,6 @@
   color: var(--text-gray);
 }
 
-/* Valor e Botões */
 .value-area {
   display: flex;
   align-items: center;
@@ -536,7 +531,6 @@
   border-radius: 50%;
 }
 
-/* ================= MODAL ================= */
 .modal-overlay {
   position: fixed;
   top: 0; left: 0; width: 100%; height: 100%;
@@ -577,7 +571,7 @@
   cursor: pointer;
 }
 
-/* Formulários do Modal */
+
 .form-group {
   margin-bottom: 1rem;
   display: flex;
