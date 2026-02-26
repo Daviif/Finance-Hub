@@ -1,7 +1,6 @@
 import pool from '../database/index.js'
 import crypto from 'crypto'
 
-// Criar token de reset de senha
 export async function createPasswordResetToken(userId, expiresInHours = 1) {
   const token = crypto.randomBytes(32).toString('hex')
   const expiresAt = new Date(Date.now() + expiresInHours * 60 * 60 * 1000)
@@ -16,7 +15,6 @@ export async function createPasswordResetToken(userId, expiresInHours = 1) {
   return rows[0]
 }
 
-// Buscar token válido pelo token string
 export async function findValidResetToken(token) {
   const query = `
     SELECT id, user_id, token, expires_at, used
@@ -28,7 +26,6 @@ export async function findValidResetToken(token) {
   return rows[0]
 }
 
-// Marcar token como utilizado
 export async function markTokenAsUsed(tokenId) {
   const query = `
     UPDATE password_reset_tokens
@@ -41,7 +38,7 @@ export async function markTokenAsUsed(tokenId) {
   return rows[0]
 }
 
-// Limpar tokens expirados
+
 export async function deleteExpiredTokens() {
   const query = `
     DELETE FROM password_reset_tokens
@@ -50,7 +47,7 @@ export async function deleteExpiredTokens() {
   await pool.query(query)
 }
 
-// Buscar tokens ativos do usuário
+
 export async function findUserResetTokens(userId) {
   const query = `
     SELECT id, token, expires_at
@@ -62,7 +59,7 @@ export async function findUserResetTokens(userId) {
   return rows
 }
 
-// Invalidar todos os tokens de um usuário (útil ao fazer reset)
+
 export async function invalidateAllUserTokens(userId) {
   const query = `
     UPDATE password_reset_tokens
@@ -73,7 +70,7 @@ export async function invalidateAllUserTokens(userId) {
   await pool.query(query, values)
 }
 
-// Obter informações do token (sem validar expiração)
+
 export async function getTokenInfo(token) {
   const query = `
     SELECT id, user_id, token, expires_at, used, created_at
@@ -85,7 +82,7 @@ export async function getTokenInfo(token) {
   return rows[0]
 }
 
-// Contar tokens ativos de um usuário
+
 export async function countActiveTokens(userId) {
   const query = `
     SELECT COUNT(*) as count

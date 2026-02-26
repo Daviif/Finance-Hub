@@ -14,7 +14,7 @@ app.use(cors())
 
 app.use(express.json())
 
-// registra as rotas
+
 app.use(healthRoutes)
 app.use(healthDbRoutes)
 app.use('/auth', authRoutes)
