@@ -13,7 +13,7 @@ const AIChatbot: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  // O "Cérebro" do Agente (Engenharia de Prompt)
+ 
   const systemPrompt: Message = {
     role: 'system',
     content: `Você é o assistente virtual super inteligente do FinanceHub. 
@@ -27,7 +27,7 @@ const AIChatbot: React.FC = () => {
     { role: 'assistant', content: 'Olá! Sou a IA do FinanceHub 💰. Como posso ajudar com suas finanças hoje?' }
   ]);
 
-  // Rola o chat para baixo automaticamente
+  
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
@@ -42,7 +42,7 @@ const AIChatbot: React.FC = () => {
     setIsLoading(true);
 
     try {
-      // Prepara o histórico para a API (incluindo o System Prompt invisível)
+     
       const apiMessages = [systemPrompt, ...messages, userMsg].map(m => ({
         role: m.role,
         content: m.content
