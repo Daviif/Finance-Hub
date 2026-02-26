@@ -116,7 +116,9 @@ O **Finance Hub** é uma plataforma centralizada para controle e gestão das fin
 
 <img width="729" height="230" alt="Casos de uso objeto 3d" src="https://github.com/user-attachments/assets/b0b51778-ec45-4c7f-a833-393ac5798c5d" />
 
+### Diagrama Geral dos casos de uso
 
+<img width="783" height="1392" alt="Diagrama geral" src="https://github.com/user-attachments/assets/36d2e6b0-ac40-421e-bfba-6706e11efa20" />
 
 5. ## 📅 Backlog da Sprint 1
 
