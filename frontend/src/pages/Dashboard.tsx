@@ -5,8 +5,8 @@ import {
   TrendingUp, 
   TrendingDown,
   Calendar,
-  AlertTriangle, // Ícone para 80%
-  AlertCircle    // Ícone para 100%
+  AlertTriangle, 
+  AlertCircle    
 } from 'lucide-react';
 import { 
   AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
@@ -38,7 +38,7 @@ const COLORS = ['#10B981', '#3B82F6', '#F59E0B', '#EF4444', '#8B5CF6', '#EC4899'
 const Dashboard: React.FC = () => {
   const [dataChart, setDataChart] = useState<ChartData[]>([]);
   const [categoryData, setCategoryData] = useState<CategoryData[]>([]);
-  const [profile, setProfile] = useState<UserProfile | null>(null); // Novo: Perfil para o limite
+  const [profile, setProfile] = useState<UserProfile | null>(null); 
   
   const [resumo, setResumo] = useState({
     saldo: 0,
@@ -64,7 +64,7 @@ const Dashboard: React.FC = () => {
 
   const carregarDados = async () => {
     try {
-      // Carregamos Transações E Perfil ao mesmo tempo
+      
       const [listaTransacoes, dadosPerfil] = await Promise.all([
         apiGetTransactions(),
         apiGetProfile()
@@ -154,11 +154,11 @@ const Dashboard: React.FC = () => {
     setCategoryData(formatado);
   };
 
-  // --- LÓGICA DO ALERTA (ADAPTADA) ---
+  
   const calcularEstadoAlerta = () => {
     if (!profile || profile.limite_alerta <= 0) return null;
     
-    // Usamos resumo.despesas que já foi calculado
+    
     const porcentagem = (resumo.despesas / profile.limite_alerta) * 100;
     
     if (porcentagem >= 100) {
@@ -204,7 +204,6 @@ const Dashboard: React.FC = () => {
           </div>
         </header>
 
-        {/* --- AQUI ENTRA O ALERTA (SE HOUVER) --- */}
         {alerta && (
           <div className={`alert-banner ${alerta.tipo}`}>
             <div className="alert-icon">

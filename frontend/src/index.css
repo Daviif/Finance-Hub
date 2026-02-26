@@ -1,46 +1,46 @@
 :root {
-  /* === PALETA DE CORES (VERDE ESMERALDA) === */
+ 
   
-  /* Cor Principal (#10B981) */
+ 
   --primary: #10B981;       
   
-  /* Cor para Hovers (Interações) - Um pouco mais escuro */
+ 
   --primary-hover: #059669; 
   
-  /* Cor de Fundo Claro (Para cards, badges e detalhes) */
+ 
   --primary-light: #ECFDF5; 
   
-  /* Cor Escura (Para textos de destaque em verde) */
+ 
   --primary-dark: #064E3B;
 
-  /* === GRADIENTES (Para Botões e Logos) === */
-  /* O gradiente padrão da marca */
+ 
+ 
   --gradient-primary: linear-gradient(135deg, #10B981 0%, #34D399 100%);
   
-  /* O gradiente quando passa o mouse */
+ 
   --gradient-hover: linear-gradient(135deg, #059669 0%, #10B981 100%);
 
-  /* === SOMBRAS COLORIDAS === */
+ 
   --shadow-primary: 0 4px 14px rgba(16, 185, 129, 0.25);
   --focus-ring: 0 0 0 3px rgba(16, 185, 129, 0.20);
 
-  /* === CORES DE SISTEMA (Neutras e Alertas) === */
-  --danger: #EF4444;       /* Vermelho Erro */
-  --danger-bg: #FEE2E2;    /* Fundo Vermelho Claro */
+ 
+  --danger: #EF4444;      
+  --danger-bg: #FEE2E2;   
   
-  --bg-page: #F3F4F6;      /* Cinza de Fundo do Site */
+  --bg-page: #F3F4F6;     
   --white: #FFFFFF;
   
-  --text-main: #1F2937;    /* Preto Suave (Títulos) */
-  --text-gray: #6B7280;    /* Cinza (Subtítulos) */
+  --text-main: #1F2937;   
+  --text-gray: #6B7280;   
 
-  /* === MEDIDAS PADRÃO === */
+ 
   --sidebar-width: 260px;
   --radius-md: 10px;
   --radius-lg: 16px;
 }
 
-/* Reset Básico usando as variáveis */
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -54,7 +54,7 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* Classes Utilitárias Globais (Opcional, ajuda muito) */
+
 .text-primary { color: var(--primary); }
 .bg-primary { background-color: var(--primary); }
 .bg-primary-light { background-color: var(--primary-light); }
@@ -65,13 +65,13 @@ body {
 }
 
 .input-icon {
-  position: static !important; /* Tira o absolute que estava fazendo o ícone flutuar sobre o texto */
+  position: static !important;
   margin-left: 15px !important;
   margin-right: 10px !important;
   flex-shrink: 0 !important;
 }
 
 .input-field {
-  padding-left: 5px !important; /* Garante um pequeno espaço entre o ícone e o texto */
-  flex: 1 !important; /* Faz o input ocupar o resto do espaço certinho */
+  padding-left: 5px !important;
+  flex: 1 !important;
 }

@@ -1,4 +1,4 @@
-// frontend/src/pages/Entrada.tsx
+
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { 

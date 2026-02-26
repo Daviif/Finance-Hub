@@ -1,7 +1,7 @@
-/* frontend/src/styles/Reports.css */
 
-/* --- CONFIGURAÇÃO INICIAL --- */
-/* As cores (var(--primary), var(--bg-page), etc) vêm do index.css */
+
+
+
 
 .reports-header {
   display: flex;
@@ -10,7 +10,7 @@
   width: 100%;
 }
 
-/* Botão Exportar */
+
 .export-btn {
   display: flex;
   align-items: center;
@@ -29,7 +29,7 @@
   background-color: var(--primary-hover);
 }
 
-/* Filtros */
+
 .filter-section {
   margin-bottom: 2rem;
   padding: 1.5rem;
@@ -73,7 +73,7 @@
   box-shadow: var(--focus-ring);
 }
 
-/* Fix para ícone do calendário */
+
 .date-input::-webkit-calendar-picker-indicator {
   cursor: pointer;
   filter: invert(0);
@@ -85,7 +85,7 @@
   opacity: 1;
 }
 
-/* Botão Filtrar */
+
 .btn-filter {
   display: flex;
   align-items: center;
@@ -97,7 +97,7 @@
   border-radius: var(--radius-md);
   font-weight: 600;
   cursor: pointer;
-  height: 42px; /* Alinha com a altura do input */
+  height: 42px;
   transition: all 0.2s;
 }
 
@@ -107,7 +107,7 @@
   border-color: var(--primary);
 }
 
-/* Tabela */
+
 .table-container {
   flex: 1;
   overflow-x: auto;
@@ -155,14 +155,14 @@
   color: var(--text-gray);
 }
 
-/* Utilitários */
+
 .text-right { text-align: right; }
 .fw-600 { font-weight: 600; }
 
 .text-green { color: var(--primary); }
 .text-red { color: var(--danger); }
 
-/* Responsividade */
+
 @media (max-width: 768px) {
   .filter-group {
     flex-direction: column;

@@ -10,7 +10,7 @@ function isValidPassword(password) {
     return password.length >= 6
 }
 
-// --- LOGIN ---
+
 export async function loginController(req, res) {
     try {
         const { email, password } = req.body
@@ -20,7 +20,7 @@ export async function loginController(req, res) {
             return res.status(401).json({ message: 'Credenciais inválidas' })
         }
 
-        // CORREÇÃO AQUI: Mudamos de .password_hash para .password
+        
         const isPasswordCorrect = await bcrypt.compare(password, user.password)
         
         if (!isPasswordCorrect) {
@@ -37,7 +37,7 @@ export async function loginController(req, res) {
     }
 }
 
-// --- CADASTRO ---
+
 export async function createUserController(req, res) {
     try {
         const { username, email, password } = req.body
@@ -48,25 +48,25 @@ export async function createUserController(req, res) {
     
         const passwordHash = await bcrypt.hash(password, 10)
         
-        // Aqui mantemos passwordHash porque é o nome da variável local, 
-        // o repositório que vai se virar para salvar na coluna certa.
+        
+        
         const user = await createUser({ username, email, passwordHash })
 
         return res.status(201).json(user)
 
     } catch (error) {
-        // Tratamento de erros do PostgreSQL
+        
         if (error.code === '23505') {
             return res.status(409).json({ message: 'Email já existe' })
         }
         
-        // Erro de conexão com banco
+        
         if (error.message.includes('ECONNREFUSED') || error.message.includes('connect')) {
             console.error('❌ Erro de conexão com banco:', error.message)
             return res.status(503).json({ message: 'Banco de dados indisponível' })
         }
 
-        // Erro genérico
+        
         console.error('❌ Erro ao criar usuário:', error.message)
         console.error('   Detalhes:', error)
         return res.status(500).json({ message: 'Erro ao criar usuário', error: error.message })

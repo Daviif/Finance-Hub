@@ -1,4 +1,4 @@
-/* === Estrutura da página === */
+
 .login-page {
   display: flex;
   justify-content: center;
@@ -10,7 +10,7 @@
   padding: 2rem 1rem;
 }
 
-/* === Cartão principal === */
+
 .login-page .login-container {
   box-sizing: border-box;
   background: var(--white);
@@ -29,7 +29,7 @@
   text-align: center;
 }
 
-/* === Logo === */
+
 .login-logo {
   display: flex;
   justify-content: center;
@@ -52,7 +52,7 @@
   color: var(--white);
 }
 
-/* === Títulos === */
+
 .login-title {
   font-size: 1.75rem;
   font-weight: 700;
@@ -77,12 +77,12 @@
   text-align: center;
 }
 
-/* === Formulário === */
+
 form {
   width: 100%;
 }
 
-/* === Input Groups === */
+
 .input-group {
   margin-bottom: 1.5rem;
   text-align: left;
@@ -151,7 +151,7 @@ form {
   text-align: left;
 }
 
-/* === Botão Entrar === */
+
 .login-button {
   width: 100%;
   display: flex;
@@ -192,7 +192,7 @@ form {
   transform: none;
 }
 
-/* === Spinner de Loading === */
+
 .spinner {
   width: 1rem;
   height: 1rem;
@@ -220,7 +220,7 @@ form {
   color: var(--primary);
 }
 
-/* === Link esqueci senha === */
+
 .login-forgot {
   display: flex;
   justify-content: flex-end;
@@ -246,7 +246,7 @@ form {
   border-radius: 2px;
 }
 
-/* === Rodapé: link de cadastro === */
+
 .login-register {
   margin-top: 1.5rem;
   padding-top: 1.5rem;
@@ -273,7 +273,7 @@ form {
   border-radius: 2px;
 }
 
-/* === Responsividade === */
+
 @media (max-width: 480px) {
   .login-container {
     padding: 2rem 1.5rem;
@@ -285,6 +285,6 @@ form {
     font-size: 0.875rem;
   }
   .input-field {
-    font-size: 16px; /* Previne zoom no iOS */
+    font-size: 16px;
   }
 }

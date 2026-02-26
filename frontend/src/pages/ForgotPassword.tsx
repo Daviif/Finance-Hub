@@ -8,19 +8,19 @@ import '../styles/Forgot.css'
 export default function ForgotPassword() {
   const navigate = useNavigate()
   
-  // Estados do formulário
+  
   const [email, setEmail] = useState('')
   const [loading, setLoading] = useState(false)
   
-  // errors é usado para validações locais no frontend (ex: "E-mail inválido")
+  
   const [errors, setErrors] = useState<{ email?: string; senha?: string }>({})
   
-  // serverError é usado para mostrar a caixa vermelha (ex: "E-mail não cadastrado")
+  
   const [serverError, setServerError] = useState<string>('')
   
   const [success, setSuccess] = useState(false)
 
-  // Validação Local (Frontend)
+  
   const validate = (): boolean => {
     const newErrors: { email?:string} = {}
 
@@ -34,14 +34,14 @@ export default function ForgotPassword() {
     return Object.keys(newErrors).length === 0
   }
 
-  // Submit do formulário
+  
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
 
-    // Limpa os erros do servidor toda vez que o usuário tenta de novo
+    
     setServerError('')
 
-    // Se falhar na validação local, não chama a API
+    
     if (!validate()) return
 
     setLoading(true)
@@ -53,11 +53,11 @@ export default function ForgotPassword() {
       setSuccess(true)
       
       setTimeout(() => {
-        navigate('/login') // Ajuste para a rota de login correta
+        navigate('/login') 
       }, 3000)
     } catch (error: any) {
-      // Se a API retornar erro (ex: 404 E-mail não encontrado)
-      // Capturamos a mensagem que vem do ApiService
+      
+      
       setServerError(
         error instanceof Error ? error.message : 'Ocorreu um erro ao tentar recuperar a senha.'
       )
@@ -93,7 +93,7 @@ export default function ForgotPassword() {
             <p className="redirect-info">Você será redirecionado em breve...</p>
           </div>
         ) : (
-          /* Formulário */
+         
           <form onSubmit={handleSubmit} noValidate>
             
             {/* CAIXA DE ERRO DO SERVIDOR (Vermelha) */}
@@ -127,8 +127,8 @@ export default function ForgotPassword() {
                   value={email}
                   onChange={(e) => {
                     setEmail(e.target.value)
-                    setErrors({}) // Limpa erros de validação ao digitar
-                    setServerError('') // Limpa erros do servidor ao digitar
+                    setErrors({}) 
+                    setServerError('') 
                   }}
                   className={`input-field ${errors.email ? 'input-error' : ''}`}
                   autoComplete="email"

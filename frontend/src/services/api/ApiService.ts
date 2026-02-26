@@ -1,4 +1,4 @@
-// frontend/src/services/api/ApiService.ts
+
 import axios from 'axios';
 import { getToken } from '../../utils/auth';
 
@@ -9,7 +9,6 @@ function getAuthHeaders() {
   return token ? { Authorization: `Bearer ${token}` } : {};
 }
 
-// --- 1. Interfaces ---
 
 export interface LoginResponse {
   token: string;
@@ -30,7 +29,7 @@ export interface Transaction {
   id: string | number;
   titulo: string;
   valor: number;
-  tipo: 'receita' | 'despesa' | 'gasto'; // Aceita despesa ou gasto para compatibilidade
+  tipo: 'receita' | 'despesa' | 'gasto';
   categoria: string;
   data: string;
   forma_pagamento?: string;
@@ -60,8 +59,6 @@ export interface FinancialGoal {
   valor_atual: number;
   data_limite: string;
 }
-
-// --- 2. Dados Falsos (Mock para o Dashboard) ---
 
 const delay = (ms: number): Promise<void> => new Promise(resolve => setTimeout(resolve, ms));
 
@@ -108,7 +105,6 @@ let mockGoal: FinancialGoal = {
   data_limite: '2026-12-25'
 };
 
-// --- 3. Funções da API ---
 
 export const apiLogin = async (email: string, senha: string): Promise<LoginResponse> => {
   try {
@@ -222,7 +218,6 @@ export const apiRevokeToken = async (token: string): Promise<{ message: string }
   }
 };
 
-// Atualizado para aceitar filtros de mes/ano
 export const apiGetTransactions = async (mes?: number, ano?: number): Promise<Transaction[]> => {
   try {
     const params: any = {};
@@ -235,7 +230,7 @@ export const apiGetTransactions = async (mes?: number, ano?: number): Promise<Tr
     });
     return data;
   } catch {
-    // Fallback Mock com filtros
+ 
     let dados = [...mockTransactions];
     if (mes && ano) {
         dados = dados.filter(t => {
@@ -270,7 +265,6 @@ export const apiCreateTransaction = async (nova: CreateTransactionInput): Promis
   }
 };
 
-// NOVA FUNÇÃO: Atualizar Transação (Para a edição)
 export const apiUpdateTransaction = async (id: string | number, transaction: Partial<Transaction>): Promise<Transaction> => {
     try {
         const { data } = await axios.put(`${API_URL}/transactions/${id}`, transaction, {
@@ -278,7 +272,7 @@ export const apiUpdateTransaction = async (id: string | number, transaction: Par
         });
         return data;
     } catch (error: any) {
-        // Se der erro no backend, simulamos atualização no mock para testar o front
+
         const index = mockTransactions.findIndex(t => t.id === id);
         if (index !== -1) {
             mockTransactions[index] = { ...mockTransactions[index], ...transaction };
