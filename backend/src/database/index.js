@@ -1,7 +1,7 @@
 import pkg from 'pg'
 const { Pool } = pkg
 
-// Suportar DATABASE_URL ou variáveis individuais
+
 const pool = new Pool({
   host: process.env.DB_HOST, 
   database: process.env.DB_NAME,    
@@ -10,7 +10,6 @@ const pool = new Pool({
   password: process.env.DB_PASS || process.env.DB_PASSWORD
 })
 
-// Log de conexão
 pool.on('connect', () => {
   console.log('[DB] Nova conexão com o banco')
 })
@@ -19,7 +18,7 @@ pool.on('error', (err) => {
   console.error('[DB] Erro no pool:', err.message)
 })
 
-// Wrapper para logar queries
+
 const originalQuery = pool.query.bind(pool)
 pool.query = async function (text, values) {
   const start = Date.now()

@@ -1,4 +1,4 @@
--- Orçamento por categoria (Histórias 12-13: limites e alertas)
+
 CREATE TABLE IF NOT EXISTS budget_limits (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
