@@ -1,6 +1,6 @@
-// frontend/src/pages/Entrada.tsx
 import React from 'react';
 import { Link } from 'react-router-dom';
+import Spline from '@splinetool/react-spline'; 
 import { 
   TrendingUp, ShieldCheck, PieChart, ArrowRight, LayoutDashboard, 
   CheckCircle, HelpCircle, ChevronDown 
@@ -24,18 +24,37 @@ export default function Entrada() {
       </nav>
 
       {/* 2. Hero Section */}
-      <header className="hero-section">
-        <h1 className="hero-title">
-          Domine suas finanças, <br />
-          <span>conquiste seus sonhos.</span>
-        </h1>
-        <p className="hero-subtitle">
-          A plataforma completa para quem quer sair do vermelho e começar a investir no futuro. 
-          Simples, seguro e gratuito para começar.
-        </p>
-        <Link to="/register" className="hero-cta">
-          Começar Agora <ArrowRight size={20} style={{marginLeft: '8px'}}/>
-        </Link>
+      <header 
+        className="hero-section" 
+        style={{ 
+          display: 'flex', 
+          alignItems: 'center', 
+          justifyContent: 'space-between', 
+          minHeight: 'calc(100vh - 80px)',
+          gap: '2rem' /* Dá um respiro entre o texto e o 3D */
+        }}
+      >
+        
+        {/* Lado Esquerdo: Textos e CTA (flex: 1.5 faz ele crescer mais) */}
+        <div className="hero-content" style={{ flex: '1.5', maxWidth: '750px', zIndex: 10 }}>
+          <h1 className="hero-title" style={{ fontSize: '3.5rem', fontWeight: '800', lineHeight: 1.2, color: 'var(--primary-dark)', marginBottom: '1.5rem' }}>
+            Domine suas finanças, <br />
+            <span style={{ color: 'var(--primary)' }}>conquiste seus sonhos.</span>
+          </h1>
+          <p className="hero-subtitle" style={{ fontSize: '1.25rem', color: 'var(--text-gray)', marginBottom: '2.5rem', lineHeight: 1.6 }}>
+            A plataforma completa para quem quer sair do vermelho e começar a investir no futuro. 
+            Simples, seguro e gratuito para começar.
+          </p>
+          <Link to="/register" className="hero-cta" style={{ display: 'inline-flex', alignItems: 'center', background: 'var(--gradient-primary)', color: 'white', padding: '1rem 2rem', borderRadius: 'var(--radius-md)', textDecoration: 'none', fontWeight: 'bold', fontSize: '1.1rem', transition: 'transform 0.2s', boxShadow: '0 10px 20px rgba(16, 185, 129, 0.3)' }}>
+            Começar Agora <ArrowRight size={20} style={{marginLeft: '8px'}}/>
+          </Link>
+        </div>
+
+        {/* Lado Direito: O 3D (flex: 1 e maxWidth seguram o tamanho dele) */}
+        <div className="hero-3d-wrapper" style={{ flex: '1', maxWidth: '450px', height: '500px', position: 'relative', display: 'flex', justifyContent: 'flex-end', alignItems: 'center', pointerEvents: 'auto' }}>
+          <Spline scene="https://prod.spline.design/i-54T6uxuBgwZMvz/scene.splinecode" />
+        </div>
+
       </header>
 
       {/* 3. Benefícios (Features) */}
