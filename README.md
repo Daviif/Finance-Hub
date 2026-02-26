@@ -14,6 +14,8 @@ O **Finance Hub** é uma plataforma centralizada para controle e gestão das fin
 4. **Detalhamento de Transações:** Inclusão de datas, notas explicativas e marcações de pagamentos recorrentes.
 5. **Dashboards Inteligentes:** Painéis visuais para comparação de receitas vs. despesas e evolução patrimonial.
 6. **Orçamento Pessoal:** Definição de limites de gastos por categoria com alertas de teto orçamentário.
+7. **Chatbot com Inteligência Artificial:** Assistente virtual integrado ao Dashboard para interação em linguagem natural e suporte ao usuário.
+8. **Objeto 3D Interativo:** Elemento visual interativo (porquinho) na tela inicial para reforço de identidade visual e engajamento.
 
 ---
 
@@ -30,7 +32,6 @@ O **Finance Hub** é uma plataforma centralizada para controle e gestão das fin
 * **Frontend:** React (TypeScript)
 * **Backend:** Node.js (JavaScript)
 * **Banco de Dados:** PostgreSQL
-* **Containerização:** Docker
 * **Versionamento:** GitHub
 * **Design/Prototipagem:** Figma e Base44
 
@@ -105,12 +106,23 @@ O **Finance Hub** é uma plataforma centralizada para controle e gestão das fin
 
 <img width="244" height="207" alt="História 15" src="https://github.com/user-attachments/assets/0a9799f2-58a8-4517-9232-811361a94f6a" />
 
+### 🤖 [ÉPICO] Assistente Virtual e Interação Inteligente
+
+- [x] **[História 16]** Como usuário, eu quero interagir com um chatbot inteligente dentro do dashboard para tirar dúvidas e obter orientações financeiras.
+
+*(Inserir aqui o diagrama de caso de uso correspondente à interação com o chatbot, seguindo o padrão das demais histórias.)*
+
+### 🎨 [ÉPICO] Experiência Visual e Engajamento
+
+- [x] **[História 17]** Como usuário, eu quero visualizar um objeto 3D interativo na tela inicial para tornar a experiência mais moderna e intuitiva.
+
+*(Se desejarem, podem incluir um diagrama simples ou imagem representativa da interação visual.)*
+
 
 5. ## 📅 Backlog da Sprint 1
 
 **Meta da Sprint:** "Permitir que um usuário se cadastre, faça login, registre transações financeiras e visualize seu saldo consolidado no dashboard."
 
----
 
 ### 🛡️ [História 1] Cadastro de Usuário
 **Descrição:** Como um novo usuário, eu quero poder me cadastrar na plataforma usando meu e-mail e uma senha, para que eu possa ter uma conta pessoal e segura.
@@ -168,6 +180,147 @@ O **Finance Hub** é uma plataforma centralizada para controle e gestão das fin
 - [x] Criar componentes visuais de resumo (Cards de Saldo, Receitas e Despesas) no Dashboard.
 
 <img width="284" height="567" alt="História 05" src="https://github.com/user-attachments/assets/a8dbbccc-4874-43a9-a136-c45d98f2dc3b" />
+
+---
+
+### 🤖 [História Extra] Integração do Chatbot com IA
+**Descrição:** Implementação de um chatbot inteligente integrado ao Dashboard para interação direta com o usuário.
+
+- [x] Criar componente de interface do Chatbot no Frontend.
+- [x] Implementar lógica de comunicação com serviço de IA.
+- [x] Integrar chatbot ao Dashboard.
+
+*(Inserir aqui o diagrama de atividade correspondente.)*
+
+---
+
+### 🐷 [História Extra] Inserção de Objeto 3D Interativo
+**Descrição:** Adição de um objeto 3D (porquinho) na tela inicial para melhorar a experiência visual do usuário.
+
+- [x] Integrar biblioteca/renderizador 3D no Frontend.
+- [x] Implementar objeto interativo.
+- [x] Ajustar layout da Home para exibição adequada.
+
+*(Inserir aqui o diagrama de atividade correspondente, se desejado.)*
+
+---
+
+## 📌 Versão Revisada do Backlog da Sprint
+
+### 🎯 Planejamento Original da Sprint 1
+
+A meta inicial da Sprint 1 era:
+
+> Permitir que um usuário se cadastre, faça login, registre transações financeiras (receitas e despesas) e visualize seu saldo consolidado no dashboard.
+
+O escopo original estava restrito às funcionalidades essenciais para disponibilizar uma primeira versão funcional (MVP) do sistema.
+
+---
+
+## 🔎 Análise da Execução da Sprint
+
+Durante o desenvolvimento, o backlog inicialmente idealizado foi ajustado para refletir decisões técnicas, priorizações e agregação de valor ao produto.
+
+Abaixo está a versão revisada documentando exatamente o que foi implementado na Sprint 1.
+
+---
+
+## ✅ Funcionalidades Implementadas Conforme Planejado
+
+### 🛡️ Cadastro de Usuário
+- Modelo `User` implementado no banco de dados.
+- Endpoint `POST /auth/register` desenvolvido no backend.
+- Tela de cadastro com validação de campos no frontend.
+- Integração completa entre frontend e backend.
+
+---
+
+### 🔑 Login e Autenticação
+- Endpoint `POST /auth/login` com geração de Token JWT.
+- Tela de login funcional.
+- Armazenamento do token no `localStorage`.
+- Implementação de proteção de rotas privadas.
+
+---
+
+### 💸 Registro de Despesas
+- Modelo `Transaction` implementado no backend.
+- Endpoint `POST /transactions`.
+- Formulário de cadastro de despesas no frontend.
+- Persistência correta no banco de dados.
+
+---
+
+### 💰 Registro de Receitas
+- Reutilização da estrutura de `Transaction` com tipo diferenciado ("receita").
+- Interface específica para registro de receitas.
+- Integração com listagem geral de transações.
+
+---
+
+### 📊 Dashboard de Saldo Consolidado
+- Endpoint `GET /transactions`.
+- Cálculo do saldo total (Receitas - Despesas).
+- Criação de cards visuais de resumo financeiro.
+- Exibição dinâmica das informações no dashboard.
+
+---
+
+## ➕ Funcionalidades Implementadas Além do Planejado
+
+Durante a Sprint, foram desenvolvidas funcionalidades que não estavam explicitamente previstas na meta inicial, ampliando o escopo da entrega.
+
+### 🤖 Integração de Chatbot com Inteligência Artificial
+- Implementação de chatbot disponível globalmente na aplicação.
+- Exibição por meio de botão flutuante acessível em todas as páginas do sistema.
+- Integração com uma LLM (Large Language Model) do ChatGPT para geração dinâmica de respostas.
+- Comunicação entre frontend e serviço de IA para processamento das mensagens do usuário.
+- Interface em linguagem natural para suporte e orientação financeira.
+
+---
+
+### 🐷 Objeto 3D Interativo
+- Integração de renderização 3D na tela inicial.
+- Implementação de objeto interativo (porquinho).
+- Ajustes de layout para correta exibição do elemento visual.
+
+---
+
+## 📈 Diferença Entre Planejamento e Execução
+
+| Aspecto | Planejamento Inicial | Execução Real |
+|----------|---------------------|---------------|
+| Cadastro e Login | Previsto | Implementado |
+| Registro de Transações | Previsto | Implementado |
+| Dashboard Consolidado | Previsto | Implementado |
+| Chatbot com IA | Não previsto como prioridade da Sprint | Implementado |
+| Objeto 3D Interativo | Não previsto na meta da Sprint | Implementado |
+
+---
+
+## 📌 Conclusão da Versão Revisada
+
+A Sprint 1 entregou todas as funcionalidades essenciais previstas no planejamento inicial e agregou funcionalidades adicionais que ampliaram a experiência do usuário.
+
+A versão revisada do backlog demonstra que:
+
+- O escopo mínimo foi completamente atingido.
+- Funcionalidades extras foram incorporadas durante o desenvolvimento.
+- O produto evoluiu além do planejamento inicial da Sprint.
+
+Esta documentação garante transparência entre o planejamento idealizado e a execução real do projeto.
+
+---
+
+## 🤖 Descrição Técnica do Chatbot
+
+O Chatbot foi implementado no frontend utilizando React (TypeScript) e está disponível globalmente na aplicação por meio de um botão flutuante fixo na interface.
+
+Diferentemente de uma integração restrita ao dashboard, o assistente pode ser acessado em qualquer página do sistema, garantindo suporte contínuo ao usuário.
+
+A geração de respostas é realizada por meio da integração com uma LLM (Large Language Model) do ChatGPT, responsável pelo processamento das mensagens enviadas e pela produção de respostas em linguagem natural.
+
+Essa arquitetura permite escalabilidade, flexibilidade de interação e aprimoramento contínuo da experiência do usuário.
 
 ### 📊 Diagrama de Classes
 
