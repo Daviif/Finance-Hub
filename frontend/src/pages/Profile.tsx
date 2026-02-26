@@ -1,4 +1,4 @@
-// frontend/src/pages/Profile.tsx
+
 import React, { useState, useEffect, type FormEvent } from 'react';
 import Sidebar from '../components/SideBar';
 import { 
@@ -8,7 +8,7 @@ import {
 } from '../services/api/ApiService';
 import { getUser } from '../utils/auth';
 import { User, Target, Save, AlertTriangle, CheckCircle } from 'lucide-react';
-import { toast } from 'react-toastify'; // Adicionado para alertas bonitos
+import { toast } from 'react-toastify'; 
 
 import '../styles/Profile.css';
 
@@ -74,10 +74,10 @@ export default function Profile() {
       const hoje = new Date();
       const limite = new Date(meta.data_limite);
       
-      // Diferença em meses
+      
       const meses = (limite.getFullYear() - hoje.getFullYear()) * 12 + (limite.getMonth() - hoje.getMonth());
       
-      // Evita divisão por zero ou números negativos
+      
       setMensalidade(valorFalta / Math.max(1, meses));
     } else {
       setMensalidade(0);
