@@ -8,6 +8,7 @@ import Transactions from './pages/Transactions';
 import Profile from './pages/Profile';
 import Reports from './pages/Reports';
 import Entrada from './pages/Entrada';
+import AIChatbot from './components/AIChatbot';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -29,7 +30,9 @@ function App() {
         <Route path="/reports" element={<Reports />} />
         
         <Route path="*" element={<Navigate to="/" replace />} />
+        
       </Routes>
+      <AIChatbot />
     </BrowserRouter>
   )
 }
